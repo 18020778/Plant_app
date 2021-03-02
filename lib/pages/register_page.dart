@@ -1,3 +1,4 @@
+
 import 'package:first_app/pages/login_page.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -9,9 +10,26 @@ class RegisterPage extends StatefulWidget {
 }
 
 class _RegisterPageState extends State<RegisterPage> {
-  String phoneNumber = "+84528801147";
+  String phoneNumber;
+  String userName;
+  String email;
+  String password;
+  String confirmPass;
   String verificationCode;
   String smsCode;
+  final txt = TextEditingController();
+  clearTextInput(){
+    txt.clear();
+  }
+  final regex = RegExp(r'[a-zA-Z0-9]+$');
+  final formKey = new GlobalKey<FormState>();
+  void validate(){
+    final form = formKey.currentState;
+    if(form.validate()){
+      _verifyPhone();
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -33,15 +51,19 @@ class _RegisterPageState extends State<RegisterPage> {
                   ),
                   SizedBox(height: 20,),
                   Container(
-                    child: Column(
-                      children: <Widget>[
-                        _textInput(hint: "Name", icon: Icons.account_circle),
-                        _textInput(hint: "Number Phone",  icon: Icons.phone),
-                        _textInput(hint: "Email", icon: Icons.email),
-                        _textInput(hint: "Password", icon: Icons.vpn_key),
-                        _textInput(hint: "Confirm Password", icon: Icons.vpn_key),
-                      ],
-                    ),
+                    child:  Form(
+                      key: formKey,
+                      child: Column(
+                        children: <Widget>[
+                          _textInput(hint: "Name", icon: Icons.account_circle),
+                          _textInput(hint: "Phone Number",  icon: Icons.phone),
+                          _textInput(hint: "Email", icon: Icons.email),
+                          _textInput(hint: "Password", icon: Icons.vpn_key),
+                          _textInput(hint: "Confirm Password", icon: Icons.vpn_key),
+
+                        ],
+                      ),
+                    )
                   ),
                   SizedBox(height: 40,),
                   Flexible(
@@ -52,7 +74,9 @@ class _RegisterPageState extends State<RegisterPage> {
                               borderRadius: BorderRadius.all(Radius.circular(20)),
                             ),
                             onPressed: (){
-                              _verifyPhone();
+                              validate();
+                              //(context);
+
                             },
                             child: Text("REGISTER",
                               style: TextStyle(
@@ -100,23 +124,42 @@ class _RegisterPageState extends State<RegisterPage> {
           hintText: hint,
           hintStyle: TextStyle(fontSize: 20, color: Colors.white70),
           prefixIcon: Icon(icon,color: Colors.white,),
+          errorStyle: TextStyle(fontSize: 15, color: Colors.white30)
         ),
-
+        onChanged: (val){
+            getValue(hint, val);
+        },
+        validator: (val) => val.isEmpty ? hint + " cant't be empty" : (hint == "Confirm Password" ? (this.password != this.confirmPass ? "Password not match" : null):null)
       ),
     );
   }
+
+  void getValue(String hint, String val){
+    if(hint == "Name") this.userName = val;
+    else if (hint == "Phone Number"){
+      if(val[0] == "0"){
+        this.phoneNumber = "+84" + val.substring(1, val.length);
+      }
+    }else if (hint == "Email") this.email = val;
+    else if (hint ==  "Password") this.password = val;
+    else this.confirmPass = val;
+  }
+
+
   Future <void> _verifyPhone() async {
-    final PhoneVerificationCompleted verificationCompleted = (AuthCredential credential){
-      setState(() {
-        print("Verification");
-        print(credential);
-      });
+    // Automatic handling of the SMS code on Android devices
+    final PhoneVerificationCompleted verificationCompleted = (AuthCredential credential) async{
+
+      await FirebaseAuth.instance.signInWithCredential(credential);
     };
 
+
+    // Handle failure events : invalid phoneNumber, ...
     final PhoneVerificationFailed phoneVerificationFailed = (AuthException exception){
       print("${exception.message}");
     };
 
+    // Handle when a code has been sent to the sevice form Firebase
     final PhoneCodeSent phoneCodeSent = (String verId, [int forceCodeResend]){
       this.verificationCode = verId;
       smsCodeDialog(context).then((value)=>
@@ -124,6 +167,7 @@ class _RegisterPageState extends State<RegisterPage> {
         print("Signed In")
       }
       );
+
     };
 
     final PhoneCodeAutoRetrievalTimeout autoRetrievalTimeout = (String verId){
@@ -148,38 +192,38 @@ class _RegisterPageState extends State<RegisterPage> {
         return AlertDialog(
           title: Text("Enter Code",
           style: TextStyle(
-            color: Colors.green
+            color: Colors.green[900],
+            fontSize: 20
           ),),
           content: TextField(
+            controller: txt,
             onChanged: (val){
               smsCode = val;
-            },
-          ),
-          contentPadding: EdgeInsets.all(10),
-            actions: <Widget>[
-              FlatButton(
-                child: Text("Verify",
-                style: TextStyle(
-                  color: Colors.green
-                ),),
-                onPressed: (){
+              if(val.length ==6)
+                {
                   FirebaseAuth.instance.currentUser().then((user){
                     if(user!=null){
                       Navigator.of(context).pop();
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) => loginPage())
-                      );
+                      Navigator.push(context,
+                          MaterialPageRoute(builder: (context) => loginPage()));
                     }else{
                       Navigator.of(context).pop();
                       signIn();
-                      //print('no');
+                      // clearTextInput();
+                      clearTextInput();
                     }
                   });
-                },
-              )
-            ],
+                }
+            },
+            autofocus: true,
+            maxLength: 6,
+            style: TextStyle(
+              color: Colors.green[700],
+              fontSize: 30,
+              letterSpacing: 23,
 
+            ),
+          ),
         );
       }
     );

@@ -2,6 +2,8 @@ import 'package:first_app/pages/register_page.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
+
+
 class loginPage extends StatefulWidget {
   @override
   _loginPageState createState() => _loginPageState();
@@ -52,7 +54,9 @@ class _loginPageState extends State<loginPage> {
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.all(Radius.circular(20)),
                     ),
-                    onPressed: (){},
+                    onPressed: (){
+                     // Navigator.push(context, MaterialPageRoute(builder: (context) => ShakeWidget()));
+                    },
                     child: Text("LOGIN",
                       style: TextStyle(
                         fontSize: 20,
