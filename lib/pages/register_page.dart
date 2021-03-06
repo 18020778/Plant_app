@@ -1,12 +1,6 @@
-<<<<<<< Updated upstream
-
-=======
-import 'package:first_app/pages/OTP_reg_page.dart';
->>>>>>> Stashed changes
 import 'package:first_app/pages/login_page.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-
 
 
 class RegisterPage extends StatefulWidget {
@@ -56,69 +50,55 @@ class _RegisterPageState extends State<RegisterPage> {
                   ),
                   SizedBox(height: 20,),
                   Container(
-                    child:  Form(
-                      key: formKey,
-                      child: Column(
-                        children: <Widget>[
-                          _textInput(hint: "Name", icon: Icons.account_circle),
-                          _textInput(hint: "Phone Number",  icon: Icons.phone),
-                          _textInput(hint: "Email", icon: Icons.email),
-                          _textInput(hint: "Password", icon: Icons.vpn_key),
-                          _textInput(hint: "Confirm Password", icon: Icons.vpn_key),
+                      child:  Form(
+                        key: formKey,
+                        child: Column(
+                          children: <Widget>[
+                            _textInput(hint: "Name", icon: Icons.account_circle),
+                            _textInput(hint: "Phone Number",  icon: Icons.phone),
+                            _textInput(hint: "Email", icon: Icons.email),
+                            _textInput(hint: "Password", icon: Icons.vpn_key),
+                            _textInput(hint: "Confirm Password", icon: Icons.vpn_key),
 
-                        ],
-                      ),
-                    )
+                          ],
+                        ),
+                      )
                   ),
                   SizedBox(height: 40,),
                   Flexible(
-                      child: SizedBox(
+                    child: SizedBox(
+                        child: RaisedButton(
+                          padding: EdgeInsets.fromLTRB(130, 12, 130, 12),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.all(Radius.circular(20)),
+                          ),
+                          onPressed: (){
+                            validate();
+                            //(context);
 
-                            child: RaisedButton(
-                              padding: EdgeInsets.fromLTRB(130, 12, 130, 12),
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.all(Radius.circular(20)),
-                              ),
-                              onPressed: (){},
-                              child: InkWell(
-                                onTap: (){
-                                  Navigator.push(context, MaterialPageRoute(builder: (context) => OTPPage()));
-                                },
-                                child: Text("REGISTER",
-                                  style: TextStyle(
-                                    fontSize: 20,
-                                  ),),
-                              ),
-                            ),
-<<<<<<< Updated upstream
-                            onPressed: (){
-                              validate();
-                              //(context);
-
-                            },
-                            child: Text("REGISTER",
-                              style: TextStyle(
-                                fontSize: 20,
-                              ),),
-=======
->>>>>>> Stashed changes
-                          )
-                      ),
+                          },
+                          child: Text("REGISTER",
+                            style: TextStyle(
+                              fontSize: 20,
+                            ),),
+                        )
+                    ),
+                  ),
                   SizedBox(height: 60,),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                        Text("Already a member?  ",
-                          style: TextStyle(color: Colors.white, fontSize: 18),
+                      Text("Already a member?  ",
+                        style: TextStyle(color: Colors.white, fontSize: 18),
+                      ),
+                      InkWell(
+                        onTap: (){
+                          Navigator.push(context, MaterialPageRoute(builder: (context) => loginPage()));
+                        },
+                        child: Text("Login now",
+                          style: TextStyle(color: Colors.lime, fontSize: 20),
                         ),
-                        InkWell(
-                          onTap: (){
-                            Navigator.push(context, MaterialPageRoute(builder: (context) => loginPage()));
-                            },
-                          child: Text("Login now",
-                                style: TextStyle(color: Colors.lime, fontSize: 20),
-                              ),
-                        ),
+                      ),
                     ],
                   ),
                 ]
@@ -137,18 +117,18 @@ class _RegisterPageState extends State<RegisterPage> {
           )
       ),
       child: TextFormField(
-        style: TextStyle(color: Colors.white),
-        controller: controller,
-        decoration: InputDecoration(
-          hintText: hint,
-          hintStyle: TextStyle(fontSize: 20, color: Colors.white70),
-          prefixIcon: Icon(icon,color: Colors.white,),
-          errorStyle: TextStyle(fontSize: 15, color: Colors.white30)
-        ),
-        onChanged: (val){
+          style: TextStyle(color: Colors.white),
+          controller: controller,
+          decoration: InputDecoration(
+              hintText: hint,
+              hintStyle: TextStyle(fontSize: 20, color: Colors.white70),
+              prefixIcon: Icon(icon,color: Colors.white,),
+              errorStyle: TextStyle(fontSize: 15, color: Colors.white30)
+          ),
+          onChanged: (val){
             getValue(hint, val);
-        },
-        validator: (val) => val.isEmpty ? hint + " cant't be empty" : (hint == "Confirm Password" ? (this.password != this.confirmPass ? "Password not match" : null):null)
+          },
+          validator: (val) => val.isEmpty ? hint + " cant't be empty" : (hint == "Confirm Password" ? (this.password != this.confirmPass ? "Password not match" : null):null)
       ),
     );
   }
@@ -195,9 +175,9 @@ class _RegisterPageState extends State<RegisterPage> {
 
 
     await FirebaseAuth.instance.verifyPhoneNumber(
-        phoneNumber: this.phoneNumber, 
-        timeout: const Duration(seconds: 5), 
-        verificationCompleted: verificationCompleted, 
+        phoneNumber: this.phoneNumber,
+        timeout: const Duration(seconds: 5),
+        verificationCompleted: verificationCompleted,
         verificationFailed: phoneVerificationFailed,
         codeSent: phoneCodeSent,
         codeAutoRetrievalTimeout: autoRetrievalTimeout);
@@ -205,20 +185,20 @@ class _RegisterPageState extends State<RegisterPage> {
 
   Future<bool> smsCodeDialog(BuildContext context){
     return showDialog(
-      context: context,
-      barrierDismissible: false,
-      builder: (BuildContext context){
-        return AlertDialog(
-          title: Text("Enter Code",
-          style: TextStyle(
-            color: Colors.green[900],
-            fontSize: 20
-          ),),
-          content: TextField(
-            controller: txt,
-            onChanged: (val){
-              smsCode = val;
-              if(val.length ==6)
+        context: context,
+        barrierDismissible: false,
+        builder: (BuildContext context){
+          return AlertDialog(
+            title: Text("Enter Code",
+              style: TextStyle(
+                  color: Colors.green[900],
+                  fontSize: 20
+              ),),
+            content: TextField(
+              controller: txt,
+              onChanged: (val){
+                smsCode = val;
+                if(val.length ==6)
                 {
                   FirebaseAuth.instance.currentUser().then((user){
                     if(user!=null){
@@ -233,18 +213,18 @@ class _RegisterPageState extends State<RegisterPage> {
                     }
                   });
                 }
-            },
-            autofocus: true,
-            maxLength: 6,
-            style: TextStyle(
-              color: Colors.green[700],
-              fontSize: 30,
-              letterSpacing: 23,
+              },
+              autofocus: true,
+              maxLength: 6,
+              style: TextStyle(
+                color: Colors.green[700],
+                fontSize: 30,
+                letterSpacing: 23,
 
+              ),
             ),
-          ),
-        );
-      }
+          );
+        }
     );
   }
 
