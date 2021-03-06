@@ -1,7 +1,12 @@
+<<<<<<< Updated upstream
 
+=======
+import 'package:first_app/pages/OTP_reg_page.dart';
+>>>>>>> Stashed changes
 import 'package:first_app/pages/login_page.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+
 
 
 class RegisterPage extends StatefulWidget {
@@ -68,11 +73,24 @@ class _RegisterPageState extends State<RegisterPage> {
                   SizedBox(height: 40,),
                   Flexible(
                       child: SizedBox(
-                          child: RaisedButton(
-                            padding: EdgeInsets.fromLTRB(130, 12, 130, 12),
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.all(Radius.circular(20)),
+
+                            child: RaisedButton(
+                              padding: EdgeInsets.fromLTRB(130, 12, 130, 12),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.all(Radius.circular(20)),
+                              ),
+                              onPressed: (){},
+                              child: InkWell(
+                                onTap: (){
+                                  Navigator.push(context, MaterialPageRoute(builder: (context) => OTPPage()));
+                                },
+                                child: Text("REGISTER",
+                                  style: TextStyle(
+                                    fontSize: 20,
+                                  ),),
+                              ),
                             ),
+<<<<<<< Updated upstream
                             onPressed: (){
                               validate();
                               //(context);
@@ -82,9 +100,10 @@ class _RegisterPageState extends State<RegisterPage> {
                               style: TextStyle(
                                 fontSize: 20,
                               ),),
+=======
+>>>>>>> Stashed changes
                           )
                       ),
-                    ),
                   SizedBox(height: 60,),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
