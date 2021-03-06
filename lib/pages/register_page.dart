@@ -27,6 +27,7 @@ class _RegisterPageState extends State<RegisterPage> {
     final form = formKey.currentState;
     if(form.validate()){
       _verifyPhone();
+      print("hello");
     }
   }
 
