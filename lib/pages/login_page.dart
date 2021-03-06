@@ -1,4 +1,4 @@
-import 'package:first_app/pages/register_page.dart';
+import 'package:first_app/pages/register_welcome.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -74,7 +74,7 @@ class _loginPageState extends State<loginPage> {
                   ),
                 InkWell(
                   onTap: (){
-                    Navigator.push(context, MaterialPageRoute(builder: (context) => RegisterPage()));
+                    Navigator.push(context, MaterialPageRoute(builder: (context) => regWel()));
                   },
                     child: Text ("Registor",
                     style: TextStyle(color: Colors.lime, fontSize: 20),
