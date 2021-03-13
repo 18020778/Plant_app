@@ -1,19 +1,25 @@
+import 'package:first_app/pages/menu_page.dart';
 import 'package:first_app/pages/register_name.dart';
-import 'package:first_app/pages/register_password.dart';
+import 'package:first_app/services/database.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:first_app/models/user.dart';
 
 class regOTP extends StatefulWidget {
-  String phoneNumber;
+  //String phoneNumber;
+  User user;
   @override
   _regOTPState createState() => _regOTPState();
-  regOTP({this.phoneNumber});
+  regOTP({this.user});
 }
 
 class _regOTPState extends State<regOTP> {
-
   String verificationCode;
   String smsCode;
+  bool _visible = false;
+  bool _clearString = true;
+  bool isExistedAccount = false;
   var _controler = TextEditingController();
   @override
   void initState() {
@@ -30,52 +36,97 @@ class _regOTPState extends State<regOTP> {
             style: TextStyle(fontSize: 22),),
           backgroundColor: Colors.green[900],
         ),
-        body: Column(
-            children: [
-              SizedBox(height: 70,),
-              Text('Mã xác minh',
-                style: TextStyle(
-                  fontSize: 25,
-                  fontWeight: FontWeight.w700,
-                ),
-                textAlign: TextAlign.center,),
-              SizedBox(height: 40,),
-              Container(
-                margin: EdgeInsets.fromLTRB(40, 0, 40, 40),
-                decoration: BoxDecoration(
-                    border: Border(
-                      bottom: BorderSide(width: 1.0, color: Colors.blue),
-                    )
-                ),
-                child: TextField(
-                  style: TextStyle(fontSize: 35, fontWeight: FontWeight.w500, letterSpacing: 32),
-                  decoration: InputDecoration(
-                    hintStyle: TextStyle(fontSize: 20, color: Colors.grey),
-                    border: InputBorder.none
+        body: Container(
+          alignment: Alignment.center,
+          child: Column(
+              children: <Widget> [
+                SizedBox(height: 70,),
+                Text('Mã xác minh',
+                  style: TextStyle(
+                    fontSize: 25,
+                    fontWeight: FontWeight.w700,
                   ),
-                  autofocus: true,
-                  maxLength: 6,
-                  controller: _controler,
-                  onChanged: (val){
-                    smsCode = val;
-                    print(widget.phoneNumber);
-                    if(val.length == 6){
-                      FirebaseAuth.instance.currentUser().then((user){
-                        if(user!=null){
-                        }else{
-                          _controler.clear();
-                          _passOTP();
+                  textAlign: TextAlign.center,),
+                SizedBox(height: 40,),
+                Container(
+                  alignment: Alignment.center,
+                  margin: EdgeInsets.fromLTRB(40, 0, 40, 40),
+                  decoration: BoxDecoration(
+                      border: Border(
+                        bottom: BorderSide(width: 1.0, color: Colors.blue),
+                      )
+                  ),
+                  child: TextField(
+                    style: TextStyle(fontSize: 35, fontWeight: FontWeight.w500, letterSpacing: 32),
+                    decoration: InputDecoration(
+                        hintStyle: TextStyle(fontSize: 20, color: Colors.grey),
+                        border: InputBorder.none
+                    ),
+                    autofocus: true,
+                    maxLength: 6,
+                    controller: _controler,
+                    onChanged: (val){
+                      smsCode = val;
+                      print(widget.user.getPhoneNumber());
+                      if(val.length == 6){
+                        FirebaseAuth.instance.currentUser().then((user){
+                          if(user!=null){
+                            // User is signed in
+                            FirebaseAuth.instance.signOut();
+                          }else {
+                            // No user is signed in11
+                          }
+                          _signIn();
+                          print(user.uid);
 
-                        }
-                      });
-                    }
-                  },
+                        });
+                        if(_clearString)   _controler.clear();
+                      }
+                    },
+
+                  ),
 
                 ),
-              ),
+                  Visibility(
+                    visible: _visible,
+                    child:Text("Phone Number has been signed up.",
+                      style: TextStyle(color: Colors.redAccent, fontSize: 18),
+                    ),
+                  ),
+                SizedBox(height: 24,),
+                Visibility(
+                  visible: _visible,
+                  child:Flexible(
+                  child: SizedBox(
+                      child: RaisedButton(
+                          padding: EdgeInsets.fromLTRB(10, 12, 10, 12),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.all(Radius.circular(20)),
+                          ),
+                          color: Colors.green[700],
+                          onPressed: (){
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(builder: (context)=> MenuPage())
+                            );
+                          },
+                          child: Text("COME IN",
+                            style: TextStyle(
+                                fontSize: 20,
+                                color: Colors.white
+                            ),
+                          )
+                      )
+                  ),
+                ),
+                )
 
-            ]
-        )
+
+                  ],
+                ),
+        ),
+
+
     );
   }
   // verify
@@ -83,7 +134,6 @@ class _regOTPState extends State<regOTP> {
     // Automatic handling of the SMS code on Android devices
     final PhoneVerificationCompleted verificationCompleted = (AuthCredential credential) async{
 
-      await FirebaseAuth.instance.signInWithCredential(credential);
     };
 
 
@@ -104,18 +154,40 @@ class _regOTPState extends State<regOTP> {
 
 
     await FirebaseAuth.instance.verifyPhoneNumber(
-        phoneNumber: widget.phoneNumber,
+        phoneNumber: widget.user.getPhoneNumber(),
         timeout: const Duration(seconds: 5),
         verificationCompleted: verificationCompleted,
         verificationFailed: phoneVerificationFailed,
         codeSent: phoneCodeSent,
         codeAutoRetrievalTimeout: autoRetrievalTimeout);
   }
-  _passOTP(){
+  _signIn() async {
     AuthCredential phoneAuthCredential = PhoneAuthProvider.getCredential(verificationId: verificationCode, smsCode: smsCode);
-    FirebaseAuth.instance.signInWithCredential(phoneAuthCredential).then((user)=> Navigator.push(
-      context,
-      MaterialPageRoute(builder: (context) => regName()),
-    )).catchError((e)=>print(e));
+    // Sign in to an existing phone number/ sign up with a new phonenumber
+      FirebaseAuth.instance.signInWithCredential(phoneAuthCredential).then((user){
+        widget.user.setUid(user.user.uid);
+      setState(() {
+        _clearString = false;
+      });
+        Database().getUserInfo(user.user.uid.toString()).then((value){
+          if(value == null) {
+            _createAccount(widget.user);
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) =>MenuPage()),
+            );
+          }
+          else {
+            setState(() {
+              this._visible = true;
+          });}
+        });
+  }).catchError((e)=>print(e));
+  }
+
+
+  Future<String>  _createAccount(User user) async{
+    String _resultSignUp = await Database().createUser(user);
+    print(_resultSignUp);
   }
 }

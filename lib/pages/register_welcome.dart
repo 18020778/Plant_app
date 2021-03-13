@@ -1,4 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:first_app/models/user.dart';
+import 'package:first_app/pages/register_name.dart';
 import 'package:first_app/pages/register_numberPhone.dart';
 import 'package:flutter/material.dart';
 
@@ -10,6 +12,7 @@ class regWel extends StatefulWidget {
 }
 
 class _regWelState extends State<regWel> {
+  User user = new User();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -45,10 +48,8 @@ class _regWelState extends State<regWel> {
                           borderRadius: BorderRadius.all(Radius.circular(20)),
                         ),
                         onPressed: () {
-                          // sign Out
-                          FirebaseAuth.instance.signOut();
                           Navigator.push(context, MaterialPageRoute(
-                              builder: (context) => regNumberPhone()));
+                              builder: (context) => regName(this.user)));
                           //(context);
                         },
                         child: Text("NEXT",

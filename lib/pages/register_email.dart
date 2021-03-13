@@ -1,28 +1,30 @@
+import 'package:first_app/pages/menu_page.dart';
+import 'package:first_app/pages/register_numberPhone.dart';
+import 'package:first_app/services/database.dart';
 import 'package:flutter/material.dart';
 import 'package:first_app/models/user.dart';
-import 'package:first_app/pages/register_email.dart';
-class regName extends StatefulWidget {
+class regEmail extends StatefulWidget {
   User user;
   @override
-  _regNameState createState() => _regNameState();
-  regName(this.user);
+  _regEmailState createState() => _regEmailState();
+  regEmail(this.user);
 }
 
-class _regNameState extends State<regName> {
-  String userName;
+class _regEmailState extends State<regEmail> {
+  String email;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
           toolbarHeight: 70,
-          title: Text('Họ tên',
+          title: Text('Email',
             style: TextStyle(fontSize: 22),),
           backgroundColor: Colors.green[900],
         ),
         body: Column(
             children: [
               SizedBox(height: 70,),
-              Text('Nhập họ và tên của bạn',
+              Text('Nhập Email',
                 style: TextStyle(
                   fontSize: 25,
                   fontWeight: FontWeight.w700,
@@ -39,12 +41,12 @@ class _regNameState extends State<regName> {
                 child: TextFormField(
                   style: TextStyle(fontSize: 20, fontWeight: FontWeight.w500),
                   decoration: InputDecoration(
-                    hintText: ('Họ tên đầy đủ'),
+                    hintText: ('Email'),
                     hintStyle: TextStyle(fontSize: 20, color: Colors.grey),
                   ),
                   autofocus: true,
                   onChanged: (val){
-                    this.userName = val;
+                    this.email = val;
                   },
                 ),
               ),
@@ -56,11 +58,13 @@ class _regNameState extends State<regName> {
                       borderRadius: BorderRadius.all(Radius.circular(10)),
                     ),
                     onPressed: () {
-                      widget.user.setUserName(this.userName);
-                      Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => regEmail(widget.user)));
+                      widget.user.setEmail(this.email);
+                      // _signUp(widget.user);
+                      Navigator.push(context, MaterialPageRoute(
+                          builder: (context) => regNumberPhone(user: widget.user)));
+                      //(context);
                     },
-                    child: Text("NEXT",
+                    child: Text("Next",
                       style: TextStyle(
                           fontSize: 20,
                           color: Colors.white
@@ -71,4 +75,5 @@ class _regNameState extends State<regName> {
         )
     );
   }
+
 }

@@ -3,10 +3,12 @@ import 'package:first_app/pages/register_name.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:first_app/pages/login_page.dart';
-
+import 'package:first_app/models/user.dart';
 class regNumberPhone extends StatefulWidget {
+  User user;
   @override
   _regNumberPhoneState createState() => _regNumberPhoneState();
+  regNumberPhone({this.user});
 }
 
 class _regNumberPhoneState extends State<regNumberPhone> {
@@ -60,8 +62,9 @@ class _regNumberPhoneState extends State<regNumberPhone> {
                   borderRadius: BorderRadius.all(Radius.circular(10)),
                 ),
                 onPressed: () {
+                  widget.user.setPhoneNumber(this.phoneNumber);
                  // _verifyPhone();
-                  Navigator.push(context, MaterialPageRoute(builder: (context)=>regOTP(phoneNumber: this.phoneNumber)));
+                  Navigator.push(context, MaterialPageRoute(builder: (context)=>regOTP(user: widget.user)));
                 },
                 child: Text("NEXT",
                   style: TextStyle(
