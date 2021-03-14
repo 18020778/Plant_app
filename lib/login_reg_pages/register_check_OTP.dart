@@ -1,5 +1,5 @@
-import 'package:first_app/pages/menu_page.dart';
-import 'package:first_app/pages/register_name.dart';
+
+import 'package:first_app/login_reg_pages/menu_page.dart';
 import 'package:first_app/services/database.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';

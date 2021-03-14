@@ -1,8 +1,8 @@
-import 'package:first_app/pages/register_check_OTP.dart';
-import 'package:first_app/pages/register_name.dart';
+
+import 'package:first_app/login_reg_pages/register_check_OTP.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:first_app/pages/login_page.dart';
+
 import 'package:first_app/models/user.dart';
 class regNumberPhone extends StatefulWidget {
   User user;

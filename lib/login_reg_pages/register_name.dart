@@ -1,6 +1,6 @@
+import 'package:first_app/login_reg_pages/register_email.dart';
 import 'package:flutter/material.dart';
 import 'package:first_app/models/user.dart';
-import 'package:first_app/pages/register_email.dart';
 class regName extends StatefulWidget {
   User user;
   @override

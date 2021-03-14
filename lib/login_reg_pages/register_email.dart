@@ -1,5 +1,4 @@
-import 'package:first_app/pages/menu_page.dart';
-import 'package:first_app/pages/register_numberPhone.dart';
+import 'package:first_app/login_reg_pages/register_numberPhone.dart';
 import 'package:first_app/services/database.dart';
 import 'package:flutter/material.dart';
 import 'package:first_app/models/user.dart';
@@ -62,7 +61,6 @@ class _regEmailState extends State<regEmail> {
                       // _signUp(widget.user);
                       Navigator.push(context, MaterialPageRoute(
                           builder: (context) => regNumberPhone(user: widget.user)));
-                      //(context);
                     },
                     child: Text("Next",
                       style: TextStyle(

@@ -1,7 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:first_app/login_reg_pages/register_name.dart';
 import 'package:first_app/models/user.dart';
-import 'package:first_app/pages/register_name.dart';
-import 'package:first_app/pages/register_numberPhone.dart';
 import 'package:flutter/material.dart';
 
 import 'login_page.dart';
