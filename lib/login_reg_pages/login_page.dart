@@ -1,94 +1,114 @@
-import 'package:first_app/login_reg_pages/register_welcome.dart';
-import 'package:first_app/show_products_page/home_page.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:first_app/pages/menu_page.dart';
+import 'package:first_app/pages/register_welcome.dart';
+import 'package:first_app/services/database.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 
-// ignore: camel_case_types
+
 class loginPage extends StatefulWidget {
   @override
   _loginPageState createState() => _loginPageState();
 }
 
 class _loginPageState extends State<loginPage> {
+  String phoneNumber;
+  String userName;
+  String email;
+  String password;
+  String confirmPass;
+  String verificationCode;
+  String smsCode;
+  bool _visible = false;
+  final txt = TextEditingController();
+
+  clearTextInput() {
+    txt.clear();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Container(
-        alignment: Alignment.center,
-          decoration: BoxDecoration(
-            gradient: LinearGradient(
-              begin: Alignment.topRight,
-              end: Alignment.bottomLeft,
-              colors: [Color(4281755726), Color(4284859275)],
+        body: Container(
+            alignment: Alignment.center,
+            decoration: BoxDecoration(
+              color: Colors.green[900],
             ),
-          ),
-        child: Column(
-          children: <Widget>[
-            SizedBox(height: 20),
-            Image.asset('assets/logo.png', width: 180, height: 170,),
-            SizedBox(height: 20),
-            Text('Welcome to Little Garden!',
-                style: TextStyle(
-                    fontFamily: 'AkayaTelivigala',
-                    color: Colors.lime,
-                    fontSize: 28,
-                ),
-            ),
-              SizedBox(height: 40,),
-              Container(
-                child: Column(
-                  children: <Widget>[
-                    _textInput(hint: "Số điện thoại", icon: Icons.phone),
-                    _textInput(hint: "Mật khẩu", icon: Icons.vpn_key),
-                  ],
-                ),
-              ),
-            Container(
-              margin: EdgeInsets.only(top: 20, bottom: 40, right: 30),
-              alignment: Alignment.centerRight,
-                child: Text("Quên mật khẩu?",
-                style: TextStyle(
-                  color: Colors.white70
-                ),)
-            ),
-            Flexible(
-                child: SizedBox(
-                  child: RaisedButton(
-                    padding: EdgeInsets.fromLTRB(150, 12, 150, 12),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.all(Radius.circular(20)),
+            child: Column(
+                children: <Widget>[
+                  SizedBox(height: 20),
+                  Image.asset('assets/logo.png', width: 180, height: 170,),
+                  SizedBox(height: 20),
+                  Text('Welcome to Little Garden!',
+                    style: TextStyle(
+                      fontFamily: 'AkayaTelivigala',
+                      color: Colors.lime,
+                      fontSize: 28,
                     ),
-                    onPressed: (){
-                      Navigator.push(context, MaterialPageRoute(builder: (context) => homePage()));
-                    },
-                    child: Text("Đăng nhập",
-                      style: TextStyle(
-                        fontSize: 20,
-                      ),
-                    ),
-                  )
-                ),
-              ),
-            SizedBox(height: 80,),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                  Text ("Bạn chưa có tài khoản?  ",
-                    style: TextStyle(color: Colors.white, fontSize: 18),
                   ),
-                InkWell(
-                  onTap: (){
-                    Navigator.push(context, MaterialPageRoute(builder: (context) => regWel()));
-                  },
-                    child: Text ("Đăng ký",
-                    style: TextStyle(color: Colors.lime, fontSize: 20),
+                  SizedBox(height: 40,),
+                  Container(
+                    child: Column(
+                      children: <Widget>[
+                        _textInput(hint: "Number Phone", icon: Icons.phone),
+                      ],
                     ),
-                )
-              ]
-                )
-      ]
+                  ),
+                  Visibility(visible: !_visible, child: SizedBox(height: 80,)),
+                  Visibility(
+                      visible: _visible,
+                      child: Container(
+                          margin: EdgeInsets.only(
+                              top: 20, bottom: 40, right: 30),
+                          alignment: Alignment.centerRight,
+                          child: Text("Account is not registered",
+                            style: TextStyle(
+                                color: Colors.red
+                            ),)
+                      )),
+
+                  Flexible(
+                    child: SizedBox(
+                        child: RaisedButton(
+                          padding: EdgeInsets.fromLTRB(150, 12, 150, 12),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.all(Radius.circular(20)),
+                          ),
+                          onPressed: () {
+                            FirebaseAuth.instance.signOut();
+                            // Navigator.push(context, MaterialPageRoute(builder: (context) => ShakeWidget()));
+                            _verifyPhone();
+                          },
+                          child: Text("LOGIN",
+                            style: TextStyle(
+                              fontSize: 20,
+                            ),
+                          ),
+                        )
+                    ),
+                  ),
+                  SizedBox(height: 80,),
+                  Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text("Don't have an account?  ",
+                          style: TextStyle(color: Colors.white, fontSize: 18),
+                        ),
+                        InkWell(
+                          onTap: () {
+                            Navigator.push(context, MaterialPageRoute(
+                                builder: (context) => regWel()));
+                          },
+                          child: Text("Registor",
+                            style: TextStyle(color: Colors.lime, fontSize: 20),
+                          ),
+                        )
+                      ]
                   )
-      )
+                ]
+            )
+        )
     );
   }
 
@@ -107,11 +127,114 @@ class _loginPageState extends State<loginPage> {
         decoration: InputDecoration(
           hintText: hint,
           hintStyle: TextStyle(fontSize: 20, color: Colors.white70),
-          prefixIcon: Icon(icon,color: Colors.white,),
+          prefixIcon: Icon(icon, color: Colors.white,),
         ),
+        onChanged: (value) {
+          if (value[0] == "0") {
+            this.phoneNumber = "+84" + value.substring(1, value.length);
+          } else
+            this.phoneNumber = value;
+        },
 
       ),
     );
   }
 
+  Future <void> _verifyPhone() async {
+    // Automatic handling of the SMS code on Android devices
+    final PhoneVerificationCompleted verificationCompleted = (
+        AuthCredential credential) async {
+      await FirebaseAuth.instance.signInWithCredential(credential);
+    };
+
+
+    // Handle failure events : invalid phoneNumber, ...
+    final PhoneVerificationFailed phoneVerificationFailed = (
+        AuthException exception) {
+      print("${exception.message}");
+    };
+
+    // Handle when a code has been sent to the sevice form Firebase
+    final PhoneCodeSent phoneCodeSent = (String verId, [int forceCodeResend]) {
+      this.verificationCode = verId;
+      smsCodeDialog(context).then((value) =>
+      {
+        print("Signed In")
+      }
+      );
+    };
+
+    final PhoneCodeAutoRetrievalTimeout autoRetrievalTimeout = (String verId) {
+      this.verificationCode = verId;
+    };
+
+
+    await FirebaseAuth.instance.verifyPhoneNumber(
+        phoneNumber: this.phoneNumber,
+        timeout: const Duration(seconds: 5),
+        verificationCompleted: verificationCompleted,
+        verificationFailed: phoneVerificationFailed,
+        codeSent: phoneCodeSent,
+        codeAutoRetrievalTimeout: autoRetrievalTimeout);
+  }
+
+  Future<bool> smsCodeDialog(BuildContext context) {
+    return showDialog(
+        context: context,
+        barrierDismissible: false,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: Text("Enter Code",
+              style: TextStyle(
+                  color: Colors.green[900],
+                  fontSize: 20
+              ),),
+            content: TextField(
+              controller: txt,
+              onChanged: (val) {
+                smsCode = val;
+                if (val.length == 6) {
+                  FirebaseAuth.instance.currentUser().then((user) {
+                    if (user != null) {
+                      clearTextInput();
+                      FirebaseAuth.instance.signOut();
+                    } else {
+                      clearTextInput();
+                      signIn();
+                    }
+                  });
+                }
+              },
+              autofocus: true,
+              maxLength: 6,
+              style: TextStyle(
+                color: Colors.green[700],
+                fontSize: 30,
+                letterSpacing: 23,
+
+              ),
+            ),
+          );
+        }
+    );
+  }
+
+  signIn() {
+    AuthCredential phoneAuthCredential = PhoneAuthProvider.getCredential(
+        verificationId: verificationCode, smsCode: smsCode);
+    FirebaseAuth.instance.signInWithCredential(phoneAuthCredential).then((
+        user) {
+      Database().getUserInfo(user.user.uid.toString()).then((value) {
+        if (value == null) {
+          Navigator.of(context).pop();
+          setState(() {
+            this._visible = true;
+          });
+        }
+        else
+          Navigator.push(
+              context, MaterialPageRoute(builder: (context) => MenuPage()));
+      });
+    });
+  }
 }

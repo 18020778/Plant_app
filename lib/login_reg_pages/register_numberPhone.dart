@@ -1,12 +1,18 @@
-import 'package:first_app/login_reg_pages/register_name.dart';
+import 'package:first_app/pages/register_check_OTP.dart';
+import 'package:first_app/pages/register_name.dart';
 import 'package:flutter/material.dart';
-
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:first_app/pages/login_page.dart';
+import 'package:first_app/models/user.dart';
 class regNumberPhone extends StatefulWidget {
+  User user;
   @override
   _regNumberPhoneState createState() => _regNumberPhoneState();
+  regNumberPhone({this.user});
 }
 
 class _regNumberPhoneState extends State<regNumberPhone> {
+  String phoneNumber;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -39,6 +45,13 @@ class _regNumberPhoneState extends State<regNumberPhone> {
                   hintText: ('Số điện thoại'),
                   hintStyle: TextStyle(fontSize: 20, color: Colors.grey),
               ),
+              autofocus: true,
+              onChanged: (value){
+                if(value[0] == "0"){
+                  this.phoneNumber = "+84" + value.substring(1, value.length);
+                }else
+                  this.phoneNumber = value;
+              },
             ),
           ),
           Flexible(
@@ -49,11 +62,11 @@ class _regNumberPhoneState extends State<regNumberPhone> {
                   borderRadius: BorderRadius.all(Radius.circular(10)),
                 ),
                 onPressed: () {
-                  Navigator.push(context, MaterialPageRoute(
-                      builder: (context) => regName()));
-                  //(context);
+                  widget.user.setPhoneNumber(this.phoneNumber);
+                 // _verifyPhone();
+                  Navigator.push(context, MaterialPageRoute(builder: (context)=>regOTP(user: widget.user)));
                 },
-                child: Text("TIẾP",
+                child: Text("NEXT",
                   style: TextStyle(
                     fontSize: 20,
                     color: Colors.white
@@ -64,4 +77,5 @@ class _regNumberPhoneState extends State<regNumberPhone> {
     )
     );
   }
+
 }

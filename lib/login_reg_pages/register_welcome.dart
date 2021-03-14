@@ -1,4 +1,7 @@
-import 'package:first_app/login_reg_pages/register_numberPhone.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:first_app/models/user.dart';
+import 'package:first_app/pages/register_name.dart';
+import 'package:first_app/pages/register_numberPhone.dart';
 import 'package:flutter/material.dart';
 
 import 'login_page.dart';
@@ -9,24 +12,21 @@ class regWel extends StatefulWidget {
 }
 
 class _regWelState extends State<regWel> {
+  User user = new User();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         body: Container(
           alignment: Alignment.center,
           decoration: BoxDecoration(
-            gradient: LinearGradient(
-              begin: Alignment.topRight,
-              end: Alignment.bottomLeft,
-              colors: [Color(4281755726), Color(4284859275)],
-            ),
+            color: Colors.green[900],
           ),
           child: Column(
               children: <Widget>[
                 SizedBox(height: 20,),
                 Image.asset('assets/logo.png', width: 180, height: 180,),
                 SizedBox(height: 50),
-                Text('Welcome to Little Garden!',
+                Text('Register for Little Garden!',
                   style: TextStyle(
                     fontFamily: 'AkayaTelivigala',
                     color: Colors.lime,
@@ -49,20 +49,21 @@ class _regWelState extends State<regWel> {
                         ),
                         onPressed: () {
                           Navigator.push(context, MaterialPageRoute(
-                              builder: (context) => regNumberPhone()));
+                              builder: (context) => regName(this.user)));
                           //(context);
                         },
-                        child: Text("TIẾP",
+                        child: Text("NEXT",
                           style: TextStyle(
                             fontSize: 20,
                           ),),
+
                       )
                   ),
                 SizedBox(height: 110,),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Text("Bãn đã là thành viên?  ",
+                    Text("Already a member?  ",
                       style: TextStyle(color: Colors.white, fontSize: 18),
                     ),
                     InkWell(
@@ -70,7 +71,7 @@ class _regWelState extends State<regWel> {
                         Navigator.push(context, MaterialPageRoute(
                             builder: (context) => loginPage()));
                       },
-                      child: Text("Đăng nhập",
+                      child: Text("Login now",
                         style: TextStyle(color: Colors.lime, fontSize: 20),
                       ),
                     ),
