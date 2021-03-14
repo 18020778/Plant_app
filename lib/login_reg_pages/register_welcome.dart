@@ -1,4 +1,4 @@
-import 'package:first_app/pages/register_numberPhone.dart';
+import 'package:first_app/login_reg_pages/register_numberPhone.dart';
 import 'package:flutter/material.dart';
 
 import 'login_page.dart';
@@ -15,14 +15,18 @@ class _regWelState extends State<regWel> {
         body: Container(
           alignment: Alignment.center,
           decoration: BoxDecoration(
-            color: Colors.green[900],
+            gradient: LinearGradient(
+              begin: Alignment.topRight,
+              end: Alignment.bottomLeft,
+              colors: [Color(4281755726), Color(4284859275)],
+            ),
           ),
           child: Column(
               children: <Widget>[
                 SizedBox(height: 20,),
                 Image.asset('assets/logo.png', width: 180, height: 180,),
                 SizedBox(height: 50),
-                Text('Register for Little Garden!',
+                Text('Welcome to Little Garden!',
                   style: TextStyle(
                     fontFamily: 'AkayaTelivigala',
                     color: Colors.lime,
@@ -48,7 +52,7 @@ class _regWelState extends State<regWel> {
                               builder: (context) => regNumberPhone()));
                           //(context);
                         },
-                        child: Text("NEXT",
+                        child: Text("TIẾP",
                           style: TextStyle(
                             fontSize: 20,
                           ),),
@@ -58,7 +62,7 @@ class _regWelState extends State<regWel> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Text("Already a member?  ",
+                    Text("Bãn đã là thành viên?  ",
                       style: TextStyle(color: Colors.white, fontSize: 18),
                     ),
                     InkWell(
@@ -66,7 +70,7 @@ class _regWelState extends State<regWel> {
                         Navigator.push(context, MaterialPageRoute(
                             builder: (context) => loginPage()));
                       },
-                      child: Text("Login now",
+                      child: Text("Đăng nhập",
                         style: TextStyle(color: Colors.lime, fontSize: 20),
                       ),
                     ),

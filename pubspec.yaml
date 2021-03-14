@@ -49,6 +49,25 @@ flutter:
   uses-material-design: true
   assets:
     - assets/logo.png
+    - assets/alert.png
+    - assets/Search_Icon.svg.png
+    - assets/cay_day_leo.jpg
+    - assets/cay_loai_to.jpg
+    - assets/cay_ngoai_troi.jpg
+    - assets/cay_phong_thuy.PNG
+    - assets/cay_thuy_sinh.jpg
+    - assets/cay_trong_nha.jpg
+    - assets/cay_van_phong.PNG
+    - assets/sen_da.jpg
+    - assets/xuong_rong.jpg
+    - assets/account.png
+    - assets/account_on.png
+    - assets/heart.png
+    - assets/heart_on.png
+    - assets/home-icon.png
+    - assets/home_on.png
+    - assets/weather.png
+    - assets/weather_on.png
 
   # To add assets to your application, add an assets section, like this:
   # assets:

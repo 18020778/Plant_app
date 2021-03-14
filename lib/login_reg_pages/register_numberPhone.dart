@@ -1,5 +1,4 @@
-import 'package:first_app/pages/login_page.dart';
-import 'package:first_app/pages/register_name.dart';
+import 'package:first_app/login_reg_pages/register_name.dart';
 import 'package:flutter/material.dart';
 
 class regNumberPhone extends StatefulWidget {
@@ -54,7 +53,7 @@ class _regNumberPhoneState extends State<regNumberPhone> {
                       builder: (context) => regName()));
                   //(context);
                 },
-                child: Text("NEXT",
+                child: Text("TIẾP",
                   style: TextStyle(
                     fontSize: 20,
                     color: Colors.white

@@ -1,9 +1,9 @@
-import 'package:first_app/pages/register_welcome.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:first_app/login_reg_pages/register_welcome.dart';
+import 'package:first_app/show_products_page/home_page.dart';
 import 'package:flutter/material.dart';
 
 
-
+// ignore: camel_case_types
 class loginPage extends StatefulWidget {
   @override
   _loginPageState createState() => _loginPageState();
@@ -15,9 +15,13 @@ class _loginPageState extends State<loginPage> {
     return Scaffold(
       body: Container(
         alignment: Alignment.center,
-        decoration: BoxDecoration(
-          color: Colors.green[900],
-        ),
+          decoration: BoxDecoration(
+            gradient: LinearGradient(
+              begin: Alignment.topRight,
+              end: Alignment.bottomLeft,
+              colors: [Color(4281755726), Color(4284859275)],
+            ),
+          ),
         child: Column(
           children: <Widget>[
             SizedBox(height: 20),
@@ -34,15 +38,15 @@ class _loginPageState extends State<loginPage> {
               Container(
                 child: Column(
                   children: <Widget>[
-                    _textInput(hint: "Number Phone", icon: Icons.phone),
-                    _textInput(hint: "Password", icon: Icons.vpn_key),
+                    _textInput(hint: "Số điện thoại", icon: Icons.phone),
+                    _textInput(hint: "Mật khẩu", icon: Icons.vpn_key),
                   ],
                 ),
               ),
             Container(
               margin: EdgeInsets.only(top: 20, bottom: 40, right: 30),
               alignment: Alignment.centerRight,
-                child: Text("Forgot your password?",
+                child: Text("Quên mật khẩu?",
                 style: TextStyle(
                   color: Colors.white70
                 ),)
@@ -55,9 +59,9 @@ class _loginPageState extends State<loginPage> {
                       borderRadius: BorderRadius.all(Radius.circular(20)),
                     ),
                     onPressed: (){
-                     // Navigator.push(context, MaterialPageRoute(builder: (context) => ShakeWidget()));
+                      Navigator.push(context, MaterialPageRoute(builder: (context) => homePage()));
                     },
-                    child: Text("LOGIN",
+                    child: Text("Đăng nhập",
                       style: TextStyle(
                         fontSize: 20,
                       ),
@@ -69,14 +73,14 @@ class _loginPageState extends State<loginPage> {
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                  Text ("Don't have an account?  ",
+                  Text ("Bạn chưa có tài khoản?  ",
                     style: TextStyle(color: Colors.white, fontSize: 18),
                   ),
                 InkWell(
                   onTap: (){
                     Navigator.push(context, MaterialPageRoute(builder: (context) => regWel()));
                   },
-                    child: Text ("Registor",
+                    child: Text ("Đăng ký",
                     style: TextStyle(color: Colors.lime, fontSize: 20),
                     ),
                 )

@@ -65,7 +65,7 @@ class _regPasswordState extends State<regPassword> {
                     onPressed: () {
 
                     },
-                    child: Text("REGISTER",
+                    child: Text("HOÀN THÀNH",
                       style: TextStyle(
                           fontSize: 20,
                           color: Colors.white

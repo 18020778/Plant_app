@@ -1,4 +1,4 @@
-import 'package:first_app/pages/register_password.dart';
+import 'package:first_app/login_reg_pages/register_password.dart';
 import 'package:flutter/material.dart';
 
 class regName extends StatefulWidget {
@@ -53,7 +53,7 @@ class _regNameState extends State<regName> {
                           builder: (context) => regPassword()));
                       //(context);
                     },
-                    child: Text("NEXT",
+                    child: Text("TIẾP",
                       style: TextStyle(
                           fontSize: 20,
                           color: Colors.white
