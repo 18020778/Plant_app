@@ -1,4 +1,5 @@
 import 'package:first_app/show_products_page/body_home.dart';
+import 'package:first_app/show_products_page/search_box.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -93,7 +94,7 @@ class _homePageState extends State<homePage> {
                           )
                         ],
                       ),
-                      SearchBox(
+                      SearchBox(text: 'Litte Gardent',
                         onChanged: (value) {},
                       )
                     ]
@@ -106,37 +107,5 @@ class _homePageState extends State<homePage> {
 }
 
 
-class SearchBox extends StatelessWidget {
-  final ValueChanged<String> onChanged;
-  const SearchBox({
-    Key key, this.onChanged,
-}) : super(key: key);
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      margin: EdgeInsets.only(left: 20.0, top: 10.0, right: 20.0, bottom: 15),
-      padding: EdgeInsets.symmetric(horizontal: 25, vertical: 0),
-      decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.circular(50),
-          boxShadow: [BoxShadow(
-            color: Colors.green[900].withOpacity(0.5),
-            spreadRadius: 5,
-            blurRadius: 7,
-            offset: Offset(0, 3),
-          ),
-          ]
-      ),
-      child: TextField(
-        decoration: InputDecoration(
-          border: InputBorder.none,
-          icon: Image.asset('assets/Search_Icon.svg.png', width: 25,),
-          hintText: "Little Garden",
-          hintStyle: TextStyle(fontWeight: FontWeight.w500, fontSize: 18)
-        ),
-      ),
-    );
-  }
-}
 
 

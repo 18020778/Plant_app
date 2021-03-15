@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:first_app/show_products_page/group_of_trees.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -42,7 +43,7 @@ class _bodyHomeState extends State<bodyHome> {
                   ),
                 ),
                 Container(
-                  width: screenWidth,
+                  width: screenWidth*0.95,
                   height: screenWidth * 0.54,
 
                   child: PageView(
@@ -67,7 +68,7 @@ class _bodyHomeState extends State<bodyHome> {
                   ),
                 ),
                 Container(
-                  width: screenWidth,
+                  width: screenWidth*0.95,
                   height: screenWidth * 0.54,
                   child: PageView(
                     controller: controller,
@@ -117,67 +118,77 @@ class TypeOfTrees extends StatelessWidget {
     for (int i = 0; i < bannerItems.length; i++) {
       var bannerView = Padding(
         padding: EdgeInsets.fromLTRB(10, 0, 10, 20),
-        child: Container(
-          child: Stack(
-            fit: StackFit.expand,
-            children: <Widget>[
-              Container(
-                decoration: BoxDecoration(
-                    borderRadius: BorderRadius.all(Radius.circular(20.0)),
-                    boxShadow: [
-                      BoxShadow(
-                          color: Colors.black12,
-                          offset: Offset(2.0, 4.0),
-                          blurRadius: 10.0,
-                          spreadRadius: 1.0)
+        child: InkWell(
+          onTap: (){
+            Navigator.push(context, MaterialPageRoute(builder: (context) => GroupOfTrees()));
+          },
+          child: Container(
+            child: Stack(
+              fit: StackFit.expand,
+              children: <Widget>[
+                Container(
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.all(Radius.circular(20.0)),
+                        color: Colors.white,
+                        boxShadow: [
+                          BoxShadow(
+                              color: Color(4291751385),
+                              offset: Offset(0, 140),
+                              spreadRadius: 0,
+                              blurRadius: 100.0),
+                          BoxShadow(
+                              color: Colors.black12,
+                              spreadRadius: 2.0,
+                              blurRadius: 2.0),
                     ],
-                ),
-                ),
+                  ),
+                  ),
 
-              ClipRRect(
-                  borderRadius: BorderRadius.all(Radius.circular(20.0)),
-                  child: Image.asset(
-                    bannerImages[i],
-                    fit: BoxFit.cover,
-                  )),
-              Container(
-                decoration: BoxDecoration(
+                ClipRRect(
                     borderRadius: BorderRadius.all(Radius.circular(20.0)),
-                    gradient: LinearGradient(
-                        begin: Alignment.center,
-                        end: Alignment.bottomCenter,
-                        colors: [Colors.transparent, Colors.black])),
-              ),
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    Text(
-                      bannerItems[i],
-                      style: TextStyle(fontSize: 25, color: Colors.white),
-                    ),
-                    RichText(
-                      text: TextSpan(children: [
-                        TextSpan(
-                          text: 'Có ',
-                          style: TextStyle(fontSize: 15, color: Colors.white),
-                        ),
-                        TextSpan(
-                          text: '... ',
-                          style: TextStyle(fontSize: 15, color: Colors.white),
-                        ),
-                        TextSpan(
-                          text: 'sản phẩm',
-                          style: TextStyle(fontSize: 15, color: Colors.white),
-                        ),
-                      ]),
-                    )
-                  ],
+                    child: Image.asset(
+                      bannerImages[i],
+                      fit: BoxFit.cover,
+                    )),
+                Container(
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.all(Radius.circular(20.0)),
+                      gradient: LinearGradient(
+                          begin: Alignment.center,
+                          end: Alignment.bottomCenter,
+                          colors: [Colors.transparent, Colors.black])),
                 ),
-              )
-            ],
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      Text(
+                        bannerItems[i],
+                        style: TextStyle(fontSize: 25, color: Colors.white),
+                      ),
+                      RichText(
+                        text: TextSpan(children: [
+                          TextSpan(
+                            text: 'Có ',
+                            style: TextStyle(fontSize: 15, color: Colors.white),
+                          ),
+                          TextSpan(
+                            text: '... ',
+                            style: TextStyle(fontSize: 15, color: Colors.white),
+                          ),
+                          TextSpan(
+                            text: 'sản phẩm',
+                            style: TextStyle(fontSize: 15, color: Colors.white),
+                          ),
+                        ]),
+                      )
+                    ],
+                  ),
+                )
+              ],
+            ),
           ),
         ),
       );
@@ -196,7 +207,7 @@ class TypeOfTrees extends StatelessWidget {
 
 Widget TreeItem(screenHeight, screenWidth, name, image, price, origin) {
   return Padding(
-      padding: EdgeInsets.all(10),
+      padding:EdgeInsets.only(left: 5, top: 10, right: 10, bottom: 10),
       child: Container(
           child: Stack(fit: StackFit.expand, children: [
         Container(
@@ -209,8 +220,12 @@ Widget TreeItem(screenHeight, screenWidth, name, image, price, origin) {
                     offset: Offset(0, 140),
                     spreadRadius: 0,
                     blurRadius: 100.0),
+                BoxShadow(
+                    color: Colors.black12,
+                    spreadRadius: 2.0,
+                    blurRadius: 2.0),
               ]),
-          margin: EdgeInsets.only(left: 5, top: 5, right: 5, bottom: 5),
+          margin: EdgeInsets.only(left: 0, top: 5, right: 0, bottom: 5),
           child: Column(
             mainAxisSize: MainAxisSize.max,
             crossAxisAlignment: CrossAxisAlignment.stretch,

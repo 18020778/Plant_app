@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:first_app/login_reg_pages/menu_page.dart';
 import 'package:first_app/login_reg_pages/register_welcome.dart';
 import 'package:first_app/services/database.dart';
+import 'package:first_app/show_products_page/home_page.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -29,87 +30,92 @@ class _loginPageState extends State<loginPage> {
 
   @override
   Widget build(BuildContext context) {
+    PageController controller =
+    PageController(viewportFraction: 0.4, initialPage: 1);
+
     return Scaffold(
-        body: Container(
+      body: SingleChildScrollView(
+       child: Container(
             alignment: Alignment.center,
             decoration: BoxDecoration(
               color: Colors.green[900],
             ),
-            child: Column(
-                children: <Widget>[
-                  SizedBox(height: 20),
-                  Image.asset('assets/logo.png', width: 180, height: 170,),
-                  SizedBox(height: 20),
-                  Text('Welcome to Little Garden!',
-                    style: TextStyle(
-                      fontFamily: 'AkayaTelivigala',
-                      color: Colors.lime,
-                      fontSize: 28,
-                    ),
-                  ),
-                  SizedBox(height: 40,),
-                  Container(
-                    child: Column(
-                      children: <Widget>[
-                        _textInput(hint: "Number Phone", icon: Icons.phone),
-                      ],
-                    ),
-                  ),
-                  Visibility(visible: !_visible, child: SizedBox(height: 80,)),
-                  Visibility(
-                      visible: _visible,
-                      child: Container(
-                          margin: EdgeInsets.only(
-                              top: 20, bottom: 40, right: 30),
-                          alignment: Alignment.centerRight,
-                          child: Text("Account is not registered",
-                            style: TextStyle(
-                                color: Colors.red
-                            ),)
-                      )),
+              child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
 
-                  Flexible(
-                    child: SizedBox(
-                        child: RaisedButton(
-                          padding: EdgeInsets.fromLTRB(150, 12, 150, 12),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.all(Radius.circular(20)),
-                          ),
-                          onPressed: () {
-                            FirebaseAuth.instance.signOut();
-                            // Navigator.push(context, MaterialPageRoute(builder: (context) => ShakeWidget()));
-                            _verifyPhone();
-                          },
-                          child: Text("LOGIN",
-                            style: TextStyle(
-                              fontSize: 20,
-                            ),
-                          ),
-                        )
+                  children: <Widget>[
+                    SizedBox(height: 20),
+                    Image.asset('assets/logo.png', width: 180, height: 170,),
+                    SizedBox(height: 20),
+                    Text('Welcome to Little Garden!',
+                      style: TextStyle(
+                        fontFamily: 'AkayaTelivigala',
+                        color: Colors.lime,
+                        fontSize: 28,
+                      ),
                     ),
-                  ),
-                  SizedBox(height: 80,),
-                  Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text("Don't have an account?  ",
-                          style: TextStyle(color: Colors.white, fontSize: 18),
-                        ),
-                        InkWell(
-                          onTap: () {
-                            Navigator.push(context, MaterialPageRoute(
-                                builder: (context) => regWel()));
-                          },
-                          child: Text("Registor",
-                            style: TextStyle(color: Colors.lime, fontSize: 20),
-                          ),
-                        )
-                      ]
-                  )
-                ]
+                    SizedBox(height: 40,),
+                    _textInput(hint: "Number Phone", icon: Icons.phone),
+                    Visibility(visible: !_visible, child: SizedBox(height: 80,)),
+                    Visibility(
+                        visible: _visible,
+                        child: Container(
+                            margin: EdgeInsets.only(
+                                top: 20, bottom: 40, right: 30),
+                            alignment: Alignment.centerRight,
+                            child: Text("Account is not registered",
+                              style: TextStyle(
+                                  color: Colors.red
+                              ),)
+                        )),
+
+                    Flexible(
+                      child: SizedBox(
+                          child: RaisedButton(
+                            padding: EdgeInsets.fromLTRB(150, 12, 150, 12),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.all(Radius.circular(20)),
+                            ),
+                            onPressed: () {
+                              //FirebaseAuth.instance.signOut();
+                              Navigator.push(context, MaterialPageRoute(builder: (context) => homePage()));
+                              _verifyPhone();
+                            },
+                            child: Text("LOGIN",
+                              style: TextStyle(
+                                fontSize: 20,
+                              ),
+                            ),
+                          )
+                      ),
+                    ),
+                    SizedBox(height: 140,),
+                    Padding(
+                      padding: const EdgeInsets.all(20.0),
+                      child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text("Don't have an account?  ",
+                              style: TextStyle(color: Colors.white, fontSize: 18),
+                            ),
+                            InkWell(
+                              onTap: () {
+                                Navigator.push(context, MaterialPageRoute(
+                                    builder: (context) => regWel()));
+                              },
+                              child: Text("Registor",
+                                style: TextStyle(color: Colors.lime, fontSize: 20),
+                              ),
+                            )
+                          ]
+                      ),
+                    )
+                  ]
+              ),
             )
-        )
-    );
+      )
+      );
   }
 
   Widget _textInput({controller, hint, icon}) {
