@@ -28,6 +28,7 @@ dependencies:
   fluttertoast: ^7.1.8
   cloud_firestore: ^0.12.9+1
   firebase_database: ^3.0.6
+  font_awesome_flutter: ^8.12.0
 #  #firebase_auth: ^0.20.1
 #  firebase_core: ^0.4.0
 
@@ -71,6 +72,12 @@ flutter:
     - assets/home_on.png
     - assets/weather.png
     - assets/weather_on.png
+    - assets/heart_like.png
+    - assets/location.png
+    - assets/lan.jpg
+    - assets/hong.jpg
+    - assets/cuc.jpg
+    - assets/bonsai.jpg
 
   # To add assets to your application, add an assets section, like this:
   # assets:

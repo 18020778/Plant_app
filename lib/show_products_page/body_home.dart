@@ -1,5 +1,7 @@
-import 'dart:convert';
+
+import 'package:first_app/show_products_page/TreeItem.dart';
 import 'package:first_app/show_products_page/group_of_trees.dart';
+import 'package:first_app/show_products_page/type_of_trees.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -31,7 +33,29 @@ class _bodyHomeState extends State<bodyHome> {
                         fontWeight: FontWeight.w700, fontSize: 25),
                   ),
                 ),
-                TypeOfTrees(),
+                ListTypeOfTrees(),
+                SizedBox(height: 10,),
+                Container(
+                  alignment: Alignment.topLeft,
+                  margin: EdgeInsets.only(left: 10, top: 10),
+                  child: Text(
+                    "Nhóm cây",
+                    style: TextStyle(
+                        color: Color(4281755650),
+                        fontWeight: FontWeight.w700, fontSize: 25),
+                  ),
+                ),
+                ListGroupOfTrees(
+                  groupItems: ["Hoa cúc", "Hoa Lan", "Hoa cúc", "Hoa Hồng",  "Bonsai"],
+                  groupImages: [
+                    'assets/cuc.jpg',
+                    'assets/lan.jpg',
+                    'assets/cuc.jpg',
+                    'assets/hong.jpg',
+                    'assets/bonsai.jpg'
+                  ]
+                ),
+                SizedBox(height: 10,),
                 Container(
                   alignment: Alignment.topLeft,
                   margin: EdgeInsets.only(left: 10, top: 10),
@@ -43,20 +67,18 @@ class _bodyHomeState extends State<bodyHome> {
                   ),
                 ),
                 Container(
-                  width: screenWidth*0.95,
-                  height: screenWidth * 0.54,
-
+                  width: screenWidth*0.96,
+                  height: screenWidth * 0.66,
                   child: PageView(
                     controller: controller,
                     scrollDirection: Axis.horizontal,
                     children: [
-                      TreeItem(screenHeight, screenWidth, "Xương rồng",
-                          "assets/xuong_rong.jpg", "20k", "Việt Nam"),
-                      TreeItem(screenHeight, screenWidth, "Sen đá",
-                          "assets/sen_da.jpg", "20k", "Việt Nam"),
+                      TreeItem(name: "Xương rồng", image: "assets/xuong_rong.jpg", price: "20k", amount: '2', isFavorited: false, location: "Hà Nội"),
+                      TreeItem(name: "Xương rồng", image: "assets/xuong_rong.jpg", price: "20k", amount: '2', isFavorited: false, location: "Hà Nội"),
                     ],
                   ),
                 ),
+                SizedBox(height: 10,),
                 Container(
                   alignment: Alignment.topLeft,
                   margin: EdgeInsets.only(left: 10, top: 10),
@@ -68,16 +90,14 @@ class _bodyHomeState extends State<bodyHome> {
                   ),
                 ),
                 Container(
-                  width: screenWidth*0.95,
-                  height: screenWidth * 0.54,
+                  width: screenWidth*0.96,
+                  height: screenWidth * 0.66,
                   child: PageView(
                     controller: controller,
                     scrollDirection: Axis.horizontal,
                     children: [
-                      TreeItem(screenHeight, screenWidth, "Xương rồng",
-                          "assets/xuong_rong.jpg", "20k", "Việt Nam"),
-                      TreeItem(screenHeight, screenWidth, "Sen đá",
-                          "assets/sen_da.jpg", "20k", "Việt Nam"),
+                      TreeItem(name: "Xương rồng", image: "assets/xuong_rong.jpg", price: "20k", amount: '2', isFavorited: false, location: "Hà Nội"),
+                      TreeItem(name: "Xương rồng", image: "assets/xuong_rong.jpg", price: "20k", amount: '2', isFavorited: false, location: "Hà Nội"),
                     ],
                   ),
                 ),
@@ -85,6 +105,7 @@ class _bodyHomeState extends State<bodyHome> {
         );
   }
 }
+
 
 var bannerItems = [
   'Cây phong thủy',
@@ -109,7 +130,7 @@ var bannerImages = [
   'assets/xuong_rong.jpg'
 ];
 
-class TypeOfTrees extends StatelessWidget {
+class ListTypeOfTrees extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     PageController controller =
@@ -120,7 +141,7 @@ class TypeOfTrees extends StatelessWidget {
         padding: EdgeInsets.fromLTRB(10, 0, 10, 20),
         child: InkWell(
           onTap: (){
-            Navigator.push(context, MaterialPageRoute(builder: (context) => GroupOfTrees()));
+            Navigator.push(context, MaterialPageRoute(builder: (context) => TypeOfTrees()));
           },
           child: Container(
             child: Stack(
@@ -145,11 +166,11 @@ class TypeOfTrees extends StatelessWidget {
                   ),
 
                 ClipRRect(
-                    borderRadius: BorderRadius.all(Radius.circular(20.0)),
-                    child: Image.asset(
-                      bannerImages[i],
-                      fit: BoxFit.cover,
-                    )),
+                      borderRadius: BorderRadius.all(Radius.circular(20.0)),
+                      child: Image.asset(
+                        bannerImages[i],
+                        fit: BoxFit.cover,
+                      )),
                 Container(
                   decoration: BoxDecoration(
                       borderRadius: BorderRadius.all(Radius.circular(20.0)),
@@ -159,7 +180,7 @@ class TypeOfTrees extends StatelessWidget {
                           colors: [Colors.transparent, Colors.black])),
                 ),
                 Padding(
-                  padding: const EdgeInsets.all(8.0),
+                  padding: EdgeInsets.all(8),
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.end,
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -205,75 +226,3 @@ class TypeOfTrees extends StatelessWidget {
   }
 }
 
-Widget TreeItem(screenHeight, screenWidth, name, image, price, origin) {
-  return Padding(
-      padding:EdgeInsets.only(left: 5, top: 10, right: 10, bottom: 10),
-      child: Container(
-          child: Stack(fit: StackFit.expand, children: [
-        Container(
-          decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.all(Radius.circular(10.0)),
-              boxShadow: [
-                BoxShadow(
-                    color: Color(4291751385),
-                    offset: Offset(0, 140),
-                    spreadRadius: 0,
-                    blurRadius: 100.0),
-                BoxShadow(
-                    color: Colors.black12,
-                    spreadRadius: 2.0,
-                    blurRadius: 2.0),
-              ]),
-          margin: EdgeInsets.only(left: 0, top: 5, right: 0, bottom: 5),
-          child: Column(
-            mainAxisSize: MainAxisSize.max,
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: <Widget>[
-              Container(
-                width: screenWidth * 0.6,
-                height: screenHeight * 0.2,
-                alignment: Alignment.topLeft,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.all(Radius.circular(20.0)),
-                ),
-                child: Image.asset(
-                  image,
-                  width: screenWidth * 0.6,
-                  fit: BoxFit.cover,
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: <Widget>[
-                            Text(name,
-                            style: TextStyle(
-                            fontSize: 16,
-                              fontWeight: FontWeight.w700,
-                            ),
-                            ),
-                            Text(
-                            price,
-                            style: TextStyle(
-                              color: Colors.green[900],
-                            ),
-                          ),
-                      ],
-                    ),
-                    Text(
-                      origin,
-                      style: TextStyle(color: Colors.green[900]),
-                    )
-                  ],
-                ),
-              ),
-            ],
-          ),
-        )
-      ])));
-}

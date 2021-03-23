@@ -2,6 +2,7 @@ import 'package:first_app/show_products_page/body_home.dart';
 import 'package:first_app/show_products_page/search_box.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 import 'bottom_nav_bar.dart';
 
@@ -51,6 +52,7 @@ class _homePageState extends State<homePage> {
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: <Widget>[
                       Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Align(
                               alignment: Alignment.topLeft,
@@ -79,18 +81,10 @@ class _homePageState extends State<homePage> {
                                 ),
                               )
                           ),
-                          Align(
-                              alignment: Alignment.topRight,
-                              child: InkWell(
-                                onTap: (){},
-                                child: Padding(
-                                  padding: EdgeInsets.only(
-                                    left: 170,
-                                    top: 15,
-                                  ),
-                                  child: Image.asset('assets/alert.png', width: 35, height: 35,),
-                                ),
-                              )
+                          IconButton(
+                            padding: EdgeInsets.only(top: 15, right: 15),
+                              icon: Icon(FontAwesomeIcons.bell, color: Colors.white,),
+                            onPressed: (){},
                           )
                         ],
                       ),

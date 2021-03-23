@@ -2,9 +2,10 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class SearchBox extends StatelessWidget {
-
-  const SearchBox( {
-    Key key, this.text, this.onChanged,
+  const SearchBox({
+    Key key,
+    this.text,
+    this.onChanged,
   }) : super(key: key);
 
   final ValueChanged<String> onChanged;
@@ -18,21 +19,23 @@ class SearchBox extends StatelessWidget {
       decoration: BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.circular(50),
-          boxShadow: [BoxShadow(
-            color: Colors.green[900].withOpacity(0.5),
-            spreadRadius: 5,
-            blurRadius: 7,
-            offset: Offset(0, 3),
-          ),
-          ]
-      ),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.green[900].withOpacity(0.5),
+              spreadRadius: 1,
+              blurRadius: 7,
+              offset: Offset(0, 3),
+            ),
+          ]),
       child: TextField(
         decoration: InputDecoration(
             border: InputBorder.none,
-            icon: Image.asset('assets/Search_Icon.svg.png', width: 25,),
+            icon: Image.asset(
+              'assets/Search_Icon.svg.png',
+              width: 25,
+            ),
             hintText: text,
-            hintStyle: TextStyle(fontWeight: FontWeight.w500, fontSize: 18)
-        ),
+            hintStyle: TextStyle(fontWeight: FontWeight.w500, fontSize: 18)),
       ),
     );
   }

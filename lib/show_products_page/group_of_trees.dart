@@ -1,34 +1,69 @@
-import 'package:first_app/show_products_page/bottom_nav_bar.dart';
-import 'package:first_app/show_products_page/search_box.dart';
+import 'package:first_app/show_products_page/show_items.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-class GroupOfTrees extends StatelessWidget {
+class ListGroupOfTrees extends StatelessWidget {
+  const ListGroupOfTrees({
+    Key key,
+    this.groupItems,
+    this.groupImages,
+  }) : super(key: key);
+
+  final List<String> groupItems;
+  final List<String> groupImages;
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        toolbarHeight: 75,
-        title: SearchBox(text: 'NameTypeOfTree'),
-        backgroundColor: Color(4284859275),
-    ),
-      body: SingleChildScrollView(
-        child: Container(
-          child: BodyOfGroup(),
-        )
+    var glength = groupItems.length;
+    List<Widget> banners = new List<Widget>();
+    for (int i = 0; i < glength; i++) {
+      var bannerView = Container(
+        child: InkWell(
+          onTap: () {
+            Navigator.push(
+                context, MaterialPageRoute(builder: (context) => ShowItem()));
+          },
+          child: Column(
+            children: [
+              Container(
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(10),
+                  color: Colors.black,
+                ),
+                child: Image.asset(groupImages[i], width: 70, height: 69),
+              ),
+              SizedBox(
+                height: 5,
+              ),
+              Text(
+                groupItems[i],
+                style: TextStyle(fontWeight: FontWeight.w700, fontSize: 20),
+              )
+            ],
+          ),
+        ),
+      );
+      banners.add(bannerView);
+    }
+
+    return Container(
+      height: (glength % 4 == 0)
+          ? (glength / 4) * 110
+          : (glength / 4 + 1) * 110,
+      decoration: BoxDecoration(
+          gradient: LinearGradient(
+        begin: Alignment.topCenter,
+        end: Alignment.bottomCenter,
+        colors: [Colors.white, Color(4291751385)],
+      )),
+      child: GridView.count(
+        crossAxisCount: 4,
+        childAspectRatio: 1.0,
+        padding: const EdgeInsets.all(4.0),
+        mainAxisSpacing: 15.0,
+        crossAxisSpacing: 4.0,
+        children: banners.toList(),
       ),
-      bottomNavigationBar: BottomNavBar(),
     );
   }
 }
-
-class BodyOfGroup extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      mainAxisSize: MainAxisSize.min,
-      mainAxisAlignment: MainAxisAlignment.spaceAround,
-    );
-  }
-}
-
