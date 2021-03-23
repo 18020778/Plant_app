@@ -38,7 +38,7 @@ class _TypeOfTreesState extends State<TypeOfTrees> {
       body: SingleChildScrollView(
         scrollDirection: Axis.vertical,
           child: Column(
-        children: [
+        children: <Widget>[
           Container(
             alignment: Alignment.topLeft,
             margin: EdgeInsets.only(left: 10, top: 10),

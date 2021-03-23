@@ -1,4 +1,5 @@
 import 'package:first_app/show_products_page/show_items.dart';
+import 'package:first_app/show_products_page/show_items_page.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -21,7 +22,7 @@ class ListGroupOfTrees extends StatelessWidget {
         child: InkWell(
           onTap: () {
             Navigator.push(
-                context, MaterialPageRoute(builder: (context) => ShowItem()));
+                context, MaterialPageRoute(builder: (context) => ShowItemPage()));
           },
           child: Column(
             children: [
