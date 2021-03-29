@@ -4,6 +4,7 @@ import 'package:first_app/show_products_page/search_box.dart';
 import 'package:first_app/show_products_page/show_items.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'TreeItem.dart';
 
 class TypeOfTrees extends StatefulWidget {
@@ -27,10 +28,10 @@ class _TypeOfTreesState extends State<TypeOfTrees> {
           backgroundColor: Color(0xFF407C5A),
           actions: [
             IconButton(
-              icon: Image.asset(
-                'assets/alert.png',
-                width: 35,
-                height: 35,
+              icon: Icon(
+                FontAwesomeIcons.bell,
+                color: Colors.white,
+                size: 27.0,
               ),
               onPressed: () {},
             )
