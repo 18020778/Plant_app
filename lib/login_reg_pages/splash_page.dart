@@ -27,7 +27,6 @@ class _SplashPageState extends State<SplashPage> {
           ),
         ),
         child: Column(
-
           children: <Widget>[
             SizedBox(height: 150),
             Image.asset('assets/logo.png', width: 280, height: 280,),

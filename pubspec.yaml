@@ -80,6 +80,12 @@ flutter:
     - assets/hong.jpg
     - assets/cuc.jpg
     - assets/bonsai.jpg
+    - assets/sun.png
+    - assets/temperature.png
+    - assets/droplet.png
+    - assets/addToCart.png
+    - assets/message.png
+    - assets/checkIcon.png
 
   # To add assets to your application, add an assets section, like this:
   # assets:
@@ -102,6 +108,9 @@ flutter:
         fonts:
           - asset: fonts/AkayaTelivigala-Regular.ttf
 
+      - family: Merriweather
+        fonts:
+          - asset: fonts\Merriweather\Merriweather\Merriweather-Bold.ttf
   #       - asset: fonts/Schyler-Italic.ttf
   #        style: italic
   #   - family: Trajan Pro

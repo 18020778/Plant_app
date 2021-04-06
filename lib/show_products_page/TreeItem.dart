@@ -88,6 +88,8 @@ class _TreeItemState extends State<TreeItem> {
                               children: <Widget>[
                                 Text(
                                   widget.name,
+                                  overflow: TextOverflow.ellipsis,
+                                  maxLines: 1,
                                   style: TextStyle(
                                     fontSize: 16,
                                     fontWeight: FontWeight.w700,
