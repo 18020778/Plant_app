@@ -1,7 +1,7 @@
 
 import 'package:first_app/show_products_page/TreeItem.dart';
-import 'package:first_app/show_products_page/group_of_trees.dart';
-import 'package:first_app/show_products_page/type_of_trees.dart';
+import 'package:first_app/show_products_page/group_of_trees_0.dart';
+import 'package:first_app/show_products_page/type_of_trees_1.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 

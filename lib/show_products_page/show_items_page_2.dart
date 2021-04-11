@@ -1,6 +1,6 @@
-import 'package:first_app/show_products_page/bottom_nav_bar.dart';
-import 'package:first_app/show_products_page/search_box.dart';
-import 'package:first_app/show_products_page/show_items.dart';
+import 'package:first_app/show_products_page/bottom_nav_bar_0.dart';
+import 'package:first_app/show_products_page/search_box_012.dart';
+import 'package:first_app/show_products_page/show_items_3.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 

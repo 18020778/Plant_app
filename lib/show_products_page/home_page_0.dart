@@ -1,10 +1,10 @@
-import 'package:first_app/show_products_page/body_home.dart';
-import 'package:first_app/show_products_page/search_box.dart';
+import 'package:first_app/show_products_page/body_home_0.dart';
+import 'package:first_app/show_products_page/search_box_012.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
-import 'bottom_nav_bar.dart';
+import 'bottom_nav_bar_0.dart';
 
 class homePage extends StatefulWidget {
   @override
