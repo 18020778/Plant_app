@@ -1,4 +1,5 @@
 
+import 'package:first_app/buy_products/buy_card_1.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
@@ -81,7 +82,7 @@ class _showCartState extends State<showCart> {
               ),
           ),
         bottomNavigationBar: Container(
-          height: 70,
+          height: 60,
           decoration: BoxDecoration(
             color: Colors.white,
             borderRadius: BorderRadius.only(
@@ -99,7 +100,7 @@ class _showCartState extends State<showCart> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 10),
+              padding: const EdgeInsets.symmetric(horizontal: 30),
                 child: Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -109,10 +110,12 @@ class _showCartState extends State<showCart> {
                 ),
           ),
               RaisedButton(
-                padding: EdgeInsets.symmetric(vertical: 22, horizontal: 25),
+                padding: EdgeInsets.symmetric(vertical: 17, horizontal: 25),
                 color: Color(0xFF488B66),
                 child: Text("Mua hàng", style: TextStyle(color: Colors.white, fontSize: 22, fontWeight: FontWeight.w600),),
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.push(context, MaterialPageRoute(builder: (context) => buyCard()));
+                },
               ),
               ],
             ),
@@ -259,7 +262,7 @@ class _cartItemState extends State<cartItem> {
         ])
       ])),
     Container(
-      height: 15,
+      height: 10,
       decoration: BoxDecoration(
         color: Colors.black12
       ),

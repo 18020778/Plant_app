@@ -30,7 +30,7 @@ class _ShowItemPageState extends State<ShowItemPage> {
             )
           ]),
       body: ShowItem(),
-      bottomNavigationBar: BottomNavBar(),
+     // bottomNavigationBar: BottomNavBar(),
     );
   }
 }

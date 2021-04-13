@@ -146,10 +146,10 @@ class _TreeItemState extends State<TreeItem> {
                                       Row(
                                         children: <Widget>[
                                           Image.asset(
-                                            "assets/location.png",
-                                            width: 20,
+                                            "assets/location_small.png",
+                                            width: 19,
                                           ),
-                                          Text(widget.location),
+                                          Text(" " + widget.location),
                                         ],
                                       )
                                     ])

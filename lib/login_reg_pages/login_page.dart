@@ -1,8 +1,8 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:first_app/login_reg_pages/menu_page.dart';
 import 'package:first_app/login_reg_pages/register_welcome.dart';
+import 'package:first_app/page_bottomNavBar/summary_page.dart';
 import 'package:first_app/services/database.dart';
-import 'package:first_app/show_products_page/home_page_0.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -79,7 +79,7 @@ class _loginPageState extends State<loginPage> {
                             ),
                             onPressed: () {
                               //FirebaseAuth.instance.signOut();
-                              Navigator.push(context, MaterialPageRoute(builder: (context) => homePage()));
+                              Navigator.push(context, MaterialPageRoute(builder: (context) => SummaryPage()));
                               _verifyPhone();
                             },
                             child: Text("LOGIN",

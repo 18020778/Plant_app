@@ -86,6 +86,10 @@ flutter:
     - assets/addToCart.png
     - assets/message.png
     - assets/checkIcon.png
+    - assets/location.png
+    - assets/border.png
+    - assets/shop.png
+    - assets/location_small.png
 
   # To add assets to your application, add an assets section, like this:
   # assets:

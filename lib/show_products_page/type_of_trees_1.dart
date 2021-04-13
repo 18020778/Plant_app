@@ -100,7 +100,7 @@ class _TypeOfTreesState extends State<TypeOfTrees> {
           ShowItem(),
         ],
       )),
-      bottomNavigationBar: BottomNavBar(),
+      //bottomNavigationBar: BottomNavBar(),
     );
   }
 }
