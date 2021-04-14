@@ -1,8 +1,10 @@
-import 'package:first_app/show_products_page/body_home_0.dart';
-import 'package:first_app/show_products_page/show_items_page_2.dart';
+import 'file:///C:/flutter/first_app/lib/page_bottomNavBar/body_home_0.dart';
+import 'package:first_app/page_bottomNavBar/account_page.dart';
 import 'package:first_app/show_products_page/type_of_trees_1.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+
+import 'liked_page.dart';
 
 class SummaryPage extends StatefulWidget {
   @override
@@ -11,13 +13,11 @@ class SummaryPage extends StatefulWidget {
 
 class _SummaryPageState extends State<SummaryPage> {
   var _currentIndex = 0;
-  /*var appBarTabs = [
-    homeAppBar(),
-  ];*/
   var bodyTabs = [
     bodyHome(),
     TypeOfTrees(),
-    ShowItemPage(),
+    LikedPage(),
+    AccountPage()
   ];
 
   @override

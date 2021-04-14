@@ -6,8 +6,6 @@ import 'package:first_app/services/database.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-
-
 class loginPage extends StatefulWidget {
   @override
   _loginPageState createState() => _loginPageState();

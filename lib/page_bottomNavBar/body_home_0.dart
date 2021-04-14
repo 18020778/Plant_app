@@ -22,7 +22,7 @@ class _bodyHomeState extends State<bodyHome> {
 
     return Scaffold(
     appBar: PreferredSize(
-        preferredSize: Size.fromHeight(MediaQuery.of(context).size.height*0.16),
+        preferredSize: Size.fromHeight(MediaQuery.of(context).size.height*0.163),
     child: homeAppBar(),
     ),
       body: SingleChildScrollView(

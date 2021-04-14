@@ -90,6 +90,7 @@ flutter:
     - assets/border.png
     - assets/shop.png
     - assets/location_small.png
+    - assets/bg_account.jpg
 
   # To add assets to your application, add an assets section, like this:
   # assets:
