@@ -76,6 +76,24 @@ class _SummaryPageState extends State<SummaryPage> {
           ),
           BottomNavigationBarItem(
             icon: Icon(
+              FontAwesomeIcons.solidNewspaper,
+              color: Color(4281755726),
+              size: 27.0,
+            ),
+            activeIcon: Icon(
+              FontAwesomeIcons.solidNewspaper,
+              color: Color(0xFF488B66),
+              size: 27.0,
+            ),
+            title: Text(
+              'Cẩm nang',
+              style: TextStyle(
+                  color: Color(0xFF488B66)
+              ),
+            ),
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(
               FontAwesomeIcons.solidHeart,
               color: Color(4281755726),
               size: 27.0,
