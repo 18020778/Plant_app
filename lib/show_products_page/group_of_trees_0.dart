@@ -1,5 +1,5 @@
-import 'package:first_app/show_products_page/show_items.dart';
-import 'package:first_app/show_products_page/show_items_page.dart';
+import 'package:first_app/show_products_page/show_items_3.dart';
+import 'package:first_app/show_products_page/show_items_page_2.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 

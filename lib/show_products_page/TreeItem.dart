@@ -1,4 +1,4 @@
-import 'package:first_app/show_products_page/detail_item.dart';
+import 'package:first_app/show_products_page/detail_item_4.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -146,10 +146,10 @@ class _TreeItemState extends State<TreeItem> {
                                       Row(
                                         children: <Widget>[
                                           Image.asset(
-                                            "assets/location.png",
-                                            width: 20,
+                                            "assets/location_small.png",
+                                            width: 19,
                                           ),
-                                          Text(widget.location),
+                                          Text(" " + widget.location),
                                         ],
                                       )
                                     ])

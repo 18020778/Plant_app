@@ -1,11 +1,9 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:first_app/login_reg_pages/register_welcome.dart';
+import 'package:first_app/page_bottomNavBar/summary_page.dart';
 import 'package:first_app/services/database.dart';
-import 'package:first_app/show_products_page/home_page.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-
-
 
 class loginPage extends StatefulWidget {
   @override
@@ -239,7 +237,7 @@ class _loginPageState extends State<loginPage> {
         }
         else
           Navigator.push(
-              context, MaterialPageRoute(builder: (context) => homePage()));
+              context, MaterialPageRoute(builder: (context) => MenuPage));
       });
     });
   }

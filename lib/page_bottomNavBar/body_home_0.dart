@@ -1,9 +1,11 @@
 
 import 'package:first_app/show_products_page/TreeItem.dart';
-import 'package:first_app/show_products_page/group_of_trees.dart';
-import 'package:first_app/show_products_page/type_of_trees.dart';
+import 'package:first_app/show_products_page/group_of_trees_0.dart';
+import 'package:first_app/show_products_page/search_box_012.dart';
+import 'package:first_app/show_products_page/type_of_trees_1.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class bodyHome extends StatefulWidget {
   @override
@@ -18,11 +20,17 @@ class _bodyHomeState extends State<bodyHome> {
     PageController controller =
         PageController(viewportFraction: 0.4, initialPage: 1);
 
-    return SingleChildScrollView(
+    return Scaffold(
+    appBar: PreferredSize(
+        preferredSize: Size.fromHeight(MediaQuery.of(context).size.height*0.163),
+    child: homeAppBar(),
+    ),
+      body: SingleChildScrollView(
           child: Column(
               mainAxisSize: MainAxisSize.min,
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: <Widget>[
+                SizedBox(height: 10,),
                 Container(
                   alignment: Alignment.topLeft,
                   margin: EdgeInsets.only(left: 10, top: 10, bottom: 10),
@@ -102,9 +110,87 @@ class _bodyHomeState extends State<bodyHome> {
                   ),
                 ),
               ]),
-        );
+        ));
   }
 }
+class homeAppBar extends StatefulWidget {
+  @override
+  _homeAppBarState createState() => _homeAppBarState();
+}
+
+class _homeAppBarState extends State<homeAppBar> {
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+        height: 300,
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            begin: Alignment.topRight,
+            end: Alignment.bottomLeft,
+            colors: [Color(4281755726), Color(4284859275)],
+          ),
+          borderRadius: BorderRadius.only(
+            bottomLeft: Radius.circular(45),
+            bottomRight: Radius.circular(45),
+          ),
+        ),
+        child: SafeArea(
+          child: SingleChildScrollView(
+            child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: <Widget>[
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Align(
+                          alignment: Alignment.topLeft,
+                          child: Padding(
+                            padding: EdgeInsets.only(
+                              left: 32,
+                              top: 15,
+                            ),
+                            child: RichText(
+                                text: TextSpan(
+                                  children: [
+                                    TextSpan(
+                                        text: "Hi ",
+                                        style: TextStyle(fontSize: 26,
+                                            fontWeight: FontWeight.w700)
+                                    ),
+                                    TextSpan(
+                                        text: "Customer",
+                                        style: TextStyle(fontSize: 26,
+                                            fontWeight: FontWeight.w700)
+                                    ),
+                                    TextSpan(
+                                        text: "!",
+                                        style: TextStyle(fontSize: 26,
+                                            fontWeight: FontWeight.w700)
+                                    ),
+                                  ],
+                                )
+                            ),
+                          )
+                      ),
+                      IconButton(
+                        padding: EdgeInsets.only(top: 15, right: 15),
+                        icon: Icon(FontAwesomeIcons.bell, color: Colors.white,),
+                        onPressed: () {},
+                      )
+                    ],
+                  ),
+                  SearchBox(text: 'Litte Gardent',
+                    onChanged: (value) {},
+                  )
+                ]
+            ),
+          ),
+        ));
+  }
+
+
+}
+
 
 
 var bannerItems = [
