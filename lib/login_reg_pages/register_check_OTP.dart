@@ -1,6 +1,6 @@
 
-import 'package:first_app/login_reg_pages/menu_page.dart';
 import 'package:first_app/services/database.dart';
+import 'package:first_app/show_products_page/home_page.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -107,7 +107,7 @@ class _regOTPState extends State<regOTP> {
                           onPressed: (){
                             Navigator.push(
                                 context,
-                                MaterialPageRoute(builder: (context)=> MenuPage())
+                                MaterialPageRoute(builder: (context)=> homePage())
                             );
                           },
                           child: Text("COME IN",
@@ -174,7 +174,7 @@ class _regOTPState extends State<regOTP> {
             _createAccount(widget.user);
             Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) =>MenuPage()),
+              MaterialPageRoute(builder: (context) =>homePage()),
             );
           }
           else {

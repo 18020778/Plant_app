@@ -1,5 +1,4 @@
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:first_app/login_reg_pages/menu_page.dart';
 import 'package:first_app/login_reg_pages/register_welcome.dart';
 import 'package:first_app/services/database.dart';
 import 'package:first_app/show_products_page/home_page.dart';
@@ -79,8 +78,9 @@ class _loginPageState extends State<loginPage> {
                             ),
                             onPressed: () {
                               //FirebaseAuth.instance.signOut();
-                              Navigator.push(context, MaterialPageRoute(builder: (context) => homePage()));
                               _verifyPhone();
+                             // Navigator.push(context, MaterialPageRoute(builder: (context) => homePage()));
+
                             },
                             child: Text("LOGIN",
                               style: TextStyle(
@@ -239,7 +239,7 @@ class _loginPageState extends State<loginPage> {
         }
         else
           Navigator.push(
-              context, MaterialPageRoute(builder: (context) => MenuPage()));
+              context, MaterialPageRoute(builder: (context) => homePage()));
       });
     });
   }

@@ -47,11 +47,9 @@ class Database{
          return retVal;
        }
 
-    }catch(e){
+    }catch(e) {
       print(e);
     }
-
-
   }
 
 }
