@@ -1,5 +1,6 @@
-import 'file:///C:/flutter/first_app/lib/page_bottomNavBar/body_home_0.dart';
 import 'package:first_app/page_bottomNavBar/account_page.dart';
+import 'package:first_app/show_products_page/body_home_0.dart';
+import 'file:///C:/flutter/first_app/lib/wallet/wallet_page.dart';
 import 'package:first_app/show_products_page/type_of_trees_1.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -15,6 +16,7 @@ class _SummaryPageState extends State<SummaryPage> {
   var _currentIndex = 0;
   var bodyTabs = [
     bodyHome(),
+    WalletPage(),
     TypeOfTrees(),
     LikedPage(),
     AccountPage()
