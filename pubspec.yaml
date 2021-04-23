@@ -24,6 +24,11 @@ dependencies:
   flutter:
     sdk: flutter
 
+  basic_utils:
+  flutter_cupertino_date_picker: ^1.0.26+2
+  intl: ^0.17.0
+  image_picker: ^0.6.7
+  flutter_datetime_picker:
   carousel_pro: ^0.0.13
   firebase_auth: ^0.14.0+5
   firebase_core_web: ^0.2.1+3
@@ -95,6 +100,7 @@ flutter:
     - assets/addWallet.png
     - assets/add_card.png
     - assets/viewCard.png
+    - assets/sell_icon.png
 
   # To add assets to your application, add an assets section, like this:
   # assets:
