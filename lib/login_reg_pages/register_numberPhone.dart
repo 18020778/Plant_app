@@ -1,5 +1,6 @@
 
 import 'package:first_app/login_reg_pages/register_check_OTP.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
@@ -63,6 +64,7 @@ class _regNumberPhoneState extends State<regNumberPhone> {
                 ),
                 onPressed: () {
                   widget.user.setPhoneNumber(this.phoneNumber);
+                  print(this.phoneNumber);
                  // _verifyPhone();
                   Navigator.push(context, MaterialPageRoute(builder: (context)=>regOTP(user: widget.user)));
                 },

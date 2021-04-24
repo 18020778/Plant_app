@@ -1,5 +1,6 @@
 
-import 'package:first_app/login_reg_pages/menu_page.dart';
+import 'package:first_app/login_reg_pages/login_page.dart';
+import 'package:first_app/page_bottomNavBar/summary_page.dart';
 import 'package:first_app/services/database.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -67,7 +68,6 @@ class _regOTPState extends State<regOTP> {
                     controller: _controler,
                     onChanged: (val){
                       smsCode = val;
-                      print(widget.user.getPhoneNumber());
                       if(val.length == 6){
                         FirebaseAuth.instance.currentUser().then((user){
                           if(user!=null){
@@ -107,7 +107,7 @@ class _regOTPState extends State<regOTP> {
                           onPressed: (){
                             Navigator.push(
                                 context,
-                                MaterialPageRoute(builder: (context)=> MenuPage())
+                                MaterialPageRoute(builder: (context)=> loginPage())
                             );
                           },
                           child: Text("COME IN",
@@ -131,6 +131,7 @@ class _regOTPState extends State<regOTP> {
   }
   // verify
   Future <void> verifyPhone() async {
+    print("inside ");
     // Automatic handling of the SMS code on Android devices
     final PhoneVerificationCompleted verificationCompleted = (AuthCredential credential) async{
 
@@ -165,6 +166,7 @@ class _regOTPState extends State<regOTP> {
     AuthCredential phoneAuthCredential = PhoneAuthProvider.getCredential(verificationId: verificationCode, smsCode: smsCode);
     // Sign in to an existing phone number/ sign up with a new phonenumber
       FirebaseAuth.instance.signInWithCredential(phoneAuthCredential).then((user){
+        //print("this is uid of user: " + user.user.uid);
         widget.user.setUid(user.user.uid);
       setState(() {
         _clearString = false;
@@ -174,7 +176,7 @@ class _regOTPState extends State<regOTP> {
             _createAccount(widget.user);
             Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) =>MenuPage()),
+              MaterialPageRoute(builder: (context) =>loginPage()),
             );
           }
           else {

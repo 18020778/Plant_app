@@ -1,6 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:first_app/login_reg_pages/menu_page.dart';
 import 'package:first_app/login_reg_pages/register_welcome.dart';
+import 'package:first_app/models/user.dart';
 import 'package:first_app/page_bottomNavBar/summary_page.dart';
 import 'package:first_app/services/database.dart';
 import 'package:flutter/cupertino.dart';
@@ -76,8 +76,6 @@ class _loginPageState extends State<loginPage> {
                               borderRadius: BorderRadius.all(Radius.circular(20)),
                             ),
                             onPressed: () {
-                              //FirebaseAuth.instance.signOut();
-                              Navigator.push(context, MaterialPageRoute(builder: (context) => SummaryPage()));
                               _verifyPhone();
                             },
                             child: Text("LOGIN",
@@ -145,82 +143,86 @@ class _loginPageState extends State<loginPage> {
   }
 
   Future <void> _verifyPhone() async {
+    print("inside verifyPhone");
     // Automatic handling of the SMS code on Android devices
-    final PhoneVerificationCompleted verificationCompleted = (
-        AuthCredential credential) async {
-      await FirebaseAuth.instance.signInWithCredential(credential);
-    };
+        final PhoneVerificationCompleted verificationCompleted = (
+            AuthCredential credential) async {
+          await FirebaseAuth.instance.signInWithCredential(credential);
+        };
 
 
-    // Handle failure events : invalid phoneNumber, ...
-    final PhoneVerificationFailed phoneVerificationFailed = (
-        AuthException exception) {
-      print("${exception.message}");
-    };
+        // Handle failure events : invalid phoneNumber, ...
+        final PhoneVerificationFailed phoneVerificationFailed = (
+            AuthException exception) {
+          print("${exception.message}");
+        };
 
-    // Handle when a code has been sent to the sevice form Firebase
-    final PhoneCodeSent phoneCodeSent = (String verId, [int forceCodeResend]) {
-      this.verificationCode = verId;
-      smsCodeDialog(context).then((value) =>
-      {
-        print("Signed In")
-      }
-      );
-    };
+        // Handle when a code has been sent to the sevice form Firebase
+        final PhoneCodeSent phoneCodeSent = (String verId, [int forceCodeResend]) {
+          this.verificationCode = verId;
+          smsCodeDialog(context).then((value) =>
+          {
+            print("Signed In")
+          }
+          );
+        };
 
-    final PhoneCodeAutoRetrievalTimeout autoRetrievalTimeout = (String verId) {
-      this.verificationCode = verId;
-    };
+        final PhoneCodeAutoRetrievalTimeout autoRetrievalTimeout = (String verId) {
+          this.verificationCode = verId;
+        };
 
 
-    await FirebaseAuth.instance.verifyPhoneNumber(
-        phoneNumber: this.phoneNumber,
-        timeout: const Duration(seconds: 5),
-        verificationCompleted: verificationCompleted,
-        verificationFailed: phoneVerificationFailed,
-        codeSent: phoneCodeSent,
-        codeAutoRetrievalTimeout: autoRetrievalTimeout);
+        await FirebaseAuth.instance.verifyPhoneNumber(
+            phoneNumber: this.phoneNumber,
+            timeout: const Duration(seconds: 5),
+            verificationCompleted: verificationCompleted,
+            verificationFailed: phoneVerificationFailed,
+            codeSent: phoneCodeSent,
+            codeAutoRetrievalTimeout: autoRetrievalTimeout);
+
+
   }
 
-  Future<bool> smsCodeDialog(BuildContext context) {
+  Future<bool> smsCodeDialog(BuildContext context) async {
     return showDialog(
-        context: context,
-        barrierDismissible: false,
-        builder: (BuildContext context) {
-          return AlertDialog(
-            title: Text("Enter Code",
-              style: TextStyle(
-                  color: Colors.green[900],
-                  fontSize: 20
-              ),),
-            content: TextField(
-              controller: txt,
-              onChanged: (val) {
-                smsCode = val;
-                if (val.length == 6) {
-                  FirebaseAuth.instance.currentUser().then((user) {
-                    if (user != null) {
-                      clearTextInput();
-                      FirebaseAuth.instance.signOut();
-                    } else {
-                      clearTextInput();
-                      signIn();
+                context: context,
+                barrierDismissible: false,
+                builder: (BuildContext context) {
+              return AlertDialog(
+                title: Text("Enter Code",
+                  style: TextStyle(
+                      color: Colors.green[900],
+                      fontSize: 20
+                  ),),
+                content: TextField(
+                  controller: txt,
+                  onChanged: (val) {
+                    smsCode = val;
+                    if (val.length == 6) {
+                      FirebaseAuth.instance.currentUser().then((user) {
+                        if (user != null) {
+                          clearTextInput();
+                          FirebaseAuth.instance.signOut();
+                        } else {
+                          clearTextInput();
+                          signIn();
+                        }
+                      });
                     }
-                  });
-                }
-              },
-              autofocus: true,
-              maxLength: 6,
-              style: TextStyle(
-                color: Colors.green[700],
-                fontSize: 30,
-                letterSpacing: 23,
+                  },
+                  autofocus: true,
+                  maxLength: 6,
+                  style: TextStyle(
+                    color: Colors.green[700],
+                    fontSize: 30,
+                    letterSpacing: 23,
 
-              ),
-            ),
-          );
-        }
-    );
+                  ),
+                ),
+              );
+            }
+        );
+
   }
 
   signIn() {
@@ -235,9 +237,11 @@ class _loginPageState extends State<loginPage> {
             this._visible = true;
           });
         }
-        else
+        else{
           Navigator.push(
-              context, MaterialPageRoute(builder: (context) => MenuPage()));
+              context, MaterialPageRoute(builder: (context) => SummaryPage(user: value)));
+        }
+
       });
     });
   }
