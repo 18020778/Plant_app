@@ -10,16 +10,15 @@ class _EditNameState extends State<EditName> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.white,
-        iconTheme: IconThemeData(
-          color: Color(0xFF407C5A), //change your color here
-        ),
-        title: Text("Sửa tên", style: TextStyle(color: Colors.black, fontSize: 22),),
+        toolbarHeight: 70,
         centerTitle: true,
+        title: Text('Sửa tên',
+          style: TextStyle(fontSize: 22),),
+        backgroundColor: Color(0xFF407C5A),
         actions: [
           FlatButton(
               onPressed: (){},
-              child: Text("Lưu", style: TextStyle( fontSize: 20, color: Color(0xFF407C5A)),)),
+              child: Text("Lưu", style: TextStyle( fontSize: 20, color: Colors.white),)),
         ],
       ),
       body: Container(
@@ -37,7 +36,8 @@ class _EditNameState extends State<EditName> {
               ),
               child: TextField(
                 style: TextStyle(fontSize: 20.0),
-                decoration: InputDecoration(contentPadding: EdgeInsets.all(8),
+                decoration: InputDecoration(
+                  contentPadding: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
                    filled: true,
                     fillColor: Colors.white,
                     hintText: "Nhập tại đây",
@@ -46,7 +46,7 @@ class _EditNameState extends State<EditName> {
               ),
             ),
             Padding(
-              padding: const EdgeInsets.all(8.0),
+              padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
               child: Text("Dưới 100 kí tự", style: TextStyle(color: Colors.black54, fontSize: 18),),
             )
           ],

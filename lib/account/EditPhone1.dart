@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:first_app/account/EditPhoneChange.dart';
+import 'package:first_app/account/EditPhoneChange2.dart';
 
 class EditPhone extends StatefulWidget {
   @override
@@ -11,12 +11,11 @@ class _EditPhoneState extends State<EditPhone> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.white,
-        iconTheme: IconThemeData(
-          color: Color(0xFF407C5A), //change your color here
-        ),
-        title: Text("Số điện thoại", style: TextStyle(color: Colors.black, fontSize: 22),),
+        toolbarHeight: 70,
         centerTitle: true,
+        title: Text('Số điện thoại',
+          style: TextStyle(fontSize: 22),),
+        backgroundColor: Color(0xFF407C5A),
       ),
       body: Container(
         decoration: BoxDecoration(

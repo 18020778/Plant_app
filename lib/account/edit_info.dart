@@ -275,33 +275,10 @@ class _EditInfoState extends State<EditInfo> {
                   )),
             ),
             Container(
-              height: 1,
-              decoration: BoxDecoration(color: Colors.grey),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: FlatButton(
-                  onPressed: () {},
-                  child: Row(
-                    children: [
-                      Text(
-                        "Email",
-                        style: TextStyle(fontSize: 20),
-                      ),
-                      new Spacer(),
-                      Text(
-                        "Thiết lập ngay",
-                        style: TextStyle(color: Colors.black54, fontSize: 18),
-                      ),
-                      Icon(Icons.arrow_forward_ios)
-                    ],
-                  )),
-            ),
-            Container(
-              height: 20,
+              height: 100,
               decoration: BoxDecoration(color: Colors.black12),
             ),
-            Padding(
+            /*Padding(
               padding: const EdgeInsets.all(8.0),
               child: FlatButton(
                   onPressed: () {},
@@ -315,7 +292,7 @@ class _EditInfoState extends State<EditInfo> {
                       Icon(Icons.arrow_forward_ios)
                     ],
                   )),
-            ),
+            ),*/
           ],
         ),
       ),
