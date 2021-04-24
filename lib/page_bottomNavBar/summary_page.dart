@@ -1,10 +1,11 @@
-import 'file:///C:/flutter/Plant_app-main/lib/account/account_page.dart';
+
 import 'package:first_app/show_products_page/body_home_0.dart';
 import 'package:first_app/show_products_page/type_of_trees_1.dart';
 import 'package:first_app/wallet/wallet_page.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
+import '../account/account_page.dart';
 import 'liked_page.dart';
 
 class SummaryPage extends StatefulWidget {

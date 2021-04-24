@@ -24,7 +24,7 @@ class _EditNameState extends State<EditName> {
       ),
       body: Container(
         decoration: BoxDecoration(
-          color: Colors.black12
+          color: Colors.black12.withOpacity(0.1),
         ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
