@@ -6,8 +6,10 @@ class User{
   String phoneNumber;
   String email;
   String urlImage;
-      String address;
+  String address;
   Timestamp accountCreated;
+
+
 
   // getter and setter
   Timestamp getAccountCreated(){
@@ -50,5 +52,4 @@ class User{
   void setAddress(String address){
     this.address = address;
   }
-
 }

@@ -1,4 +1,9 @@
 
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:first_app/login_reg_pages/loading.dart';
+import 'package:first_app/models/categories.dart';
+import 'package:first_app/models/user.dart';
+import 'package:first_app/services/category_service.dart';
 import 'package:first_app/show_products_page/TreeItem.dart';
 import 'package:first_app/show_products_page/group_of_trees_0.dart';
 import 'package:first_app/show_products_page/search_box_012.dart';
@@ -8,22 +13,42 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class bodyHome extends StatefulWidget {
+  User user;
   @override
   _bodyHomeState createState() => _bodyHomeState();
+  bodyHome({this.user});
 }
 
 class _bodyHomeState extends State<bodyHome> {
+  List<Categories> listCategories = new List();
+  bool viewResult = false;
+  // @override
+  void initState() {
+    super.initState();
+     CategoryService().getCategories().then((QuerySnapshot docs){
+      if(docs.documents.isNotEmpty){
+        docs.documents.forEach((element) {
+          setState(() {
+            this.viewResult = true;
+          });
+          listCategories.add(Categories.fromJson(element.data));
+        });
+      }else {
+        print("Empty");
+      }
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     var screenWidth = MediaQuery.of(context).size.width;
     var screenHeight = MediaQuery.of(context).size.height;
     PageController controller =
         PageController(viewportFraction: 0.4, initialPage: 1);
-
-    return Scaffold(
+    return viewResult ? Scaffold(
     appBar: PreferredSize(
         preferredSize: Size.fromHeight(MediaQuery.of(context).size.height*0.163),
-    child: homeAppBar(),
+    child: homeAppBar(user: widget.user),
     ),
       body: SingleChildScrollView(
           child: Column(
@@ -41,7 +66,7 @@ class _bodyHomeState extends State<bodyHome> {
                         fontWeight: FontWeight.w700, fontSize: 25),
                   ),
                 ),
-                ListTypeOfTrees(),
+                ListTypeOfTrees(this.listCategories),
                 SizedBox(height: 10,),
                 Container(
                   alignment: Alignment.topLeft,
@@ -110,17 +135,23 @@ class _bodyHomeState extends State<bodyHome> {
                   ),
                 ),
               ]),
-        ));
+        )) : Loading();
   }
 }
 class homeAppBar extends StatefulWidget {
+  User user ;
   @override
   _homeAppBarState createState() => _homeAppBarState();
+
+  homeAppBar({this.user});
 }
 
 class _homeAppBarState extends State<homeAppBar> {
+
   @override
   Widget build(BuildContext context) {
+
+
     return Container(
         height: 300,
         decoration: BoxDecoration(
@@ -158,12 +189,12 @@ class _homeAppBarState extends State<homeAppBar> {
                                             fontWeight: FontWeight.w700)
                                     ),
                                     TextSpan(
-                                        text: "Customer",
+                                        text: " " + widget.user.getUserName().toString(),
                                         style: TextStyle(fontSize: 26,
                                             fontWeight: FontWeight.w700)
                                     ),
                                     TextSpan(
-                                        text: "!",
+                                        text: " !",
                                         style: TextStyle(fontSize: 26,
                                             fontWeight: FontWeight.w700)
                                     ),
@@ -189,10 +220,11 @@ class _homeAppBarState extends State<homeAppBar> {
   }
 
 
+
+
+
+
 }
-
-
-
 var bannerItems = [
   'Cây phong thủy',
   'Cây trong nhà',
@@ -215,14 +247,15 @@ var bannerImages = [
   'assets/cay_day_leo.jpg',
   'assets/xuong_rong.jpg'
 ];
-
-class ListTypeOfTrees extends StatelessWidget {
+class ListTypeOfTrees extends StatelessWidget{
+  List<Categories> listCategories = new List();
+  ListTypeOfTrees(this.listCategories);
   @override
   Widget build(BuildContext context) {
     PageController controller =
         PageController(viewportFraction: 0.6, initialPage: 1);
     List<Widget> banners = new List<Widget>();
-    for (int i = 0; i < bannerItems.length; i++) {
+    for (int i = 0; i < listCategories.length; i++) {
       var bannerView = Padding(
         padding: EdgeInsets.fromLTRB(10, 0, 10, 20),
         child: InkWell(
@@ -254,7 +287,7 @@ class ListTypeOfTrees extends StatelessWidget {
                 ClipRRect(
                       borderRadius: BorderRadius.all(Radius.circular(20.0)),
                       child: Image.asset(
-                        bannerImages[i],
+                        listCategories[i].getImageUrl(),
                         fit: BoxFit.cover,
                       )),
                 Container(
@@ -272,7 +305,7 @@ class ListTypeOfTrees extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
                       Text(
-                        bannerItems[i],
+                        listCategories[i].getCategoryName(),
                         style: TextStyle(fontSize: 25, color: Colors.white),
                       ),
                       RichText(

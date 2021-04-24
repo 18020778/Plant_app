@@ -29,7 +29,7 @@ class Database{
   // get User Info
 
   Future <dynamic> getUserInfo(String uid) async{
-    User retVal = User();
+    User retVal =new User();
     try{
        DocumentSnapshot _docSnapshot = await Firestore.instance.collection("users").document(uid).get();
        if (!_docSnapshot.exists)
@@ -43,7 +43,7 @@ class Database{
          retVal.phoneNumber = _docSnapshot.data["phoneNumber"];
          retVal.email = _docSnapshot.data["email"];
          retVal.urlImage = _docSnapshot.data["urlImage"];
-         retVal.accountCreated = _docSnapshot.data['accountCreated'];
+         retVal.accountCreated = _docSnapshot.data["accountCreated"];
          return retVal;
        }
 

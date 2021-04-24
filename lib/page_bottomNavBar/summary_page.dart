@@ -1,5 +1,9 @@
-import 'file:///C:/flutter/first_app/lib/page_bottomNavBar/body_home_0.dart';
+
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:first_app/models/user.dart';
 import 'package:first_app/page_bottomNavBar/account_page.dart';
+import 'package:first_app/page_bottomNavBar/body_home_0.dart';
+import 'package:first_app/services/database.dart';
 import 'package:first_app/show_products_page/type_of_trees_1.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -7,22 +11,35 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'liked_page.dart';
 
 class SummaryPage extends StatefulWidget {
+  User user;
+
+  SummaryPage({this.user});
+
   @override
   _SummaryPageState createState() => _SummaryPageState();
 }
 
 class _SummaryPageState extends State<SummaryPage> {
   var _currentIndex = 0;
-  var bodyTabs = [
-    bodyHome(),
-    TypeOfTrees(),
-    LikedPage(),
-    AccountPage()
-  ];
-
   @override
   Widget build(BuildContext context) {
+
+    // User.
+
+    // getCurrentUid().then((value) => getUid(value.toString()));
+    // Database().getUserInfo(this.uid).then((value) => getUser(value));
+    //print("uid hahaha : " +  this.uid);
+    List<Widget> _bodyTabs() => [
+      bodyHome(user: widget.user),
+      TypeOfTrees(),
+      LikedPage(),
+      AccountPage(user: widget.user)
+    ];
+
+    final List<Widget> bodyTabs = _bodyTabs();
     var height = (_currentIndex == 0 ? 117.0 : 100.0);
+
+
     return Scaffold(
       /*appBar: PreferredSize(
         preferredSize: Size.fromHeight(height),

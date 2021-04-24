@@ -1,11 +1,16 @@
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:first_app/login_reg_pages/login_page.dart';
+import 'package:first_app/models/user.dart';
 import 'package:first_app/show_products_page/TreeItem.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class AccountPage extends StatefulWidget {
+  User user;
   @override
   _AccountPageState createState() => _AccountPageState();
+  AccountPage({this.user});
 }
 
 class _AccountPageState extends State<AccountPage> {
@@ -61,7 +66,7 @@ class _AccountPageState extends State<AccountPage> {
                             height: 15,
                           ),
                           Text(
-                            "Nguyễn Hồng Lĩnh",
+                            "" + widget.user.getUserName(),
                             style: TextStyle(
                                 color: Colors.white,
                                 fontSize: 23,
@@ -234,7 +239,17 @@ class _AccountPageState extends State<AccountPage> {
                         decoration: BoxDecoration(color: Colors.white),
                       ),
                       SizedBox(height: 15,),
-                      FlatButton(onPressed: (){},
+                      FlatButton(onPressed: (){
+                          FirebaseAuth.instance.currentUser().then((user){
+                          if(user!=null){
+                          // User is signed in
+                          FirebaseAuth.instance.signOut();
+                          Navigator.push(
+                            context, MaterialPageRoute(builder: (context) => loginPage()));
+                          }
+                          });
+
+                      },
                         padding: EdgeInsets.zero,
                         child:
                         Text("Đăng xuất", style: TextStyle(fontSize: 24),),
