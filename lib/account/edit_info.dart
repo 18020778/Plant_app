@@ -14,7 +14,6 @@ class EditInfo extends StatefulWidget {
 
 class _EditInfoState extends State<EditInfo> {
   File imageFile;
-  final picker = ImagePicker();
 
   DateTime dateTime = DateTime.now();
   String value = "Thiết lập ngay";
@@ -24,7 +23,7 @@ class _EditInfoState extends State<EditInfo> {
   var gentle = "Thiết lập ngay";
 
   _openGallery(BuildContext context) async {
-    PickedFile picture = await picker.getImage(source: ImageSource.gallery);
+    var picture = await ImagePicker.pickImage(source: ImageSource.gallery);
     setState(() {
       if (picture != null) {
         imageFile = File(picture.path);
@@ -34,7 +33,7 @@ class _EditInfoState extends State<EditInfo> {
   }
 
   _openCamera(BuildContext context) async {
-    var picture = await picker.getImage(source: ImageSource.camera);
+    var picture = await ImagePicker.pickImage(source: ImageSource.camera);
     this.setState(() {
       imageFile = File(picture.path);
     });

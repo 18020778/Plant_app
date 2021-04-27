@@ -76,7 +76,9 @@ class _loginPageState extends State<loginPage> {
                               borderRadius: BorderRadius.all(Radius.circular(20)),
                             ),
                             onPressed: () {
-                              _verifyPhone();
+                              Navigator.push(context, MaterialPageRoute(
+                                  builder: (context) => SummaryPage()));
+                              //_verifyPhone();
                             },
                             child: Text("LOGIN",
                               style: TextStyle(
