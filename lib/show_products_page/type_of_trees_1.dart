@@ -1,3 +1,7 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:first_app/login_reg_pages/loading.dart';
+import 'package:first_app/models/plant.dart';
+import 'package:first_app/services/plant_service.dart';
 import 'package:first_app/show_products_page/group_of_trees_0.dart';
 import 'package:first_app/show_products_page/search_box_012.dart';
 import 'package:first_app/show_products_page/show_items_3.dart';
@@ -7,18 +11,22 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'TreeItem.dart';
 
 class TypeOfTrees extends StatefulWidget {
+  String categoryId;
   @override
   _TypeOfTreesState createState() => _TypeOfTreesState();
+  TypeOfTrees({this.categoryId});
 }
 
 class _TypeOfTreesState extends State<TypeOfTrees> {
+  bool viewResult = false;
+  List<Plants> listPlantGroupByCategory = new List();
   PageController controller =
       PageController(viewportFraction: 0.4, initialPage: 1);
 
   Widget build(BuildContext context) {
     var screenHeight = MediaQuery.of(context).size.height;
     var screenWidth = MediaQuery.of(context).size.width;
-    return Scaffold(
+    return viewResult ? Scaffold(
       appBar: AppBar(
           toolbarHeight: 75,
           title: SearchBox(text: 'NameTypeOfTree'),
@@ -50,17 +58,7 @@ class _TypeOfTreesState extends State<TypeOfTrees> {
                   fontSize: 25),
             ),
           ),
-          ListGroupOfTrees(groupItems: [
-            "Hoa Lan",
-            "Hoa cúc",
-            "Hoa Hồng",
-            "Bonsai"
-          ], groupImages: [
-            'assets/lan.jpg',
-            'assets/cuc.jpg',
-            'assets/hong.jpg',
-            'assets/bonsai.jpg'
-          ]),
+          ListGroupOfTrees(this.listPlantGroupByCategory),
           Container(
             alignment: Alignment.topLeft,
             margin: EdgeInsets.only(left: 10, top: 10),
@@ -100,6 +98,20 @@ class _TypeOfTreesState extends State<TypeOfTrees> {
         ],
       )),
       //bottomNavigationBar: BottomNavBar(),
-    );
+    ) : Loading();
+  }
+
+  @override
+  void initState() {
+    PlantService().getPlantsGroupByCategory(widget.categoryId).then((QuerySnapshot docs){
+      if(docs.documents.isNotEmpty){
+          docs.documents.forEach((element) {
+              listPlantGroupByCategory.add(Plants.fromJson(element.data));
+          });
+      }
+      setState(() {
+        this.viewResult = true;
+      });
+    });
   }
 }

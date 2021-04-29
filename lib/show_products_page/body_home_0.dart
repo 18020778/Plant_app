@@ -2,8 +2,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:first_app/login_reg_pages/loading.dart';
 import 'package:first_app/models/categories.dart';
+import 'package:first_app/models/plant.dart';
 import 'package:first_app/models/user.dart';
 import 'package:first_app/services/category_service.dart';
+import 'package:first_app/services/plant_service.dart';
 import 'package:first_app/show_products_page/TreeItem.dart';
 import 'package:first_app/show_products_page/group_of_trees_0.dart';
 import 'package:first_app/show_products_page/search_box_012.dart';
@@ -21,7 +23,10 @@ class bodyHome extends StatefulWidget {
 
 class _bodyHomeState extends State<bodyHome> {
   List<Categories> listCategories = new List();
-  bool viewResult = false;
+  List<Plants> listPlants = new List();
+  // var viewResult = new List();
+  var viewResult = 0;
+  bool showResult =  false;
   // @override
   void initState() {
     super.initState();
@@ -29,7 +34,8 @@ class _bodyHomeState extends State<bodyHome> {
       if(docs.documents.isNotEmpty){
         docs.documents.forEach((element) {
           setState(() {
-            this.viewResult = true;
+            this.viewResult +=1;
+            if (this.viewResult == 2) this.showResult = true;
           });
           listCategories.add(Categories.fromJson(element.data));
         });
@@ -37,6 +43,20 @@ class _bodyHomeState extends State<bodyHome> {
         print("Empty");
       }
     });
+    PlantService().getPlants().then((QuerySnapshot docs){
+      if(docs.documents.isNotEmpty){
+          docs.documents.forEach((element) {
+            setState(() {
+              this.viewResult +=1;
+              if (this.viewResult == 2) this.showResult = true;
+            });
+            listPlants.add(Plants.fromJson(element.data));
+          });
+      }else{
+        print("Empty");
+      }
+    });
+
   }
 
   @override
@@ -45,7 +65,7 @@ class _bodyHomeState extends State<bodyHome> {
     var screenHeight = MediaQuery.of(context).size.height;
     PageController controller =
     PageController(viewportFraction: 0.4, initialPage: 1);
-    return viewResult ? Scaffold(
+    return this.showResult ? Scaffold(
         appBar: PreferredSize(
           preferredSize: Size.fromHeight(MediaQuery.of(context).size.height*0.163),
           child: homeAppBar(user: widget.user),
@@ -78,16 +98,7 @@ class _bodyHomeState extends State<bodyHome> {
                         fontWeight: FontWeight.w700, fontSize: 25),
                   ),
                 ),
-                ListGroupOfTrees(
-                    groupItems: ["Hoa cúc", "Hoa Lan", "Hoa cúc", "Hoa Hồng",  "Bonsai"],
-                    groupImages: [
-                      'assets/cuc.jpg',
-                      'assets/lan.jpg',
-                      'assets/cuc.jpg',
-                      'assets/hong.jpg',
-                      'assets/bonsai.jpg'
-                    ]
-                ),
+                ListGroupOfTrees(this.listPlants),
                 SizedBox(height: 10,),
                 Container(
                   alignment: Alignment.topLeft,
@@ -218,12 +229,6 @@ class _homeAppBarState extends State<homeAppBar> {
           ),
         ));
   }
-
-
-
-
-
-
 }
 // var bannerItems = [
 //   'Cây phong thủy',
@@ -260,7 +265,7 @@ class ListTypeOfTrees extends StatelessWidget{
         padding: EdgeInsets.fromLTRB(10, 0, 10, 20),
         child: InkWell(
           onTap: (){
-            Navigator.push(context, MaterialPageRoute(builder: (context) => TypeOfTrees()));
+            Navigator.push(context, MaterialPageRoute(builder: (context) => TypeOfTrees(categoryId: listCategories[i].getCategoryId(),)));
           },
           child: Container(
             child: Stack(
@@ -308,22 +313,22 @@ class ListTypeOfTrees extends StatelessWidget{
                         listCategories[i].getCategoryName(),
                         style: TextStyle(fontSize: 25, color: Colors.white),
                       ),
-                      RichText(
-                        text: TextSpan(children: [
-                          TextSpan(
-                            text: 'Có ',
-                            style: TextStyle(fontSize: 15, color: Colors.white),
-                          ),
-                          TextSpan(
-                            text: '... ',
-                            style: TextStyle(fontSize: 15, color: Colors.white),
-                          ),
-                          TextSpan(
-                            text: 'Sản phẩm',
-                            style: TextStyle(fontSize: 15, color: Colors.white),
-                          ),
-                        ]),
-                      )
+                      // RichText(
+                      //   text: TextSpan(children: [
+                      //     TextSpan(
+                      //       text: 'Có ',
+                      //       style: TextStyle(fontSize: 15, color: Colors.white),
+                      //     ),
+                      //     TextSpan(
+                      //       text: '...',
+                      //       style: TextStyle(fontSize: 15, color: Colors.white),
+                      //     ),
+                      //     TextSpan(
+                      //       text: 'Sản phẩm',
+                      //       style: TextStyle(fontSize: 15, color: Colors.white),
+                      //     ),
+                      //   ]),
+                      // )
                     ],
                   ),
                 )

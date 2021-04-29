@@ -1,4 +1,6 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:first_app/account/edit_info.dart';
+import 'package:first_app/lib/login_reg_pages/login_page.dart';
 import 'package:first_app/models/user.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -12,7 +14,6 @@ class AccountPage extends StatefulWidget {
 }
 
 class _AccountPageState extends State<AccountPage> {
-
   @override
   Widget build(BuildContext context) {
     var screenHeight = MediaQuery.of(context).size.height;
@@ -64,7 +65,7 @@ class _AccountPageState extends State<AccountPage> {
                                 height: 15,
                               ),
                               Text(
-                                ""+widget.user.getUserName(),
+                                widget.user.getUserName().toString(),
                                 style: TextStyle(
                                     color: Colors.white,
                                     fontSize: 23,
@@ -160,7 +161,7 @@ class _AccountPageState extends State<AccountPage> {
                             decoration: BoxDecoration(color: Colors.white),
                           ),
                           FlatButton(onPressed: (){
-                            Navigator.push(context, MaterialPageRoute(builder: (context) => EditInfo()));
+                            Navigator.push(context, MaterialPageRoute(builder: (context) => EditInfo(user: widget.user,)));
                           },
                               child: Row(
                                 children: [
@@ -237,7 +238,10 @@ class _AccountPageState extends State<AccountPage> {
                             decoration: BoxDecoration(color: Colors.white),
                           ),
                           SizedBox(height: 15,),
-                          FlatButton(onPressed: (){},
+                          FlatButton(onPressed: (){
+                            FirebaseAuth.instance.signOut();
+                            Navigator.push(context,  MaterialPageRoute(builder: (context)=> loginPage()));
+                          },
                             padding: EdgeInsets.zero,
                             child:
                             Text("Đăng xuất", style: TextStyle(fontSize: 24),),

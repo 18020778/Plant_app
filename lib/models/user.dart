@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/cupertino.dart';
 
 class User{
   String uid;
@@ -6,14 +7,20 @@ class User{
   String phoneNumber;
   String email;
   String urlImage;
-  String address;
+  String gender;
   Timestamp accountCreated;
-
+  Timestamp dob;
 
 
   // getter and setter
   Timestamp getAccountCreated(){
     return this.accountCreated;
+  }
+  Timestamp getDob(){
+    return this.dob;
+  }
+  void setDob(Timestamp timestamp){
+    this.dob = timestamp;
   }
   String getUid(){
     return this.uid;
@@ -46,10 +53,10 @@ class User{
   void setUrlImage(String urlImage){
     this.urlImage = urlImage;
   }
-  String getAddress(){
-    return this.address;
+  String getGender(){
+    return this.gender;
   }
-  void setAddress(String address){
-    this.address = address;
+  void setGender(String gender){
+    this.gender = gender;
   }
 }

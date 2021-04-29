@@ -1,7 +1,16 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 class PlantService{
-  FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
-
-
+  getPlants()  {
+    return   Firestore.instance
+        .collection("plants")
+        .getDocuments();
+  }
+  getPlantsGroupByCategory(String categoryId){
+    return Firestore.instance
+          .collection("plants")
+          .where('categoryId', isEqualTo: categoryId)
+          .getDocuments();
+  }
 }

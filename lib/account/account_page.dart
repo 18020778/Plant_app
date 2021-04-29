@@ -1,4 +1,6 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:first_app/account/edit_info.dart';
+import 'package:first_app/lib/login_reg_pages/login_page.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -234,7 +236,9 @@ class _AccountPageState extends State<AccountPage> {
                         decoration: BoxDecoration(color: Colors.white),
                       ),
                       SizedBox(height: 15,),
-                      FlatButton(onPressed: (){},
+                      FlatButton(onPressed: (){
+
+                      },
                         padding: EdgeInsets.zero,
                         child:
                         Text("Đăng xuất", style: TextStyle(fontSize: 24),),

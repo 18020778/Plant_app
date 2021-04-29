@@ -1,27 +1,46 @@
 import 'dart:io';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:first_app/account/editEmail.dart';
 import 'package:first_app/account/utlis.dart';
+import 'package:first_app/models/user.dart';
+import 'package:first_app/services/database.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'EditName.dart';
 import 'package:intl/intl.dart';
 import 'package:first_app/account/EditPhone1.dart';
-
 class EditInfo extends StatefulWidget {
+  User user;
   @override
   _EditInfoState createState() => _EditInfoState();
+  EditInfo({this.user});
 }
 
 class _EditInfoState extends State<EditInfo> {
+  User user;
+  @override
+  void initState() {
+    super.initState();
+    this.userName = widget.user.getUserName();
+    this.gender = widget.user.getGender();
+    if(widget.user.getDob() !=null ){
+      this.dateTime = DateTime.fromMillisecondsSinceEpoch(widget.user.getDob().seconds*1000);
+    }
+    this.phoneNumber = widget.user.phoneNumber;
+    this.email = widget.user.email;
+  }
+  String userName =  "";
+  String gender =  "";
+  String phoneNumber = "";
+  String email = "";
   File imageFile;
   final picker = ImagePicker();
-
   DateTime dateTime = DateTime.now();
   String value = "Thiết lập ngay";
 
-  var index = 0;
+  var index = 1;
   static List<String> gentles = ['Nam', 'Nữ', 'Khác'];
-  var gentle = "Thiết lập ngay";
 
   _openGallery(BuildContext context) async {
     PickedFile picture = await picker.getImage(source: ImageSource.gallery);
@@ -42,6 +61,7 @@ class _EditInfoState extends State<EditInfo> {
   }
 
   Future<void> _showChoiceDialog(BuildContext context) {
+
     return showDialog(
         context: context,
         builder: (BuildContext context) {
@@ -89,7 +109,17 @@ class _EditInfoState extends State<EditInfo> {
         centerTitle: true,
         actions: [
           FlatButton(
-              onPressed: () {},
+              onPressed: () {
+                print("this is "+widget.user.getUid());
+                widget.user.setEmail(this.email);
+                widget.user.setGender(this.gender);
+                widget.user.setUserName(this.userName);
+                widget.user.setDob(Timestamp.fromDate(this.dateTime));
+                print(widget.user.getEmail());
+                Database().updateUser(widget.user);
+                
+                Navigator.pop(context);
+              },
               child: Text(
                 "Lưu",
                 style: TextStyle(fontSize: 20, color: Color(0xFF407C5A)),
@@ -150,19 +180,22 @@ class _EditInfoState extends State<EditInfo> {
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: FlatButton(
-                  onPressed: () {
-                    Navigator.push(context,
+                  onPressed: () async {
+                     final result = await Navigator.push(context,
                         MaterialPageRoute(builder: (context) => EditName()));
+                     setState(() {
+                       this.userName =  result;
+                     });
                   },
                   child: Row(
                     children: [
                       Text(
-                        "Tên",
+                        "Tên đăng nhập",
                         style: TextStyle(fontSize: 20),
                       ),
                       new Spacer(),
                       Text(
-                        "Thiết lập ngay/Linh",
+                        ""+this.userName,
                         style: TextStyle(color: Colors.black54, fontSize: 18),
                       ),
                       Icon(Icons.arrow_forward_ios)
@@ -173,33 +206,15 @@ class _EditInfoState extends State<EditInfo> {
               height: 1,
               decoration: BoxDecoration(color: Colors.grey),
             ),
-            Padding(
-              padding: const EdgeInsets.symmetric(vertical: 18, horizontal: 25),
-              child: Row(
-                children: [
-                  Text(
-                    "Tên đăng nhập",
-                    style: TextStyle(fontSize: 20),
-                  ),
-                  new Spacer(),
-                  Text(
-                    "NguyenHongLinh",
-                    style: TextStyle(color: Colors.black54, fontSize: 18),
-                  ),
-                ],
-              ),
-            ),
-            Container(
-              height: 20,
-              decoration: BoxDecoration(color: Colors.black12),
-            ),
+
+
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: FlatButton(
                   onPressed: () => Utils.showSheet(context,
                           child: _displayGentle(), onClicked: () {
                     setState(() {
-                      gentle = gentles[index];
+                       gender= gentles[index];
                     });
                         Navigator.pop(context);
                       }),
@@ -211,12 +226,33 @@ class _EditInfoState extends State<EditInfo> {
                       ),
                       new Spacer(),
                       Text(
-                        '$gentle',
+                        '$gender' == "" ? "Thiết lập ngay" :  '$gender',
                         style: TextStyle(color: Colors.black54, fontSize: 18),
                       ),
                       Icon(Icons.arrow_forward_ios)
                     ],
                   )),
+            ),
+            Container(
+              height: 20,
+              decoration: BoxDecoration(color: Colors.black12),
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 18, horizontal: 25),
+              child: Row(
+                children: [
+                  Text(
+                    "Địa chỉ",
+                    style: TextStyle(fontSize: 20),
+                  ),
+                  new Spacer(),
+                  Text(
+                    "Thiết lập ngay",
+                    style: TextStyle(color: Colors.black54, fontSize: 18),
+                  ),
+                  Icon(Icons.arrow_forward_ios)
+                ],
+              ),
             ),
             Container(
               height: 1,
@@ -231,7 +267,7 @@ class _EditInfoState extends State<EditInfo> {
                           value = DateFormat('dd/MM/yyyy').format(dateTime);
                         });
                         Navigator.pop(context);
-                        print(value);
+                       // print(value);
                       }),
                   child: Row(
                     children: [
@@ -241,13 +277,40 @@ class _EditInfoState extends State<EditInfo> {
                       ),
                       new Spacer(),
                       Text(
-                        '$value',
+                          (widget.user.getDob() == null) ? "Thiết lập ngay" :
+                        DateFormat('dd/MM/yyyy').format(this.dateTime),
                         style: TextStyle(color: Colors.black54, fontSize: 18),
                       ),
                       Icon(Icons.arrow_forward_ios)
                     ],
                   )),
             ),
+            // Container(
+            //   height: 1,
+            //   decoration: BoxDecoration(color: Colors.grey),
+            // ),
+            // Padding(
+            //   padding: const EdgeInsets.all(8.0),
+            //   child: FlatButton(
+            //       onPressed: () {
+            //         // Navigator.push(context,
+            //         //     MaterialPageRoute(builder: (context) => EditPhone()));
+            //       },
+            //       child: Row(
+            //         children: [
+            //           Text(
+            //             "Điện thoại",
+            //             style: TextStyle(fontSize: 20),
+            //           ),
+            //           new Spacer(),
+            //           Text(
+            //             this.phoneNumber,
+            //             style: TextStyle(color: Colors.black54, fontSize: 18),
+            //           ),
+            //           Icon(Icons.arrow_forward_ios)
+            //         ],
+            //       )),
+            // ),
             Container(
               height: 1,
               decoration: BoxDecoration(color: Colors.grey),
@@ -255,33 +318,13 @@ class _EditInfoState extends State<EditInfo> {
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: FlatButton(
-                  onPressed: () {
-                    Navigator.push(context,
-                        MaterialPageRoute(builder: (context) => EditPhone()));
+                  onPressed: () async {
+                    final result = await Navigator.push(context,
+                        MaterialPageRoute(builder: (context) => EditEmail()));
+                    setState(() {
+                      this.email =  result;
+                    });
                   },
-                  child: Row(
-                    children: [
-                      Text(
-                        "Điện thoại",
-                        style: TextStyle(fontSize: 20),
-                      ),
-                      new Spacer(),
-                      Text(
-                        "098457323",
-                        style: TextStyle(color: Colors.black54, fontSize: 18),
-                      ),
-                      Icon(Icons.arrow_forward_ios)
-                    ],
-                  )),
-            ),
-            Container(
-              height: 1,
-              decoration: BoxDecoration(color: Colors.grey),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: FlatButton(
-                  onPressed: () {},
                   child: Row(
                     children: [
                       Text(
@@ -290,7 +333,7 @@ class _EditInfoState extends State<EditInfo> {
                       ),
                       new Spacer(),
                       Text(
-                        "Thiết lập ngay",
+                        this.email,
                         style: TextStyle(color: Colors.black54, fontSize: 18),
                       ),
                       Icon(Icons.arrow_forward_ios)
@@ -330,7 +373,8 @@ class _EditInfoState extends State<EditInfo> {
           initialDateTime: dateTime,
           mode: CupertinoDatePickerMode.date,
           onDateTimeChanged: (dateTime) =>
-              setState(() => this.dateTime = dateTime),
+              setState(() => this.dateTime = dateTime
+              ),
         ),
       );
 
@@ -341,7 +385,6 @@ class _EditInfoState extends State<EditInfo> {
           diameterRatio: 0.9,
           looping: false,
           onSelectedItemChanged: (index) => setState(() => this.index = index),
-
          children: Utils.modelBuilder<String>(gentles, (index, gentle) {
             return Text(
               gentle,

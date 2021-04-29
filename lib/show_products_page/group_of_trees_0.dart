@@ -1,23 +1,17 @@
-import 'package:first_app/show_products_page/show_items_3.dart';
+import 'package:first_app/models/plant.dart';
 import 'package:first_app/show_products_page/show_items_page_2.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class ListGroupOfTrees extends StatelessWidget {
-  const ListGroupOfTrees({
-    Key key,
-    this.groupItems,
-    this.groupImages,
-  }) : super(key: key);
-
-  final List<String> groupItems;
-  final List<String> groupImages;
+  List<Plants> listPlants = new List();
+  ListGroupOfTrees(this.listPlants);
 
   @override
   Widget build(BuildContext context) {
-    var glength = groupItems.length;
+    var glength = this.listPlants.length;
     List<Widget> banners = new List<Widget>();
-    for (int i = 0; i < glength; i++) {
+    for (int i = 0; i < this.listPlants.length; i++) {
       var bannerView = Container(
         child: InkWell(
           onTap: () {
@@ -31,14 +25,14 @@ class ListGroupOfTrees extends StatelessWidget {
                   borderRadius: BorderRadius.circular(10),
                   color: Colors.black,
                 ),
-                child: Image.asset(groupImages[i], width: 70, height: 69),
+                child: Image.network(this.listPlants[i].getImageUrl().toString(), width: 70, height: 69,),
               ),
               SizedBox(
                 height: 5,
               ),
               Text(
-                groupItems[i],
-                style: TextStyle(fontWeight: FontWeight.w700, fontSize: 20),
+                this.listPlants[i].getPlantName(),
+                style: TextStyle(fontWeight: FontWeight.w700, fontSize: 12),
               )
             ],
           ),
