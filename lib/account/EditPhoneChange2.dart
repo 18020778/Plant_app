@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:first_app/account/EditPhoneOTP_3.dart';
 
 class EditPhoneChange extends StatefulWidget {
   @override
@@ -11,12 +12,11 @@ class _EditPhoneChangeState extends State<EditPhoneChange> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.white,
-        iconTheme: IconThemeData(
-          color: Color(0xFF407C5A), //change your color here
-        ),
-        title: Text("Số điện thoại mới", style: TextStyle(color: Colors.black, fontSize: 22),),
+        toolbarHeight: 70,
         centerTitle: true,
+        title: Text('Số điện thoại mới',
+          style: TextStyle(fontSize: 22),),
+        backgroundColor: Color(0xFF407C5A),
       ),
       body: Container(
         decoration: BoxDecoration(
@@ -55,7 +55,10 @@ class _EditPhoneChangeState extends State<EditPhoneChange> {
               ),
               child: FlatButton(
                 color: Color(0xFF407C5A),
-                onPressed: (){},
+                onPressed: (){
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => phoneOTP()));
+                },
                 child: Text("Tiếp tục", style: TextStyle(color: Colors.white, fontSize: 18),),
               ),
             )

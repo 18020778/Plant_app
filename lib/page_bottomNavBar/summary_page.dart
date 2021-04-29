@@ -1,5 +1,7 @@
 
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:first_app/NewsFeed/summary_news.dart';
+import 'package:first_app/account/account_page.dart';
 import 'package:first_app/models/user.dart';
 import 'package:first_app/services/database.dart';
 import 'package:first_app/show_products_page/body_home_0.dart';
@@ -7,7 +9,6 @@ import 'package:first_app/show_products_page/type_of_trees_1.dart';
 import 'package:first_app/wallet/wallet_page.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'account_page.dart';
 import 'liked_page.dart';
 
 class SummaryPage extends StatefulWidget {
@@ -31,7 +32,8 @@ class _SummaryPageState extends State<SummaryPage> {
     //print("uid hahaha : " +  this.uid);
     List<Widget> _bodyTabs() => [
       bodyHome(user: widget.user),
-      TypeOfTrees(),
+      WalletPage(),
+      SummaryNews(),
       LikedPage(),
       AccountPage(user: widget.user)
     ];

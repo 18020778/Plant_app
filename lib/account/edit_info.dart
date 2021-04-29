@@ -36,6 +36,7 @@ class _EditInfoState extends State<EditInfo> {
   String email = "";
   File imageFile;
   final picker = ImagePicker();
+
   DateTime dateTime = DateTime.now();
   String value = "Thiết lập ngay";
 
@@ -43,7 +44,7 @@ class _EditInfoState extends State<EditInfo> {
   static List<String> gentles = ['Nam', 'Nữ', 'Khác'];
 
   _openGallery(BuildContext context) async {
-    PickedFile picture = await picker.getImage(source: ImageSource.gallery);
+    var picture = await ImagePicker.pickImage(source: ImageSource.gallery);
     setState(() {
       if (picture != null) {
         imageFile = File(picture.path);
@@ -53,7 +54,7 @@ class _EditInfoState extends State<EditInfo> {
   }
 
   _openCamera(BuildContext context) async {
-    var picture = await picker.getImage(source: ImageSource.camera);
+    var picture = await ImagePicker.pickImage(source: ImageSource.camera);
     this.setState(() {
       imageFile = File(picture.path);
     });
@@ -344,7 +345,7 @@ class _EditInfoState extends State<EditInfo> {
               height: 20,
               decoration: BoxDecoration(color: Colors.black12),
             ),
-            Padding(
+            /*Padding(
               padding: const EdgeInsets.all(8.0),
               child: FlatButton(
                   onPressed: () {},
@@ -358,7 +359,7 @@ class _EditInfoState extends State<EditInfo> {
                       Icon(Icons.arrow_forward_ios)
                     ],
                   )),
-            ),
+            ),*/
           ],
         ),
       ),

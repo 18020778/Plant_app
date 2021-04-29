@@ -77,6 +77,9 @@ class _loginPageState extends State<loginPage> {
                             ),
                             onPressed: () {
                               _verifyPhone();
+                              // Navigator.push(context, MaterialPageRoute(
+                              //     builder: (context) => SummaryPage()));
+                              //_verifyPhone();
                             },
                             child: Text("LOGIN",
                               style: TextStyle(

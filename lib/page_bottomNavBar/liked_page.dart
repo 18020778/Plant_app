@@ -44,6 +44,8 @@ class _LikedPageState extends State<LikedPage> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
+          automaticallyImplyLeading: false,
+            toolbarHeight: 70,
             title: Text("Lượt thích", style: TextStyle(fontSize: 23),),
            // leadingWidth: 20,
             centerTitle: true,
