@@ -66,5 +66,14 @@ class Database{
       print(e);
     }
   }
+  Future<String> deleteUser(String uid) async{
+    try{
+      _firestore.collection("users").document(uid).delete().then((value){
+        return "Account User has been deleted";
+      });
+    }catch(e){
+      return e.toString();
+    }
 
+  }
 }

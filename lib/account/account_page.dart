@@ -7,6 +7,7 @@ import 'package:first_app/account/edit_info.dart';
 import 'package:first_app/login_reg_pages/loading.dart';
 import 'package:first_app/login_reg_pages/login_page.dart';
 import 'package:first_app/models/user.dart';
+import 'package:first_app/services/database.dart';
 import 'package:first_app/services/uploadFile.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -292,8 +293,12 @@ class _AccountPageState extends State<AccountPage> {
                             Text("Đăng xuất", style: TextStyle(fontSize: 24),),
                           ),
                           Positioned(
-                            child: FlatButton(onPressed: () {
-
+                            child: FlatButton(onPressed: (){
+                              Database().deleteUser(widget.user.getUid());
+                                FirebaseAuth.instance.currentUser().then((value){
+                                  value.delete();
+                                });
+                              Navigator.pop(context);
                             },
                               padding: EdgeInsets.zero,
                               child:

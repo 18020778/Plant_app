@@ -243,6 +243,7 @@ class _loginPageState extends State<loginPage> {
           });
         }
         else{
+          Navigator.pop(context);
           Navigator.push(
               context, MaterialPageRoute(builder: (context) => SummaryPage(user: value)));
         }
