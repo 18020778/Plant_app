@@ -1,6 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:first_app/account/edit_info.dart';
-import 'package:first_app/lib/login_reg_pages/login_page.dart';
+import 'package:first_app/login_reg_pages/login_page.dart';
 import 'package:first_app/models/user.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';

@@ -11,7 +11,6 @@ class User{
   Timestamp accountCreated;
   Timestamp dob;
 
-
   // getter and setter
   Timestamp getAccountCreated(){
     return this.accountCreated;

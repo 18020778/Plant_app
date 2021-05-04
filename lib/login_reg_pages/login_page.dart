@@ -1,3 +1,6 @@
+
+import 'dart:io';
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:first_app/login_reg_pages/register_welcome.dart';
 import 'package:first_app/models/user.dart';
@@ -5,6 +8,7 @@ import 'package:first_app/page_bottomNavBar/summary_page.dart';
 import 'package:first_app/services/database.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:path_provider/path_provider.dart';
 
 class loginPage extends StatefulWidget {
   @override
@@ -75,11 +79,8 @@ class _loginPageState extends State<loginPage> {
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.all(Radius.circular(20)),
                             ),
-                            onPressed: () {
+                            onPressed: () async {
                               _verifyPhone();
-                              // Navigator.push(context, MaterialPageRoute(
-                              //     builder: (context) => SummaryPage()));
-                              //_verifyPhone();
                             },
                             child: Text("LOGIN",
                               style: TextStyle(
@@ -234,6 +235,7 @@ class _loginPageState extends State<loginPage> {
     FirebaseAuth.instance.signInWithCredential(phoneAuthCredential).then((
         user) {
       Database().getUserInfo(user.user.uid.toString()).then((value) {
+        //print("This is userUid : "+user.user.uid.toString());
         if (value == null) {
           Navigator.of(context).pop();
           setState(() {

@@ -21,7 +21,7 @@ class _EditNameState extends State<EditName> {
               onPressed: (){
                   Navigator.pop(context, this.newName);
               },
-              child: Text("Lưu", style: TextStyle( fontSize: 20, color: Color(0xFF407C5A)),)),
+              child: Text("Lưu", style: TextStyle( fontSize: 20, color: Colors.white),)),
         ],
       ),
       body: Container(
