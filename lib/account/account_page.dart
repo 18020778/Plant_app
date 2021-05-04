@@ -178,9 +178,11 @@ class _AccountPageState extends State<AccountPage> {
                             Navigator.push(context, MaterialPageRoute(
                                 builder: (context) =>
                                     EditInfo(user: widget.user))).then((value) {
-                              setState(() {
-                                widget.user = value;
-                              });
+                                      if(value!=null){
+                                        setState(() {
+                                          widget.user = value;
+                                        });
+                                      }
                             });
                           },
                               child: Row(

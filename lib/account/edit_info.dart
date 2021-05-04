@@ -108,13 +108,6 @@ class _EditInfoState extends State<EditInfo> {
           iconTheme: IconThemeData(
             color: Color(0xFF407C5A), //change your color here
           ),
-      //   leading: new IconButton(icon: new Icon(Icons.arrow_back, color: Color(0xFF407C5A)),
-      //        onPressed: (){
-      //          Database().getUserInfo(widget.user.getUid()).then((value) => {
-      //            Navigator.pop(context, value)
-      //          });
-      // }),
-
         title: Text(
           "Chỉnh sửa thông tin",
           style: TextStyle(color: Colors.black, fontSize: 22),
@@ -196,12 +189,17 @@ class _EditInfoState extends State<EditInfo> {
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: FlatButton(
-                  onPressed: () async {
-                     final result = await Navigator.push(context,
-                        MaterialPageRoute(builder: (context) => EditName()));
-                     setState(() {
-                       this.userName =  result;
-                     });
+                  onPressed: () {
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (context) => EditName())).then((value){
+                          if (value != null){
+                            setState(() {
+                              this.userName =  value;
+                            });
+                          }
+
+                    });
+
                   },
                   child: Row(
                     children: [
@@ -313,11 +311,14 @@ class _EditInfoState extends State<EditInfo> {
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: FlatButton(
-                  onPressed: () async {
-                    final result = await Navigator.push(context,
-                        MaterialPageRoute(builder: (context) => EditEmail()));
-                    setState(() {
-                      this.email =  result;
+                  onPressed: () {
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (context) => EditEmail())).then((value)  {
+                          if(value!=null){
+                            setState(() {
+                              this.email = value;
+                            });
+                          }
                     });
                   },
                   child: Row(
