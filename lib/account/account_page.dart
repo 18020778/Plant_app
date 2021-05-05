@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:first_app/NewsFeed/create_blog.dart';
 import 'package:first_app/NewsFeed/detail_blog.dart';
+import 'package:first_app/NewsFeed/my_blog.dart';
 import 'package:first_app/account/edit_info.dart';
 import 'package:first_app/login_reg_pages/loading.dart';
 import 'package:first_app/login_reg_pages/login_page.dart';
@@ -203,8 +204,8 @@ class _AccountPageState extends State<AccountPage> {
                             decoration: BoxDecoration(color: Colors.white),
                           ),
                           FlatButton(onPressed: () {
-                            Navigator.push(context, MaterialPageRoute(builder: (
-                                context) => CreateBlog()));
+                            // Navigator.push(context, MaterialPageRoute(builder: (
+                            //     context) => CreateBlog()));
                           },
                               child: Row(
                                 children: [
@@ -233,6 +234,51 @@ class _AccountPageState extends State<AccountPage> {
                                       fontSize: 20),),
                                   new Spacer(),
                                   Text("Chỉnh sửa", style: TextStyle(
+                                      color: Colors.black54, fontSize: 15),),
+                                  Icon(Icons.arrow_forward_ios)
+                                ],
+                              )
+                          ),
+                          Container(
+                            height: 2,
+                            decoration: BoxDecoration(color: Colors.white),
+                          ),
+                          FlatButton(onPressed: () {
+                            Navigator.push(context, MaterialPageRoute(builder: (
+                                context) => CreateBlog(user: widget.user,)));
+                          },
+                              child: Row(
+                                children: [
+                                  // Image.asset("assets/sell_icon.png", width: 20,
+                                  //     fit: BoxFit.cover),
+                                  Icon(Icons.wb_incandescent_rounded),
+                                  Text("Chia sẻ cẩm nang", style: TextStyle(
+                                      fontSize: 20),),
+                                  new Spacer(),
+                                  Text("Thêm", style: TextStyle(
+                                      color: Colors.black54, fontSize: 15),),
+                                  Icon(Icons.arrow_forward_ios)
+                                ],
+                              )
+                          ),
+                          Container(
+                            height: 2,
+                            decoration: BoxDecoration(color: Colors.white),
+                          ),
+                          FlatButton(onPressed: () {
+                            Navigator.push(context, MaterialPageRoute(builder: (
+                                context) =>
+                                MyBlog(user: widget.user,)));
+                          },
+                              child: Row(
+                                children: [
+                                  // Image.asset("assets/sell_icon.png", width: 20,
+                                  //     fit: BoxFit.cover),
+                                  Icon(Icons.web_sharp),
+                                  Text("Các bài viết", style: TextStyle(
+                                      fontSize: 20),),
+                                  new Spacer(),
+                                  Text("Thêm", style: TextStyle(
                                       color: Colors.black54, fontSize: 15),),
                                   Icon(Icons.arrow_forward_ios)
                                 ],

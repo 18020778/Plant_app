@@ -24,7 +24,6 @@ class bodyHome extends StatefulWidget {
 class _bodyHomeState extends State<bodyHome> {
   List<Categories> listCategories = new List();
   List<Plants> listPlants = new List();
-  // var viewResult = new List();
   var viewResult = 0;
   bool showResult =  false;
   // @override
@@ -33,11 +32,11 @@ class _bodyHomeState extends State<bodyHome> {
     CategoryService().getCategories().then((QuerySnapshot docs){
       if(docs.documents.isNotEmpty){
         docs.documents.forEach((element) {
-          setState(() {
-            this.viewResult +=1;
-            if (this.viewResult == 2) this.showResult = true;
-          });
           listCategories.add(Categories.fromJson(element.data));
+        });
+        setState(() {
+          this.viewResult +=1;
+          if (this.viewResult == 2) this.showResult = true;
         });
       }else {
         print("Empty");
@@ -46,11 +45,11 @@ class _bodyHomeState extends State<bodyHome> {
     PlantService().getPlants().then((QuerySnapshot docs){
       if(docs.documents.isNotEmpty){
           docs.documents.forEach((element) {
-            setState(() {
-              this.viewResult +=1;
-              if (this.viewResult == 2) this.showResult = true;
-            });
             listPlants.add(Plants.fromJson(element.data));
+          });
+          setState(() {
+            this.viewResult +=1;
+            if (this.viewResult == 2) this.showResult = true;
           });
       }else{
         print("Empty");

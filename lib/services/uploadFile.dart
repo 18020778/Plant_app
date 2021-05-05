@@ -4,6 +4,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_database/ui/firebase_sorted_list.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:first_app/models/user.dart';
+import 'package:first_app/services/handbookService.dart';
+import 'package:flutter/cupertino.dart';
 
 
 class uploadFile {
@@ -17,5 +19,28 @@ class uploadFile {
       'urlImage' : downloadImage
     });
     return taskSnapshot.ref.getDownloadURL();
+  }
+
+
+  Future uploadImageHandBook(String userUid,String handbookUid, File _imageFile) async{
+    // dau tien la phai lay cai so luong r la chia no ra
+    var number = 0;
+    await handbookService().getHandBook(userUid).then((QuerySnapshot value){
+      if(value.documents.isNotEmpty){
+        value.documents.forEach((element) {
+          number ++;
+        });
+      }
+    });
+    // up file to storage in firebase
+      StorageReference reference = FirebaseStorage.instance.ref().child(
+          "users/$userUid/handbooks/image_$number");
+      StorageUploadTask uploadTask = reference.putFile(_imageFile);
+      StorageTaskSnapshot taskSnapshot = await uploadTask.onComplete;
+      final String downloadImage = await taskSnapshot.ref.getDownloadURL();
+      Firestore.instance.collection("handbooks").document(handbookUid).updateData({
+        'imageUrl' : downloadImage
+      });
+      return taskSnapshot.ref.getDownloadURL();
   }
 }
