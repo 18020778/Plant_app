@@ -2,8 +2,10 @@ import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:first_app/account/editEmail.dart';
 import 'package:first_app/account/utlis.dart';
+import 'package:first_app/login_reg_pages/loading.dart';
 import 'package:first_app/models/user.dart';
 import 'package:first_app/services/database.dart';
+import 'package:first_app/services/uploadFile.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
@@ -18,6 +20,7 @@ class EditInfo extends StatefulWidget {
 }
 
 class _EditInfoState extends State<EditInfo> {
+  final picker = ImagePicker();
   User user;
   @override
   void initState() {
@@ -29,17 +32,17 @@ class _EditInfoState extends State<EditInfo> {
     }
     this.phoneNumber = widget.user.phoneNumber;
     this.email = widget.user.email;
+
   }
   String userName =  "";
   String gender =  "";
   String phoneNumber = "";
   String email = "";
   File imageFile;
-  final picker = ImagePicker();
 
   DateTime dateTime = DateTime.now();
   String value = "Thiết lập ngay";
-
+ // bool viewResult = true;
   var index = 1;
   static List<String> gentles = ['Nam', 'Nữ', 'Khác'];
 
@@ -50,6 +53,7 @@ class _EditInfoState extends State<EditInfo> {
         imageFile = File(picture.path);
       }
     });
+
     Navigator.of(context).pop();
   }
 
@@ -63,7 +67,7 @@ class _EditInfoState extends State<EditInfo> {
 
   Future<void> _showChoiceDialog(BuildContext context) {
 
-    return showDialog(
+    return  showDialog(
         context: context,
         builder: (BuildContext context) {
           return AlertDialog(
@@ -73,7 +77,7 @@ class _EditInfoState extends State<EditInfo> {
                 children: [
                   GestureDetector(
                     child: Text("Chọn sẵn có"),
-                    onTap: () {
+                    onTap: ()  {
                       _openGallery(context);
                     },
                   ),
@@ -97,12 +101,12 @@ class _EditInfoState extends State<EditInfo> {
     var screenWidth = MediaQuery.of(context).size.width;
     var screenHeight = MediaQuery.of(context).size.height;
 
-    return Scaffold(
+    return  Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.white,
-        iconTheme: IconThemeData(
-          color: Color(0xFF407C5A), //change your color here
-        ),
+          iconTheme: IconThemeData(
+            color: Color(0xFF407C5A), //change your color here
+          ),
         title: Text(
           "Chỉnh sửa thông tin",
           style: TextStyle(color: Colors.black, fontSize: 22),
@@ -110,16 +114,19 @@ class _EditInfoState extends State<EditInfo> {
         centerTitle: true,
         actions: [
           FlatButton(
-              onPressed: () {
-                print("this is "+widget.user.getUid());
+              onPressed: () async  {
                 widget.user.setEmail(this.email);
                 widget.user.setGender(this.gender);
                 widget.user.setUserName(this.userName);
                 widget.user.setDob(Timestamp.fromDate(this.dateTime));
-                print(widget.user.getEmail());
                 Database().updateUser(widget.user);
-                
-                Navigator.pop(context);
+                if(imageFile != null ){
+                  await uploadFile().uploadImageToFirebase(widget.user.getUid(),imageFile);
+                }
+                Database().getUserInfo(widget.user.getUid()).then((value) => {
+                  Navigator.pop(context, value)
+                });
+
               },
               child: Text(
                 "Lưu",
@@ -151,7 +158,7 @@ class _EditInfoState extends State<EditInfo> {
                         //image: _decideImage(),
                         image: imageFile != null
                             ? FileImage(imageFile)
-                            : AssetImage("assets/account.png"),
+                            : NetworkImage(widget.user.getUrlImage().toString()),
                         fit: BoxFit.cover),
                     borderRadius: BorderRadius.circular(50)),
                 child: FlatButton(
@@ -181,12 +188,17 @@ class _EditInfoState extends State<EditInfo> {
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: FlatButton(
-                  onPressed: () async {
-                     final result = await Navigator.push(context,
-                        MaterialPageRoute(builder: (context) => EditName()));
-                     setState(() {
-                       this.userName =  result;
-                     });
+                  onPressed: () {
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (context) => EditName())).then((value){
+                          if (value != null){
+                            setState(() {
+                              this.userName =  value;
+                            });
+                          }
+
+                    });
+
                   },
                   child: Row(
                     children: [
@@ -239,7 +251,12 @@ class _EditInfoState extends State<EditInfo> {
               decoration: BoxDecoration(color: Colors.black12),
             ),
             Padding(
-              padding: const EdgeInsets.symmetric(vertical: 18, horizontal: 25),
+              padding: const EdgeInsets.all(8.0),
+              child:FlatButton(
+                onPressed: (){
+                  print("add address");
+                },
+
               child: Row(
                 children: [
                   Text(
@@ -254,7 +271,7 @@ class _EditInfoState extends State<EditInfo> {
                   Icon(Icons.arrow_forward_ios)
                 ],
               ),
-            ),
+            ),),
             Container(
               height: 1,
               decoration: BoxDecoration(color: Colors.grey),
@@ -286,32 +303,6 @@ class _EditInfoState extends State<EditInfo> {
                     ],
                   )),
             ),
-            // Container(
-            //   height: 1,
-            //   decoration: BoxDecoration(color: Colors.grey),
-            // ),
-            // Padding(
-            //   padding: const EdgeInsets.all(8.0),
-            //   child: FlatButton(
-            //       onPressed: () {
-            //         // Navigator.push(context,
-            //         //     MaterialPageRoute(builder: (context) => EditPhone()));
-            //       },
-            //       child: Row(
-            //         children: [
-            //           Text(
-            //             "Điện thoại",
-            //             style: TextStyle(fontSize: 20),
-            //           ),
-            //           new Spacer(),
-            //           Text(
-            //             this.phoneNumber,
-            //             style: TextStyle(color: Colors.black54, fontSize: 18),
-            //           ),
-            //           Icon(Icons.arrow_forward_ios)
-            //         ],
-            //       )),
-            // ),
             Container(
               height: 1,
               decoration: BoxDecoration(color: Colors.grey),
@@ -319,11 +310,14 @@ class _EditInfoState extends State<EditInfo> {
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: FlatButton(
-                  onPressed: () async {
-                    final result = await Navigator.push(context,
-                        MaterialPageRoute(builder: (context) => EditEmail()));
-                    setState(() {
-                      this.email =  result;
+                  onPressed: () {
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (context) => EditEmail())).then((value)  {
+                          if(value!=null){
+                            setState(() {
+                              this.email = value;
+                            });
+                          }
                     });
                   },
                   child: Row(
@@ -345,21 +339,6 @@ class _EditInfoState extends State<EditInfo> {
               height: 20,
               decoration: BoxDecoration(color: Colors.black12),
             ),
-            /*Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: FlatButton(
-                  onPressed: () {},
-                  child: Row(
-                    children: [
-                      Text(
-                        "Thay đổi mật khẩu",
-                        style: TextStyle(fontSize: 20),
-                      ),
-                      new Spacer(),
-                      Icon(Icons.arrow_forward_ios)
-                    ],
-                  )),
-            ),*/
           ],
         ),
       ),

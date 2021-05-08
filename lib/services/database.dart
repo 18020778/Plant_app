@@ -16,7 +16,7 @@ class Database{
           'gender' : user.gender,
           'dob' : user.dob,
           'email': user.email,
-          'urlImage' : "https://www.google.com/url?sa=i&url=https%3A%2F%2Fstackoverflow.com%2Fquestions%2F49917726%2Fretrieving-default-image-all-url-profile-picture-from-facebook-graph-api&psig=AOvVaw0n5vtKyGmIbvvcwq4owuuI&ust=1615715347672000&source=images&cd=vfe&ved=0CAIQjRxqFwoTCJjNs-7-rO8CFQAAAAAdAAAAABAD",
+          'urlImage' : "https://i.dlpng.com/static/png/6866112_preview.png",
           'accountCreated': Timestamp.now(),
         }
       );
@@ -34,11 +34,11 @@ class Database{
         'gender' : user.gender,
         'dob' : user.dob,
         'email': user.email,
-        'urlImage' : "https://www.google.com/url?sa=i&url=https%3A%2F%2Fstackoverflow.com%2Fquestions%2F49917726%2Fretrieving-default-image-all-url-profile-picture-from-facebook-graph-api&psig=AOvVaw0n5vtKyGmIbvvcwq4owuuI&ust=1615715347672000&source=images&cd=vfe&ved=0CAIQjRxqFwoTCJjNs-7-rO8CFQAAAAAdAAAAABAD",
       });
     }catch(e){
       print(e);
     }
+
   }
   // get User Info
 
@@ -56,15 +56,24 @@ class Database{
          retVal.userName = _docSnapshot.data["userName"];
          retVal.phoneNumber = _docSnapshot.data["phoneNumber"];
          retVal.email = _docSnapshot.data["email"];
-         retVal.urlImage = _docSnapshot.data["urlImage"];
          retVal.accountCreated = _docSnapshot.data["accountCreated"];
          retVal.dob = _docSnapshot.data["dob"];
          retVal.gender = _docSnapshot.data["gender"];
+         retVal.urlImage  = _docSnapshot.data["urlImage"];
          return retVal;
        }
     }catch(e) {
       print(e);
     }
   }
+  Future<String> deleteUser(String uid) async{
+    try{
+      _firestore.collection("users").document(uid).delete().then((value){
+        return "Account User has been deleted";
+      });
+    }catch(e){
+      return e.toString();
+    }
 
+  }
 }

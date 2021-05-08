@@ -2,53 +2,37 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:first_app/login_reg_pages/loading.dart';
 import 'package:first_app/models/handBook.dart';
 import 'package:first_app/models/user.dart';
+import 'package:first_app/services/database.dart';
 import 'package:first_app/services/handbookService.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:intl/intl.dart';
-
 import 'create_blog.dart';
 import 'detail_blog.dart';
 
-class SummaryNews extends StatefulWidget {
+class MyBlog extends StatefulWidget {
   User user;
-  SummaryNews({this.user});
   @override
-  _SummaryNewsState createState() => _SummaryNewsState();
+  _MyBlogState createState() => _MyBlogState();
+  MyBlog({this.user});
 }
 
-class _SummaryNewsState extends State<SummaryNews> {
+class _MyBlogState extends State<MyBlog> {
   List<handBook> blog = new List();
   bool viewResult  =  false;
 
   @override
   void initState() {
-    // handbookService().getHandBook(widget.user.getUid()).then((QuerySnapshot value){
-    //   if (value.documents.isNotEmpty){
-    //     value.documents.forEach((element) {
-    //       blog.add(handBook.fromJson(element.data));
-    //     });
-    //     setState(() {
-    //       this.viewResult = true;
-    //     });
-    //   }
-    // });
-
-
-    // get all handbook
-    handbookService().getAllHandBook().then((QuerySnapshot value){
-      if(value.documents.isNotEmpty){
+    handbookService().getHandBook(widget.user.getUid()).then((QuerySnapshot value){
+      if (value.documents.isNotEmpty){
         value.documents.forEach((element) {
           blog.add(handBook.fromJson(element.data));
         });
+        setState(() {
+          this.viewResult = true;
+        });
       }
-      setState(() {
-        this.viewResult = true;
-      });
     });
-
-    //return cac user
-
   }
 
   @override
@@ -118,7 +102,7 @@ class _SummaryNewsState extends State<SummaryNews> {
                     return _buildArticleItem(blog, index);
                   },
                   separatorBuilder: (context, index) => SizedBox(height: 16),),
-                /*Container(
+                Container(
                   child: Text("Tab2"),
                 ),
                 Container(
@@ -126,7 +110,7 @@ class _SummaryNewsState extends State<SummaryNews> {
                 ),
                 Container(
                   child: Text("Tab4"),
-                ),*/
+                ),
               ],
             ),
           ),
@@ -190,11 +174,12 @@ class _SummaryNewsState extends State<SummaryNews> {
                                 children: [
                                   WidgetSpan(child: CircleAvatar(
                                     radius: 15,
-                                    //backgroundImage: NetworkImage(widget.user.getUrlImage())
-                                  )),
+                                    backgroundImage: NetworkImage(widget.user.getUrlImage())
+                                   // backgroundImage: NetworkImage(article.user.getUrlImage())
+                                    )),
                                   WidgetSpan(child: SizedBox(width: 5,)),
                                   TextSpan(
-                                    // text: article.user.getUserName(),
+                                    text: widget.user.getUserName(),
                                     style: TextStyle(fontSize: 17),
                                   ) ,
                                   WidgetSpan(child: SizedBox(width: 25,)),
@@ -214,5 +199,4 @@ class _SummaryNewsState extends State<SummaryNews> {
     );
 
   }
-
 }

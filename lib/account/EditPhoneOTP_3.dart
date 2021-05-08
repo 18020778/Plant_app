@@ -12,6 +12,7 @@ class phoneOTP extends StatefulWidget {
 }
 
 class phoneOTPState extends State<phoneOTP> {
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

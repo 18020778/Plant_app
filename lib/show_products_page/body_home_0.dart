@@ -24,7 +24,6 @@ class bodyHome extends StatefulWidget {
 class _bodyHomeState extends State<bodyHome> {
   List<Categories> listCategories = new List();
   List<Plants> listPlants = new List();
-  // var viewResult = new List();
   var viewResult = 0;
   bool showResult =  false;
   // @override
@@ -33,11 +32,11 @@ class _bodyHomeState extends State<bodyHome> {
     CategoryService().getCategories().then((QuerySnapshot docs){
       if(docs.documents.isNotEmpty){
         docs.documents.forEach((element) {
-          setState(() {
-            this.viewResult +=1;
-            if (this.viewResult == 2) this.showResult = true;
-          });
           listCategories.add(Categories.fromJson(element.data));
+        });
+        setState(() {
+          this.viewResult +=1;
+          if (this.viewResult == 2) this.showResult = true;
         });
       }else {
         print("Empty");
@@ -46,11 +45,11 @@ class _bodyHomeState extends State<bodyHome> {
     PlantService().getPlants().then((QuerySnapshot docs){
       if(docs.documents.isNotEmpty){
           docs.documents.forEach((element) {
-            setState(() {
-              this.viewResult +=1;
-              if (this.viewResult == 2) this.showResult = true;
-            });
             listPlants.add(Plants.fromJson(element.data));
+          });
+          setState(() {
+            this.viewResult +=1;
+            if (this.viewResult == 2) this.showResult = true;
           });
       }else{
         print("Empty");
@@ -230,28 +229,6 @@ class _homeAppBarState extends State<homeAppBar> {
         ));
   }
 }
-// var bannerItems = [
-//   'Cây phong thủy',
-//   'Cây trong nhà',
-//   'Cây ngoài trời',
-//   'Cây văn phòng',
-//   'Cây loại to',
-//   'Cây sen đá',
-//   'Cây thủy sinh',
-//   'Cây dây leo',
-//   'Xương rồng cảnh'
-// ];
-// var bannerImages = [
-//   'assets/cay_phong_thuy.PNG',
-//   'assets/cay_trong_nha.jpg',
-//   'assets/cay_ngoai_troi.jpg',
-//   'assets/cay_van_phong.PNG',
-//   'assets/cay_loai_to.jpg',
-//   'assets/sen_da.jpg',
-//   'assets/cay_thuy_sinh.jpg',
-//   'assets/cay_day_leo.jpg',
-//   'assets/xuong_rong.jpg'
-// ];
 class ListTypeOfTrees extends StatelessWidget{
   List<Categories> listCategories = new List();
   ListTypeOfTrees(this.listCategories);
@@ -313,22 +290,6 @@ class ListTypeOfTrees extends StatelessWidget{
                         listCategories[i].getCategoryName(),
                         style: TextStyle(fontSize: 25, color: Colors.white),
                       ),
-                      // RichText(
-                      //   text: TextSpan(children: [
-                      //     TextSpan(
-                      //       text: 'Có ',
-                      //       style: TextStyle(fontSize: 15, color: Colors.white),
-                      //     ),
-                      //     TextSpan(
-                      //       text: '...',
-                      //       style: TextStyle(fontSize: 15, color: Colors.white),
-                      //     ),
-                      //     TextSpan(
-                      //       text: 'Sản phẩm',
-                      //       style: TextStyle(fontSize: 15, color: Colors.white),
-                      //     ),
-                      //   ]),
-                      // )
                     ],
                   ),
                 )

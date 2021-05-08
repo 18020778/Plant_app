@@ -1,7 +1,10 @@
 
+import 'dart:io';
+
 import 'package:first_app/login_reg_pages/login_page.dart';
 import 'package:first_app/page_bottomNavBar/summary_page.dart';
 import 'package:first_app/services/database.dart';
+import 'package:first_app/services/uploadFile.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -189,7 +192,7 @@ class _regOTPState extends State<regOTP> {
 
 
   Future<String>  _createAccount(User user) async{
+
     String _resultSignUp = await Database().createUser(user);
-    print(_resultSignUp);
   }
 }
