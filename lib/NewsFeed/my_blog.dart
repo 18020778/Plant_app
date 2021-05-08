@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:first_app/login_reg_pages/loading.dart';
+import 'package:first_app/models/articles.dart';
 import 'package:first_app/models/handBook.dart';
 import 'package:first_app/models/user.dart';
 import 'package:first_app/services/database.dart';
@@ -120,7 +121,7 @@ class _MyBlogState extends State<MyBlog> {
               FloatingActionButton(
                 backgroundColor: Color(0xFF407C5A),
                 onPressed: (){
-                  Navigator.push(context, MaterialPageRoute(builder: (context) => CreateBlog()));
+                  Navigator.push(context, MaterialPageRoute(builder: (context) => CreateBlog(user: widget.user,)));
                 },
                 child: Icon(FontAwesomeIcons.pen),)
             ],
@@ -142,7 +143,9 @@ class _MyBlogState extends State<MyBlog> {
             ),
             FlatButton(
               onPressed: () {
-                Navigator.push(context, MaterialPageRoute(builder: (context) => DetailBlog()));
+
+                Articles detail = new Articles(widget.user, article);
+                Navigator.push(context, MaterialPageRoute(builder: (context) => DetailBlog(articles: detail,)));
               },
               child: Container(
                   color: Colors.white,
