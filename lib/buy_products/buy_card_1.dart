@@ -2,6 +2,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
+import 'choice_address_2.dart';
+
 class buyCard extends StatefulWidget {
   @override
   _buyCardState createState() => _buyCardState();
@@ -147,7 +149,10 @@ class _buyCardState extends State<buyCard> {
                 ),
               ),
               IconButton(
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.push(context, MaterialPageRoute(
+                      builder: (context) => ChoiceAddress()));
+                },
                 icon: Icon(Icons.arrow_forward_ios),
               ),
             ],
@@ -344,18 +349,17 @@ class _buyCardState extends State<buyCard> {
             children: [
               FlatButton.icon(onPressed: (){},
                   icon: Icon(CupertinoIcons.money_dollar_circle_fill),
-                  label: Text("Phương thức thanh toán", style: TextStyle(fontSize: 18))),
-              new Spacer(),
-              Row(
+                  label: Text("Thanh toán sau khi nhận hàng", style: TextStyle(fontSize: 18))),
+              /*Row(
                 children: [
                   Text("Ví AirPay", style: TextStyle(fontSize: 17),),
                   Icon(Icons.arrow_forward_ios),
                 ],
-              )
+              )*/
             ],
           ),
           Padding(
-            padding: const EdgeInsets.all(15.0),
+            padding: const EdgeInsets.only(left:15.0, top: 5, right: 15, bottom: 15),
             child: Column(
               children: [
                 Row(

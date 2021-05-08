@@ -102,6 +102,8 @@ flutter:
     - assets/add_card.png
     - assets/viewCard.png
     - assets/sell_icon.png
+    - assets/like.png
+    - assets/location_small.jpg
 
   # To add assets to your application, add an assets section, like this:
   # assets:

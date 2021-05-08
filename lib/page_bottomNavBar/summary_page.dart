@@ -32,7 +32,6 @@ class _SummaryPageState extends State<SummaryPage> {
     //print("uid hahaha : " +  this.uid);
     List<Widget> _bodyTabs() => [
       bodyHome(user: widget.user),
-      WalletPage(),
       SummaryNews(),
       LikedPage(),
       AccountPage(user: widget.user)
@@ -75,7 +74,7 @@ class _SummaryPageState extends State<SummaryPage> {
               ),
             ),
           ),
-          BottomNavigationBarItem(
+         /* BottomNavigationBarItem(
             icon: Icon(
               FontAwesomeIcons.wallet,
               color: Color(4281755726),
@@ -92,7 +91,7 @@ class _SummaryPageState extends State<SummaryPage> {
                   color: Color(0xFF488B66)
               ),
             ),
-          ),
+          ),*/
           BottomNavigationBarItem(
             icon: Icon(
               FontAwesomeIcons.solidNewspaper,

@@ -16,14 +16,14 @@ class _SummaryNewsState extends State<SummaryNews> {
       "image": "assets/cuc.jpg",
       "authorImg": "assets/account.png",
       "author": "RoseShop",
-      "time": "26/04/2021"
+      "liked": "20"
     },
     {
       "title": "Cách chiết cành hồng",
       "image": "assets/cuc.jpg",
       "authorImg": "assets/account.png",
       "author": "RoseShop",
-      "time": "26/04/2021"
+      "liked": "20"
     },
   ];
 
@@ -32,28 +32,28 @@ class _SummaryNewsState extends State<SummaryNews> {
       "title": "Chă hồng cảnh sao cho đúng, tiêu chuẩn Việt Nam, chuẩn chất lượng",
       "image": "assets/lan.jpg",
       "author": "ParisRoseShop",
-      "time": "26/04/2021"
+      "liked": "20"
     },
     {
       "title": "Cách chiết cành hồng",
       "image": "assets/lan.jpg",
       "authorImg": "assets/account.png",
       "author": "RoseShop",
-      "time": "26/04/2021"
+      "liked": "20"
     },
     {
       "title": "Chă hồng cảnh sao cho đúng, tiêu chuẩn Việt Nam, chuẩn chất lượng",
       "image": "assets/lan.jpg",
       "authorImg": "assets/account.png",
       "author": "ParisRoseShop",
-      "time": "26/04/2021"
+      "liked": "20"
     },
     {
       "title": "Cách chiết cành hồng",
       "image": "assets/lan.jpg",
       "authorImg": "assets/account.png",
       "author": "RoseShop",
-      "time": "26/04/2021"
+      "liked": "20"
     },
   ];
 
@@ -206,8 +206,9 @@ class _SummaryNewsState extends State<SummaryNews> {
                             WidgetSpan(child: SizedBox(width: 25,)),
                             //WidgetSpan(child: SizedBox(width: 5,)),
                             TextSpan(
-                              text: article["time"], style: TextStyle(fontSize: 17),
-                            )
+                              text: article["liked"], style: TextStyle(fontSize: 17),
+                            ),
+                            WidgetSpan(child: Image.asset("assets/like.png", width: 25, fit: BoxFit.cover,))
                           ]
                         ),
                         style: TextStyle(height: 2),)
