@@ -81,11 +81,11 @@ class _CreateBlogState extends State<CreateBlog> {
                     'handbookId' : document.documentID,
                     'timeCreated' : Timestamp.now(),
                     'userUid' : widget.user.getUid(),
-                    'userName' : widget.user.getUserName(),
-                    'avatarArticle' : widget.user.getUrlImage(),
                   });
 
                   if (selectedImage != null){
+                    print("not null");
+                    print(document.documentID);
                     uploadFile().uploadImageHandBook(widget.user.getUid(),document.documentID , selectedImage);
                   }
                   Navigator.pop(context);

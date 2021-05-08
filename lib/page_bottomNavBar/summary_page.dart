@@ -36,8 +36,8 @@ class _SummaryPageState extends State<SummaryPage> {
     List<Widget> _bodyTabs() => [
       bodyHome(user: widget.user),
       WalletPage(),
-      SummaryNews(),
-      LikedPage(),
+      SummaryNews(user: widget.user,),
+      LikedPage(user: widget.user,),
       AccountPage(user: widget.user)
     ];
 

@@ -72,4 +72,15 @@ class handBook{
     // userName: json['userName'],
     // avatarArticle: json['avatarArticle']
   );
+   handBook.fromMap(json)  :
+    handbookId= json['handbookId'].toString(),
+    title =  json['title'].toString(),
+    plantName= json['plantName'].toString(),
+    content= json['content'].toString(),
+    imageUrl= json['imageUrl'].toString(),
+    timeCreated= json['timeCreated'],
+    userUid= json['userUid'].toString();
+    // userName: json['userName'],
+    // avatarArticle: json['avatarArticle']
+
 }
