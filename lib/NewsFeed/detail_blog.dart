@@ -1,15 +1,36 @@
 import 'package:carousel_pro/carousel_pro.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:first_app/login_reg_pages/loading.dart';
+import 'package:first_app/models/articles.dart';
+import 'package:first_app/services/likeArticles_service.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 class DetailBlog extends StatefulWidget {
+  Articles articles;
   @override
   _DetailBlogState createState() => _DetailBlogState();
+  DetailBlog({this.articles});
 }
 
 class _DetailBlogState extends State<DetailBlog> {
+  bool isFavorited = false;
+  bool  viewResult = false;
+ @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    likeArticlesService().isLiked(widget.articles.handbook.handbookId,widget.articles.author.getUid()).then((value){
+        setState(() {
+          this.isFavorited = value;
+          this.viewResult = true;
+        });
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
-    var isFavorited = true;
+
     var setImage = isFavorited
         ? Image.asset(
             'assets/heart_like.png',
@@ -21,7 +42,7 @@ class _DetailBlogState extends State<DetailBlog> {
           );
 
     var screenWidth = MediaQuery.of(context).size.width;
-    return Scaffold(
+    return (this.viewResult) ? Scaffold(
         body: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
       Container(
           height: 250,
@@ -34,12 +55,7 @@ class _DetailBlogState extends State<DetailBlog> {
                   child: new Carousel(
                     boxFit: BoxFit.cover,
                     images: [
-                      AssetImage('assets/cay_phong_thuy.PNG'),
-                      AssetImage('assets/cay_trong_nha.jpg'),
-                      AssetImage('assets/cay_ngoai_troi.jpg'),
-                      AssetImage('assets/cay_phong_thuy.PNG'),
-                      AssetImage('assets/cay_trong_nha.jpg'),
-                      AssetImage('assets/cay_ngoai_troi.jpg'),
+                      NetworkImage(widget.articles.handbook.imageUrl)
                     ],
                     dotColor: Color(0xFF407C5A),
                     autoplay: false,
@@ -65,7 +81,7 @@ class _DetailBlogState extends State<DetailBlog> {
                 child: Row(
                   children: [
                     CircleAvatar(
-                      backgroundImage: AssetImage("assets/account.png"),
+                      backgroundImage: NetworkImage(widget.articles.author.getUrlImage()),
                       radius: 20,
                     ),
                     SizedBox(
@@ -75,15 +91,12 @@ class _DetailBlogState extends State<DetailBlog> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          "RoseShop",
+                          widget.articles.author.getUserName().toString(),
                           style: TextStyle(
                               fontWeight: FontWeight.w700,
                               fontSize: 20,
                               color: Colors.white),
                         ),
-                        Text("following/unfollow",
-                            style:
-                                TextStyle(fontSize: 18, color: Colors.white)),
                       ],
                     )
                   ],
@@ -103,7 +116,7 @@ class _DetailBlogState extends State<DetailBlog> {
                         Container(
                           width: screenWidth * 0.75,
                           child: Text(
-                              "Kỹ thuật trồng dâu tây trong thùng xốp tại nhà",
+                              widget.articles.handbook.title,
                               style: TextStyle(
                                 fontWeight: FontWeight.w700,
                                 fontSize: 22,
@@ -111,52 +124,37 @@ class _DetailBlogState extends State<DetailBlog> {
                               )),
                         ),
                         Spacer(),
-                        Text('20+',
-                            style: TextStyle(
-                              fontWeight: FontWeight.w700,
-                              fontSize: 20,
-                              color: Colors.red,
-                            )),
                         IconButton(
                             icon: (setImage),
                             onPressed: () {
                               setState(() {
-                                if (isFavorited) {
-                                  isFavorited = false;
-                                  setImage = Image.asset(
-                                    'assets/heart.png',
-                                    width: 25,
-                                  );
-                                } else {
-                                  isFavorited = true;
-                                  setImage = Image.asset(
-                                    'assets/heart_like.png',
-                                    width: 25,
-                                  );
-                                }
+                                this.isFavorited = !this.isFavorited;
                               });
+                              print("handbook Id " + widget.articles.handbook.handbookId);
+                              if(this.isFavorited){
+                                likeArticlesService().likeArticle(widget.articles.handbook.handbookId, widget.articles.author.getUid());
+                              }else{
+                                likeArticlesService().deleteLikeArticle(widget.articles.handbook.handbookId, widget.articles.author.getUid());
+                              }
                             }),
                       ]),
                       SizedBox(
                         height: 3,
                       ),
                       Text(
-                        "24/9/2021",
+                        DateFormat('dd/MM/yyyy').format(DateTime.fromMillisecondsSinceEpoch(widget.articles.handbook.timeCreated.seconds*1000)),
                         style: TextStyle(fontSize: 18, color: Colors.black54),
                       ),
                       SizedBox(
                         height: 10,
                       ),
                       Text(
-                        "1. Kỹ thuật trồng dâu tây trong thùng xốp đơn giản tại nhàCây dâu tây hay còn gọi là dâu dất, có nguồn gốc từ châu Mỹ. Quả dâu tây có mùi thơm, vị ngọt, chua nên hiện nay quả dâu tây rất được mọi người ưu chuộng.Quả dâu tây chứa rất nhiều các loại Vitamin và khoáng chất có lợi cho sức khỏe như: Vitamin A, B1, B2, C, Mangan, Kali… Ngoài ra trong quả dâu tây còn có chất chống oxi hóa tốt cho tim mạch, ngăn ngừa ung thư, giúp giảm cân..."
-                        "Hiện nay quả dâu tây được bày bán rất nhiều trên thị trường, bạn có biết dâu được trồng từ đâu? Đó có phải là dâu sạch như những lời quảng cáo? Dâu có sử dụng hay không sử dụng các loại thuốc bảo vệ thực vật?... Cảm giác lo sợ về chất lượng sản phẩm vẫn luôn là bài toán đối với người sử dụng. Để giải quyết vấn đề đó bài viết sau đây xin giới thiệu đến các bạn cách trồng dâu tây trong thùng xốp đơn giản, hiệu quả để có được nhưng trái dâu tây “ngon và sạch” cho gia đình. "
-                        "Trồng dâu tây trong thùng xốp tiết kiệm nước tưới, dễ dàng chăm sóc, ít sâu bệnh, tận dụng tối đa không gian, không mất nhiều thời gian chăm sóc, thu được những quả dâu tây sạch tại nhà và tiết kiệm chi phí."
-                        "Thời vụ trồng: Cây dâu tây có thể trồng quanh năm nhưng thích hợp nhất là vào tháng 4-5. Sau 85-90 ngày thì dâu tây sẽ cho thu hoạch.",
+                      widget.articles.handbook.content,
                         textAlign: TextAlign.justify,
                         style: TextStyle(fontSize: 18),
                       ),
                     ]))),
       )
-    ]));
+    ])) : Loading();
   }
 }

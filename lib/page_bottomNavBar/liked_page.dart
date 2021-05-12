@@ -1,10 +1,14 @@
+import 'package:first_app/models/user.dart';
 import 'package:first_app/show_products_page/TreeItem.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class LikedPage extends StatefulWidget {
+  User user;
   @override
   _LikedPageState createState() => _LikedPageState();
+
+  LikedPage({this.user});
 }
 
 class _LikedPageState extends State<LikedPage> {
@@ -137,64 +141,64 @@ class _LikedPageState extends State<LikedPage> {
                       ],
                     )),
                 SizedBox(height: 20,),
-                Container(
-                  height: 610,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.only(left: 8.0),
-                        child: Text("Có thể bạn cũng thích", style: TextStyle(fontSize: 21, fontWeight: FontWeight.w700, color: Color(0xFF488B66)),),
-                      ),
-                      Expanded(
-                        child: GridView.count(
-                          crossAxisCount: 2,
-                          childAspectRatio: 0.75,
-                          //padding: const EdgeInsets.all(4.0),
-                          //mainAxisSpacing: 0.0,
-                          //crossAxisSpacing: 0.0,
-                          children: [
-                            TreeItem(
-                                name: "Xương rồng",
-                                image: "assets/xuong_rong.jpg",
-                                price: "20k",
-                                amount: '2',
-                                isFavorited: false,
-                                location: "Hà Nội"),
-                            TreeItem(
-                                name: "Xương rồng",
-                                image: "assets/xuong_rong.jpg",
-                                price: "20k",
-                                amount: '2',
-                                isFavorited: false,
-                                location: "Hà Nội"),
-                            TreeItem(
-                                name: "Xương rồng",
-                                image: "assets/xuong_rong.jpg",
-                                price: "20k",
-                                amount: '2',
-                                isFavorited: false,
-                                location: "Hà Nội"),
-                            TreeItem(
-                                name: "Xương rồng",
-                                image: "assets/xuong_rong.jpg",
-                                price: "20k",
-                                amount: '2',
-                                isFavorited: false,
-                                location: "Hà Nội"),
-                            TreeItem(
-                                name: "Xương rồng",
-                                image: "assets/xuong_rong.jpg",
-                                price: "20k",
-                                amount: '2',
-                                isFavorited: false,
-                                location: "Hà Nội"),
-                          ],
-                        ),
-                      ),
-                    ],
-                  ),
-                )
+                // Container(
+                //   height: 610,
+                //   child: Column(
+                //     crossAxisAlignment: CrossAxisAlignment.start,
+                //     children: [
+                //       Padding(
+                //         padding: const EdgeInsets.only(left: 8.0),
+                //         child: Text("Có thể bạn cũng thích", style: TextStyle(fontSize: 21, fontWeight: FontWeight.w700, color: Color(0xFF488B66)),),
+                //       ),
+                //       Expanded(
+                //         child: GridView.count(
+                //           crossAxisCount: 2,
+                //           childAspectRatio: 0.75,
+                //           //padding: const EdgeInsets.all(4.0),
+                //           //mainAxisSpacing: 0.0,
+                //           //crossAxisSpacing: 0.0,
+                //           children: [
+                //             TreeItem(
+                //                 name: "Xương rồng",
+                //                 image: "assets/xuong_rong.jpg",
+                //                 price: "20k",
+                //                 amount: '2',
+                //                 isFavorited: false,
+                //                 location: "Hà Nội"),
+                //             TreeItem(
+                //                 name: "Xương rồng",
+                //                 image: "assets/xuong_rong.jpg",
+                //                 price: "20k",
+                //                 amount: '2',
+                //                 isFavorited: false,
+                //                 location: "Hà Nội"),
+                //             TreeItem(
+                //                 name: "Xương rồng",
+                //                 image: "assets/xuong_rong.jpg",
+                //                 price: "20k",
+                //                 amount: '2',
+                //                 isFavorited: false,
+                //                 location: "Hà Nội"),
+                //             TreeItem(
+                //                 name: "Xương rồng",
+                //                 image: "assets/xuong_rong.jpg",
+                //                 price: "20k",
+                //                 amount: '2',
+                //                 isFavorited: false,
+                //                 location: "Hà Nội"),
+                //             TreeItem(
+                //                 name: "Xương rồng",
+                //                 image: "assets/xuong_rong.jpg",
+                //                 price: "20k",
+                //                 amount: '2',
+                //                 isFavorited: false,
+                //                 location: "Hà Nội"),
+                //           ],
+                //         ),
+                //       ),
+                //     ],
+                //   ),
+                // )
               ],
             )
         ));

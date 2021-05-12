@@ -14,7 +14,7 @@ class uploadFile {
         "users/$uid/avatar");
     StorageUploadTask uploadTask = reference.putFile(_imageFile);
     StorageTaskSnapshot taskSnapshot = await uploadTask.onComplete;
-    final String downloadImage = await taskSnapshot.ref.getDownloadURL();
+    String downloadImage = await taskSnapshot.ref.getDownloadURL();
     Firestore.instance.collection("users").document(uid).updateData({
       'urlImage' : downloadImage
     });
@@ -28,19 +28,21 @@ class uploadFile {
     await handbookService().getHandBook(userUid).then((QuerySnapshot value){
       if(value.documents.isNotEmpty){
         value.documents.forEach((element) {
-          number ++;
+          print(number);
+          number++;
         });
       }
     });
     // up file to storage in firebase
       StorageReference reference = FirebaseStorage.instance.ref().child(
-          "users/$userUid/handbooks/image_$number");
+          "handbooks/$userUid/image_$number");
       StorageUploadTask uploadTask = reference.putFile(_imageFile);
       StorageTaskSnapshot taskSnapshot = await uploadTask.onComplete;
-      final String downloadImage = await taskSnapshot.ref.getDownloadURL();
+      String downloadImage = await taskSnapshot.ref.getDownloadURL();
       Firestore.instance.collection("handbooks").document(handbookUid).updateData({
         'imageUrl' : downloadImage
       });
+      print("this is link"+downloadImage);
       return taskSnapshot.ref.getDownloadURL();
   }
 }
