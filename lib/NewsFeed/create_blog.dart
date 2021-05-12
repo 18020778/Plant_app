@@ -138,15 +138,9 @@ class _CreateBlogState extends State<CreateBlog> {
                       Row(
                         children: <Widget>[
                           Container(
-                            width : 100.0,
-                            child: TextField(
-                            textAlign: TextAlign.justify,
-                            //keyboardType: TextInputType.multiline,
-                            maxLines: null,
-                            style: TextStyle(fontSize: 20),
-                            decoration: InputDecoration(
-                              hintText: "Thể loại cây",
-                            ),
+                            width :150,
+                            child: Text(
+                            "Thể loại cây ", style: TextStyle( fontSize:20 ),
                           ),
                           ),
                           Container(child:
