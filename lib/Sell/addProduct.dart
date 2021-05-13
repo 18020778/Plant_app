@@ -6,8 +6,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
-import 'package:first_app/Sell/AddProduct/components/transport.dart';
-import 'package:first_app/Sell/AddProduct/components/specification.dart';
+import 'package:first_app/Sell/transport.dart';
+import 'package:first_app/Sell/specification.dart';
 import 'package:image_picker/image_picker.dart';
 
 class AddProduct extends StatefulWidget {
