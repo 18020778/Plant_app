@@ -13,6 +13,7 @@ import 'package:first_app/services/uploadFile.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:first_app/Sell/myShop.dart';
 
 class AccountPage extends StatefulWidget {
   User user;
@@ -204,8 +205,8 @@ class _AccountPageState extends State<AccountPage> {
                             decoration: BoxDecoration(color: Colors.white),
                           ),
                           FlatButton(onPressed: () {
-                            // Navigator.push(context, MaterialPageRoute(builder: (
-                            //     context) => CreateBlog()));
+                             Navigator.push(context, MaterialPageRoute(builder: (
+                                 context) => MyShop()));
                           },
                               child: Row(
                                 children: [
