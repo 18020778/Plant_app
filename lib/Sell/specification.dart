@@ -1,0 +1,134 @@
+import 'package:flutter/material.dart';
+
+
+class Specification extends StatelessWidget {
+  String value;
+  // This widget is the root of your application.
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Color(0xFF407C5A),
+        iconTheme: IconThemeData(
+          color: Colors.white,
+        ),
+        title:  Text(
+          'Đặc tả',
+          style: TextStyle(color: Colors.white, fontSize: 22),
+        ),
+        centerTitle: true,
+
+      ),
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Row(
+                //mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  Icon(Icons.access_time),
+                  Text(
+                    ' Tuổi thọ ',
+                    style: TextStyle(fontSize: 23, fontWeight: FontWeight.w600),
+                  ),
+                  //
+                  Expanded(
+                    child: new TextField(
+                      textAlign: TextAlign.right,
+                      decoration: InputDecoration(
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(10.0),
+                            borderSide: BorderSide.none,
+                          ),
+                          hintText: 'Nhập ',
+                          hintStyle: TextStyle(color: Colors.green, fontSize: 18) ),
+                      textDirection: TextDirection.ltr,
+
+                      style: TextStyle(fontSize: 20),
+
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Row(
+                //mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  Icon(Icons.ac_unit_rounded),
+                  Text(
+                    ' Xuất xứ ',
+                    style: TextStyle(fontSize: 23, fontWeight: FontWeight.w600),
+                  ),
+                  //
+                  Expanded(
+                    child: new TextField(
+                      textAlign: TextAlign.right,
+                      decoration: InputDecoration(
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(10.0),
+                            borderSide: BorderSide.none,
+                          ),
+                          fillColor: Colors.green,
+                          hintText: 'Nhập ',
+                          hintStyle: TextStyle(color: Colors.green, fontSize: 18) ),
+
+                      style: TextStyle(fontSize: 20),
+
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            SizedBox(
+              height: 10,
+            ),
+            Padding(
+                padding:const EdgeInsets.all(8.0),
+                child: Column(
+                    children: [
+                      Row(
+                        children:[
+                            Icon(Icons.access_alarms),
+                            Text(
+                              ' Thời gian chăm sóc ',
+                                style: TextStyle(fontSize: 23, fontWeight: FontWeight.w600),
+                            ),
+                        ],
+                      ),
+                      SizedBox(
+                        height: 20,
+                      ),
+                      TextField(
+                        textAlign: TextAlign.left,
+                        decoration: InputDecoration(
+                            filled: true,
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(10.0),
+                              borderSide: BorderSide(
+                                color: Color(0xFF407C5A),
+                              ),
+                            ),
+
+                            hintText: 'Nhập tại đây ',
+                            hintStyle: TextStyle(color: Colors.green, fontSize: 20, fontWeight: FontWeight.w500) ),
+                            style: TextStyle(fontSize: 20),
+                            maxLines: 6,
+                            onChanged: (text){
+                                value=text;
+                                },
+
+                      ),
+                    ]
+                ),
+            ),
+
+          ],
+        ),
+      ),
+    );
+  }
+
+}
