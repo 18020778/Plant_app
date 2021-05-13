@@ -13,7 +13,7 @@ class _TransportState extends State<Transport>{
   @override
   Widget build (BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
+      appBar: AppBar(
         backgroundColor: Color(0xFF407C5A),
         iconTheme: IconThemeData(
           color: Colors.yellow,

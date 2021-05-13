@@ -6,12 +6,11 @@ import 'package:first_app/NewsFeed/my_blog.dart';
 import 'package:first_app/account/edit_info.dart';
 import 'package:first_app/login_reg_pages/login_page.dart';
 import 'package:first_app/models/user.dart';
-import 'package:first_app/sell/addProduct.dart';
+import 'package:first_app/Sell/addProduct.dart';
 import 'package:first_app/services/database.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:first_app/Sell/myShop.dart';
 
 class AccountPage extends StatefulWidget {
   User user;
@@ -190,13 +189,8 @@ class _AccountPageState extends State<AccountPage> {
                             decoration: BoxDecoration(color: Colors.white),
                           ),
                           FlatButton(onPressed: () {
-<<<<<<< HEAD
                             Navigator.push(context, MaterialPageRoute(builder: (
                                 context) => AddProduct()));
-=======
-                             Navigator.push(context, MaterialPageRoute(builder: (
-                                 context) => MyShop()));
->>>>>>> 8dfe00f3b35c6246cca82171df980a3a7ca5de8e
                           },
                               child: Row(
                                 children: [
