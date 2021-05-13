@@ -1,6 +1,8 @@
+import 'package:first_app/models/transport.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 class Transport extends StatefulWidget {
   @override
@@ -8,8 +10,12 @@ class Transport extends StatefulWidget {
 }
 
 class _TransportState extends State<Transport>{
-  //final picker =ImagePicker();
+  String weight = '';
   bool enableFeature = false;
+  whenCompleted(){
+          if(this.weight!='') return true;
+          return false;
+  }
   @override
   Widget build (BuildContext context) {
     return Scaffold(
@@ -22,6 +28,25 @@ class _TransportState extends State<Transport>{
           'Phí vận chuyển',
           style: TextStyle(color: Colors.yellow, fontSize: 23, fontWeight: FontWeight.bold),
         ),
+        actions: [
+          FlatButton(
+              onPressed: (){
+                if(whenCompleted()==true){
+                  Navigator.pop(context, new TransportProduct(this.weight, this.enableFeature));
+                }
+                else
+                {
+                  Fluttertoast.showToast(msg: "Vui lòng điền đầy đủ thông tin");
+                }
+
+              },
+              child: Text(
+                "Lưu",
+                style: TextStyle(fontSize: 20, color: Colors.yellow),
+              )
+          ),
+
+        ],
         centerTitle: true,
       ),
       body: SingleChildScrollView(
@@ -32,9 +57,9 @@ class _TransportState extends State<Transport>{
               child: Row(
                 //mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
-                  //Icon(Icons.monetization_on_sharp),
+                  Icon(Icons.add_shopping_cart_sharp),
                   Text(
-                    'Cân nặng sản phẩm ',
+                    'Cân nặng (kg)',
                     style: TextStyle(fontSize: 23,),
                   ),
                   //
@@ -47,11 +72,14 @@ class _TransportState extends State<Transport>{
                             borderSide: BorderSide.none,
                           ),
                           fillColor: Colors.green,
-                          hintText: 'gam',
+                          hintText: 'kilogram',
                           hintStyle: TextStyle(color: Colors.green, decoration: TextDecoration.underline, fontSize: 20) ),
                       textDirection: TextDirection.rtl,
                       keyboardType: TextInputType.number,
                       style: TextStyle(fontSize: 20),
+                      onChanged: (value){
+                        this.weight = value;
+                      },
                       inputFormatters: <TextInputFormatter>[
                         WhitelistingTextInputFormatter.digitsOnly
                       ],

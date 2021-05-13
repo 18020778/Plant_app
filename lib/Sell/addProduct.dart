@@ -1,13 +1,20 @@
 import 'dart:io';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:first_app/login_reg_pages/loading.dart';
+import 'package:first_app/models/plant.dart';
+import 'package:first_app/models/product.dart';
+import 'package:first_app/models/specifcation.dart';
+import 'package:first_app/models/transport.dart';
 import 'package:first_app/sell/specification.dart';
 import 'package:first_app/sell/transport.dart';
+import 'package:first_app/services/plant_service.dart';
+import 'package:first_app/services/productService.dart';
+import 'package:first_app/services/uploadFile.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:image_picker/image_picker.dart';
 
 class AddProduct extends StatefulWidget {
@@ -16,18 +23,28 @@ class AddProduct extends StatefulWidget {
 }
 
 class _AddProductState extends State<AddProduct>{
-  String title= '';
-  String value;
-  String description = '';
-  String dropDownValue;
-  double price=0;
+  SpecificationProduct specificationProduct;
+  TransportProduct transportProduct;
+  String title='';
+  String description='' ;
+  String plant;
+  String height='';
+  String amount='';
   DateTime date=DateTime.now();
   bool enableFeature = false;
   final picker = ImagePicker();
   List<File> _image =[];
-  double val = 0;
   CollectionReference imgRef;
   File imageFile;
+  String quantityInStock='';
+  List<String> namePlants = new List();
+  bool viewResult = false;
+  whenCompleted(){
+    if(this.title!='' && this.description!='' && this.specificationProduct!=null && this.amount!='' && this.height!='' && this.plant!=null && this.transportProduct!=null && this.quantityInStock != ''){
+      return true;
+    }
+    return false;
+  }
   _openGallery(BuildContext context) async {
     var picture = await ImagePicker.pickImage(source: ImageSource.gallery);
     setState(() {
@@ -45,6 +62,27 @@ class _AddProductState extends State<AddProduct>{
     });
     Navigator.of(context).pop();
   }
+
+
+  @override
+  void initState() {
+    super.initState();
+    PlantService().getPlants().then((QuerySnapshot docs){
+      if(docs.documents.isNotEmpty){
+        setState(() {
+          this.viewResult = true;
+        });
+        docs.documents.forEach((element) {
+          this.namePlants.add(element.data["plantName"]);
+        });
+        print(this.namePlants);
+      }else{
+        print("Empty");
+      }
+    });
+
+  }
+
   Future<void> _showChoiceDialog(BuildContext context) {
 
     return showDialog(
@@ -78,7 +116,7 @@ class _AddProductState extends State<AddProduct>{
 
   @override
   Widget build (BuildContext context) {
-    return Scaffold(
+    return this.viewResult ? Scaffold(
       appBar: AppBar(
         backgroundColor: Color(0xFF407C5A),
         iconTheme: IconThemeData(
@@ -88,18 +126,6 @@ class _AddProductState extends State<AddProduct>{
           'Thêm sản phẩm',
           style: TextStyle(color: Colors.yellow, fontSize: 25),
         ),
-        actions: [
-          FlatButton(
-              onPressed: (){
-                //addProduct().whenComplete(() => Navigator.of(context).pop());
-              },
-              child: Text(
-                "Lưu",
-                style: TextStyle(fontSize: 20, color: Colors.yellow),
-              )
-          ),
-
-        ],
         centerTitle: true,
       ),
       body: SingleChildScrollView(
@@ -129,7 +155,6 @@ class _AddProductState extends State<AddProduct>{
                           ),
                         );
                       }),
-
                     ),
                   ))
               )
@@ -161,7 +186,7 @@ class _AddProductState extends State<AddProduct>{
                         Icon(Icons.add_location),
                         Text(
                           ' Cách chăm sóc ',
-                          style: TextStyle(fontSize: 23, fontWeight: FontWeight.w600),
+                          style: TextStyle(fontSize: 20, fontWeight: FontWeight.w600),
                         ),
                       ],
                     ),
@@ -178,8 +203,6 @@ class _AddProductState extends State<AddProduct>{
                               color: Color(0xFF407C5A),
                             ),
                           ),
-                          //errorText: 'Bắt buộc phải nhập',
-
                           hintText: 'Nhập tại đây ',
                           hintStyle: TextStyle(color: Colors.green, fontSize: 20, fontWeight: FontWeight.w500) ),
                       style: TextStyle(fontSize: 20),
@@ -197,10 +220,15 @@ class _AddProductState extends State<AddProduct>{
               padding: const EdgeInsets.symmetric(),
               child: FlatButton(
                 onPressed: () async {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => Specification()),
-                  );
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => Specification()),
+                    ).then((value){
+                      setState(() {
+                        this.specificationProduct = value;
+                      });
+                    });
+
                 },
                 child: Row(
                   children: <Widget>[
@@ -209,7 +237,7 @@ class _AddProductState extends State<AddProduct>{
                       child:
                       Text(
                         ' Đặc tả cây',
-                        style: TextStyle(fontSize: 23),
+                        style: TextStyle(fontSize: 20),
                       ),
                     ),
                     Icon(Icons.arrow_forward_ios),
@@ -225,8 +253,8 @@ class _AddProductState extends State<AddProduct>{
                 children: [
                   Icon(Icons.monetization_on_sharp),
                   Text(
-                    ' Giá sản phẩm ',
-                    style: TextStyle(fontSize: 23, fontWeight: FontWeight.w600),
+                    ' Giá sản phẩm (đồng) ',
+                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.w600),
                   ),
                   //
                   Expanded(
@@ -243,6 +271,9 @@ class _AddProductState extends State<AddProduct>{
                       textDirection: TextDirection.rtl,
                       keyboardType: TextInputType.number,
                       style: TextStyle(fontSize: 20),
+                      onChanged: (value){
+                        this.amount = value;
+                      },
                       inputFormatters: <TextInputFormatter>[
                         WhitelistingTextInputFormatter.digitsOnly
                       ],
@@ -259,7 +290,7 @@ class _AddProductState extends State<AddProduct>{
                   Icon(Icons.monetization_on_sharp),
                   Text(
                     ' Chiều cao (cm) ',
-                    style: TextStyle(fontSize: 23, fontWeight: FontWeight.w600),
+                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.w600),
                   ),
                   //
                   Expanded(
@@ -276,6 +307,9 @@ class _AddProductState extends State<AddProduct>{
                       textDirection: TextDirection.rtl,
                       keyboardType: TextInputType.number,
                       style: TextStyle(fontSize: 20),
+                      onChanged: (value){
+                        this.height = value;
+                      },
                       inputFormatters: <TextInputFormatter>[
                         WhitelistingTextInputFormatter.digitsOnly
                       ],
@@ -294,7 +328,7 @@ class _AddProductState extends State<AddProduct>{
                         Icon(Icons.class__outlined),
                         Text(
                           ' Phân loại cây ',
-                          style: TextStyle(fontSize: 23,fontWeight: FontWeight.w600),
+                          style: TextStyle(fontSize: 20,fontWeight: FontWeight.w600),
                         ),
                       ],
                     ),
@@ -311,9 +345,9 @@ class _AddProductState extends State<AddProduct>{
 
                         child:  DropdownButton(
                           hint: Text('Select'),
-                          value: dropDownValue,
+                          value: plant,
                           icon: const Icon(Icons.arrow_drop_down),
-                          iconSize: 30,
+                          iconSize: 20,
                           elevation: 16,
                           isExpanded: true,
                           isDense: true,
@@ -321,19 +355,12 @@ class _AddProductState extends State<AddProduct>{
                           style: const TextStyle(color: Colors.black, fontSize: 20,fontWeight: FontWeight.w500),
                           onChanged: (newValue){
                             setState(() {
-                              dropDownValue=newValue;
+                              plant=newValue;
                             });
                           },
-                          items: <String>[
-                            'Cây ăn quả',
-                            'Cây dành cho người nghèo',
-                            'Cây hết tiền rồi',
-                            'Cây không có  gì ăn',
-                            'Cây đói',
-                            'Cây thuốc súng',
-                            'Cây mê trai',
-                            'Kim Heechul và người đàn bà điên'
-                          ].map((String value){
+
+                          items: namePlants
+                              .map((String value) {
                             return DropdownMenuItem<String>(
                               value: value,
                               child: Text(value),
@@ -353,7 +380,11 @@ class _AddProductState extends State<AddProduct>{
                   Navigator.push(
                     context,
                     MaterialPageRoute(builder: (context) => Transport()),
-                  );
+                  ).then((value){
+                    setState(() {
+                      this.transportProduct = value;
+                    });
+                  });
                 },
                 child: Row(
                   children: <Widget>[
@@ -362,7 +393,7 @@ class _AddProductState extends State<AddProduct>{
                       child:
                       Text(
                         ' Phí vận chuyển',
-                        style: TextStyle(fontSize: 23),
+                        style: TextStyle(fontSize: 20),
                       ),
                     ),
                     Icon(Icons.arrow_forward_ios),
@@ -371,6 +402,44 @@ class _AddProductState extends State<AddProduct>{
 
               ),
             ),
+
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16.0),
+              child: Row(
+                //mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  Icon(Icons.account_balance_rounded),
+                  Text(
+                    ' Số lượng trong kho ',
+                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.w600),
+                  ),
+                  //
+                  Expanded(
+                    child: new TextField(
+                      textAlign: TextAlign.right,
+                      decoration: InputDecoration(
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(10.0),
+                            borderSide: BorderSide.none,
+                          ),
+                          fillColor: Colors.green,
+                          hintText: 'Nhập ',
+                          hintStyle: TextStyle(color: Colors.green, decoration: TextDecoration.underline, fontSize: 18) ),
+                      textDirection: TextDirection.rtl,
+                      keyboardType: TextInputType.number,
+                      style: TextStyle(fontSize: 20),
+                      onChanged: (value){
+                        this.quantityInStock = value;
+                      },
+                      inputFormatters: <TextInputFormatter>[
+                        WhitelistingTextInputFormatter.digitsOnly
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            ),
+
             SizedBox(height: 5,),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16),
@@ -381,7 +450,7 @@ class _AddProductState extends State<AddProduct>{
                   Icon(Icons.addchart),
                   Text(
                     ' Hàng đặt trước',
-                    style: TextStyle(fontSize: 23,fontWeight: FontWeight.w600),
+                    style: TextStyle(fontSize: 20,fontWeight: FontWeight.w600),
                   ),
                   new Spacer(),
                   Switch(
@@ -400,7 +469,21 @@ class _AddProductState extends State<AddProduct>{
             RaisedButton(
               color: Color(0xFF407C5A),
               shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-              onPressed: ()=>null,
+              onPressed: () async {
+                if(whenCompleted()==true){
+                    Product product = new Product(productName: this.title, takeCareOfTree: this.description, longevity: this.specificationProduct.age, origin: this.specificationProduct.origin, temperature: this.specificationProduct.temperature, theAmountOfWater: this.specificationProduct.theAmountOfWater,price: this.amount, height: this.height, plantID: this.plant, weight: this.transportProduct.weight, fastDelivery: this.transportProduct.fastDelivery, quantityInStock: this.quantityInStock,preOrder: this.enableFeature );
+                    ProductService().createProduction(product).then((value){
+                      if(_image.length>0){
+                        _image.forEach((element) {
+                          uploadFile().uploadImageProduct(value, element);
+                        });
+                      }
+                      Navigator.pop(context);
+                    });
+                }else {
+                  Fluttertoast.showToast(msg: "Vui lòng điền đầy đủ thông tin");
+                }
+              },
               child: Text(
                 'Lưu'.toUpperCase(),
                 style: TextStyle(fontSize: 20,color: Colors.yellow,),
@@ -409,7 +492,7 @@ class _AddProductState extends State<AddProduct>{
           ],
         ),
       ),
-    );
+    ) : Loading();
   }
 
 }

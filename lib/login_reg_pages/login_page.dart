@@ -80,6 +80,7 @@ class _loginPageState extends State<loginPage> {
                               borderRadius: BorderRadius.all(Radius.circular(20)),
                             ),
                             onPressed: () async {
+                              FirebaseAuth.instance.signOut();
                               _verifyPhone();
                             },
                             child: Text("LOGIN",

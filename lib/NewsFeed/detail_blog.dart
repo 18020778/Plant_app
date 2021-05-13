@@ -1,4 +1,4 @@
-import 'package:carousel_pro/carousel_pro.dart';
+  import 'package:carousel_pro/carousel_pro.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:first_app/login_reg_pages/loading.dart';
 import 'package:first_app/models/articles.dart';
