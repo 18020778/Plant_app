@@ -22,104 +22,105 @@ class SummaryNews extends StatefulWidget {
 
 class _SummaryNewsState extends State<SummaryNews> {
   List<Articles> articles  = new List();
-  bool viewResult  =  false;
   var count;
   loadingData() async {
     List<Articles> rawData = new List();
     await handbookService().getAllHandBook().then((QuerySnapshot value){
-            count = value.documents.length;
-            if(value.documents.isNotEmpty) {
-              value.documents.forEach((element){
-                //listHandBook.add(handBook.fromJson(element.data));
-                Database().getUserInfo(element.data['userUid']).then((value){
-                  rawData.add(new Articles(value, handBook.fromJson(element.data)));
-                  if(rawData.length == count)
-                  {
-                    setState(() {
-                      this.articles = rawData;
-                    });
-                  }
-                });
+      count = value.documents.length;
+      if(value.documents.isNotEmpty) {
+        value.documents.forEach((element){
+          //listHandBook.add(handBook.fromJson(element.data));
+          Database().getUserInfo(element.data['userUid']).then((value){
+            rawData.add(new Articles(value, handBook.fromJson(element.data)));
+            if(rawData.length == count)
+            {
+              setState(() {
+                this.articles = rawData;
               });
             }
           });
-        return this.articles;
+        });
+      }
+    });
+    return this.articles;
   }
 
   @override
   Widget build(BuildContext context) {
-            return   Container(
-                  child: Theme(
-                    data: ThemeData(
-                        appBarTheme: AppBarTheme(
-                            backgroundColor: Color(0xFF407C5A),
-                            actionsIconTheme: IconThemeData(color: Colors.white)
-                        )
-                    ),
-                    child: Scaffold(
-                      appBar: AppBar(
+    return   Container(
+      child: Theme(
+        data: ThemeData(
+            appBarTheme: AppBarTheme(
+                backgroundColor: Color(0xFF407C5A),
+                actionsIconTheme: IconThemeData(color: Colors.white)
+            )
+        ),
+        child: Scaffold(
+          appBar: AppBar(
 
-                        toolbarHeight: 100,
-                        centerTitle: true,
-                        title: Text('Cẩm nang chăm cây', style: TextStyle(fontSize: 28),),
-                        automaticallyImplyLeading: false,
-                        actions: <Widget>[
-                          IconButton(icon: Icon(Icons.search, size: 28,), onPressed: (){})
-                        ],
-                        // bottom: TabBar(
-                        //   isScrollable: true,
-                        //   indicatorColor: Colors.white,
-                        //   tabs: <Widget>[
-                        //     Padding(
-                        //       padding: const EdgeInsets.all(8.0),
-                        //       child: Text("Hoa hồng", style: TextStyle(fontSize: 18)),
-                        //     ),
-                        //     Padding(
-                        //       padding: const EdgeInsets.all(8.0),
-                        //       child: Text("Hoa cúc", style: TextStyle(fontSize: 18)),
-                        //     ),
-                        //     Padding(
-                        //       padding: const EdgeInsets.all(8.0),
-                        //       child: Text("Hoa lan", style: TextStyle(fontSize: 18)),
-                        //     ),
-                        //     Padding(
-                        //       padding: const EdgeInsets.all(8.0),
-                        //       child: Text("Bonsai", style: TextStyle(fontSize: 18)),
-                        //     ),
-                        //     Padding(
-                        //       padding: const EdgeInsets.all(8.0),
-                        //       child: Text('Cây ăn quả', style: TextStyle(fontSize: 18),),
-                        //     ),
-                        //   ],
-                        // ),
-                      ),
-                      body: FutureBuilder(
-                        future: loadingData(),
-                        builder: (context,  AsyncSnapshot snapshot){
-                              if(snapshot.hasData){
-                                return Container(
-                                    child: ListView.builder(
-                                  padding: EdgeInsets.symmetric(horizontal: 5, vertical: 13),
-                                  itemCount:this.articles.length,
-                                  scrollDirection: Axis.vertical,
-                                  itemBuilder: (context,index) {
-                                    return _buildArticleItem(this.articles, index);
-                                  },
-                                  // separatorBuilder: (context, index) => SizedBox(height: 16)
-                                ));
-                                  // child: TabBarView(
-                                  //   children: <Widget>[
-                                  //     ListView.separated(
-                                  //       ,),
-                                  //   ],
-                                  //),
-                              }else
-                                return Loading();
-                        },
-                      ),
+            toolbarHeight: 100,
+            centerTitle: true,
+            title: Text('Cẩm nang chăm cây', style: TextStyle(fontSize: 28),),
+            automaticallyImplyLeading: false,
+            // actions: <Widget>[
+            //   IconButton(icon: Icon(Icons.search, size: 28,), onPressed: (){
+            //
+            //   })
+            // ],
+            // bottom: TabBar(
+            //   isScrollable: true,
+            //   indicatorColor: Colors.white,
+            //   tabs: <Widget>[
+            //     Padding(
+            //       padding: const EdgeInsets.all(8.0),
+            //       child: Text("Hoa hồng", style: TextStyle(fontSize: 18)),
+            //     ),
+            //     Padding(
+            //       padding: const EdgeInsets.all(8.0),
+            //       child: Text("Hoa cúc", style: TextStyle(fontSize: 18)),
+            //     ),
+            //     Padding(
+            //       padding: const EdgeInsets.all(8.0),
+            //       child: Text("Hoa lan", style: TextStyle(fontSize: 18)),
+            //     ),
+            //     Padding(
+            //       padding: const EdgeInsets.all(8.0),
+            //       child: Text("Bonsai", style: TextStyle(fontSize: 18)),
+            //     ),
+            //     Padding(
+            //       padding: const EdgeInsets.all(8.0),
+            //       child: Text('Cây ăn quả', style: TextStyle(fontSize: 18),),
+            //     ),
+            //   ],
+            // ),
+          ),
+          body: FutureBuilder(
+            future: loadingData(),
+            builder: (context,  AsyncSnapshot snapshot){
+              if(snapshot.hasData){
+                return Container(
+                    child: ListView.builder(
+                      padding: EdgeInsets.symmetric(horizontal: 5, vertical: 13),
+                      itemCount:this.articles.length,
+                      scrollDirection: Axis.vertical,
+                      itemBuilder: (context,index) {
+                        return _buildArticleItem(this.articles, index);
+                      },
+                      // separatorBuilder: (context, index) => SizedBox(height: 16)
+                    ));
+                // child: TabBarView(
+                //   children: <Widget>[
+                //     ListView.separated(
+                //       ,),
+                //   ],
+                //),
+              }else
+                return Loading();
+            },
+          ),
 
 
-                      /*body: Container(
+          /*body: Container(
                         color: Colors.blueGrey[50],
                         child: TabBarView(
                           children: <Widget>[
@@ -133,20 +134,20 @@ class _SummaryNewsState extends State<SummaryNews> {
                           ],
                         ),
                       ),*/
-                      floatingActionButton: Row(
-                        mainAxisAlignment: MainAxisAlignment.end,
-                        children: [
-                          FloatingActionButton(
-                            backgroundColor: Color(0xFF407C5A),
-                            onPressed: (){
-                              Navigator.push(context, MaterialPageRoute(builder: (context) => CreateBlog(user: widget.user,)));
-                            },
-                            child: Icon(FontAwesomeIcons.pen),)
-                        ],
-                      ),
-                    ),
-                  ),
-                );
+          floatingActionButton: Row(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              FloatingActionButton(
+                backgroundColor: Color(0xFF407C5A),
+                onPressed: (){
+                  Navigator.push(context, MaterialPageRoute(builder: (context) => CreateBlog(user: widget.user,)));
+                },
+                child: Icon(FontAwesomeIcons.pen),)
+            ],
+          ),
+        ),
+      ),
+    );
     //       }
     //       else return Loading();
     // });
@@ -201,7 +202,7 @@ class _SummaryNewsState extends State<SummaryNews> {
                                   )),
                                   WidgetSpan(child: SizedBox(width: 5,)),
                                   TextSpan(
-                                   text: article.author.getUserName(),
+                                    text: article.author.getUserName(),
                                     style: TextStyle(fontSize: 17),
                                   ) ,
                                   WidgetSpan(child: SizedBox(width: 25,)),

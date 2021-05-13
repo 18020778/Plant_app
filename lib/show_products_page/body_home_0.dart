@@ -44,13 +44,13 @@ class _bodyHomeState extends State<bodyHome> {
     });
     PlantService().getPlants().then((QuerySnapshot docs){
       if(docs.documents.isNotEmpty){
-          docs.documents.forEach((element) {
-            listPlants.add(Plants.fromJson(element.data));
-          });
-          setState(() {
-            this.viewResult +=1;
-            if (this.viewResult == 2) this.showResult = true;
-          });
+        docs.documents.forEach((element) {
+          listPlants.add(Plants.fromJson(element.data));
+        });
+        setState(() {
+          this.viewResult +=1;
+          if (this.viewResult == 2) this.showResult = true;
+        });
       }else{
         print("Empty");
       }
@@ -99,28 +99,28 @@ class _bodyHomeState extends State<bodyHome> {
                 ),
                 ListGroupOfTrees(this.listPlants),
                 SizedBox(height: 10,),
-                Container(
-                  alignment: Alignment.topLeft,
-                  margin: EdgeInsets.only(left: 10, top: 10),
-                  child: Text(
-                    "Tìm kiếm hàng đầu",
-                    style: TextStyle(
-                        color: Color(0xFF407C5A),
-                        fontWeight: FontWeight.w700, fontSize: 25),
-                  ),
-                ),
-                Container(
-                  width: screenWidth*0.96,
-                  height: screenWidth * 0.66,
-                  child: PageView(
-                    controller: controller,
-                    scrollDirection: Axis.horizontal,
-                    children: [
-                      TreeItem(name: "Xương rồng", image: "assets/xuong_rong.jpg", price: "20k", amount: '2', isFavorited: false, location: "Hà Nội"),
-                      TreeItem(name: "Xương rồng", image: "assets/xuong_rong.jpg", price: "20k", amount: '2', isFavorited: false, location: "Hà Nội"),
-                    ],
-                  ),
-                ),
+                // Container(
+                //   alignment: Alignment.topLeft,
+                //   margin: EdgeInsets.only(left: 10, top: 10),
+                //   child: Text(
+                //     "Tìm kiếm hàng đầu",
+                //     style: TextStyle(
+                //         color: Color(0xFF407C5A),
+                //         fontWeight: FontWeight.w700, fontSize: 25),
+                //   ),
+                // ),
+                // Container(
+                //   width: screenWidth*0.96,
+                //   height: screenWidth * 0.66,
+                //   child: PageView(
+                //     controller: controller,
+                //     scrollDirection: Axis.horizontal,
+                //     children: [
+                //       TreeItem(name: "Xương rồng", image: "assets/xuong_rong.jpg", price: "20k", amount: '2', isFavorited: false, location: "Hà Nội"),
+                //       TreeItem(name: "Xương rồng", image: "assets/xuong_rong.jpg", price: "20k", amount: '2', isFavorited: false, location: "Hà Nội"),
+                //     ],
+                //   ),
+                // ),
                 SizedBox(height: 10,),
                 Container(
                   alignment: Alignment.topLeft,

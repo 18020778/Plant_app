@@ -47,12 +47,12 @@ class ListGroupOfTrees extends StatelessWidget {
           : (glength / 4 + 1) * 110,
       decoration: BoxDecoration(
           gradient: LinearGradient(
-        begin: Alignment.topCenter,
-        end: Alignment.bottomCenter,
-        colors: [Colors.white, Color(4291751385)],
-      )),
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
+            colors: [Colors.white, Color(4291751385)],
+          )),
       child: GridView.count(
-        crossAxisCount: 4,
+        crossAxisCount: 3,
         childAspectRatio: 1.0,
         padding: const EdgeInsets.all(4.0),
         mainAxisSpacing: 15.0,
