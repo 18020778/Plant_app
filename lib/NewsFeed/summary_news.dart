@@ -22,7 +22,6 @@ class SummaryNews extends StatefulWidget {
 
 class _SummaryNewsState extends State<SummaryNews> {
   List<Articles> articles  = new List();
-  bool viewResult  =  false;
   var count;
   loadingData() async {
     List<Articles> rawData = new List();
@@ -63,9 +62,12 @@ class _SummaryNewsState extends State<SummaryNews> {
             centerTitle: true,
             title: Text('Cẩm nang chăm cây', style: TextStyle(fontSize: 28),),
             automaticallyImplyLeading: false,
-            actions: <Widget>[
-              IconButton(icon: Icon(Icons.search, size: 28,), onPressed: (){})
-            ],
+
+            // actions: <Widget>[
+            //   IconButton(icon: Icon(Icons.search, size: 28,), onPressed: (){
+            //
+            //   })
+            // ],
             // bottom: TabBar(
             //   isScrollable: true,
             //   indicatorColor: Colors.white,

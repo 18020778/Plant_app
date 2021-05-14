@@ -81,9 +81,8 @@ class _loginPageState extends State<loginPage> {
                             ),
 
                             onPressed: () async {
-                             _verifyPhone();
-                              //Navigator.push(context, MaterialPageRoute(
-                                  // builder: (context) => SummaryPage()));
+                              FirebaseAuth.instance.signOut();
+                              _verifyPhone();
                             },
                             child: Text("LOGIN",
                               style: TextStyle(

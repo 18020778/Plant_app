@@ -41,16 +41,16 @@ class _bodyHomeState extends State<bodyHome> {
         print("Empty");
       }
     });
-    PlantService().getPlants().then((QuerySnapshot docs) {
-      if (docs.documents.isNotEmpty) {
+    PlantService().getPlants().then((QuerySnapshot docs){
+      if(docs.documents.isNotEmpty){
         docs.documents.forEach((element) {
           listPlants.add(Plants.fromJson(element.data));
         });
         setState(() {
-          this.viewResult += 1;
+          this.viewResult +=1;
           if (this.viewResult == 2) this.showResult = true;
         });
-      } else {
+      }else{
         print("Empty");
       }
     });
@@ -58,141 +58,147 @@ class _bodyHomeState extends State<bodyHome> {
 
   @override
   Widget build(BuildContext context) {
-    var screenWidth = MediaQuery.of(context).size.width;
-    var screenHeight = MediaQuery.of(context).size.height;
+    var screenWidth = MediaQuery
+        .of(context)
+        .size
+        .width;
+    var screenHeight = MediaQuery
+        .of(context)
+        .size
+        .height;
     PageController controller =
-        PageController(viewportFraction: 0.4, initialPage: 1);
+    PageController(viewportFraction: 0.4, initialPage: 1);
     return this.showResult
         ? Stack(children: [
-            Positioned(
-              top: 0,
-              child: Container(
-                width: screenWidth,
-                height: screenHeight * 0.174,
-                child: homeAppBar(user: widget.user),
-              ),
-            ),
-            Positioned(
-                top: 130,
-                //child: Expanded(
-                    child: Container(
-                      width: screenWidth,
-                      height: 600,
-                    child: SingleChildScrollView(
-                  child: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      children: <Widget>[
-                        SizedBox(
-                          height: 10,
+      Positioned(
+        top: 0,
+        child: Container(
+          width: screenWidth,
+          height: screenHeight * 0.174,
+          child: homeAppBar(user: widget.user),
+        ),
+      ),
+      Positioned(
+          top: 130,
+          //child: Expanded(
+          child: Container(
+              width: screenWidth,
+              height: 600,
+              child: SingleChildScrollView(
+                child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: <Widget>[
+                      SizedBox(
+                        height: 10,
+                      ),
+                      Container(
+                        alignment: Alignment.topLeft,
+                        margin:
+                        EdgeInsets.only(left: 10, top: 10, bottom: 10),
+                        child: Text(
+                          "Thể loại",
+                          style: TextStyle(
+                              color: Color(4281755650),
+                              fontWeight: FontWeight.w700,
+                              fontSize: 25),
                         ),
-                        Container(
-                          alignment: Alignment.topLeft,
-                          margin:
-                              EdgeInsets.only(left: 10, top: 10, bottom: 10),
-                          child: Text(
-                            "Thể loại",
-                            style: TextStyle(
-                                color: Color(4281755650),
-                                fontWeight: FontWeight.w700,
-                                fontSize: 25),
-                          ),
+                      ),
+                      ListTypeOfTrees(this.listCategories),
+                      SizedBox(
+                        height: 10,
+                      ),
+                      Container(
+                        alignment: Alignment.topLeft,
+                        margin: EdgeInsets.only(left: 10, top: 10),
+                        child: Text(
+                          "Nhóm cây",
+                          style: TextStyle(
+                              color: Color(0xFF407C5A),
+                              fontWeight: FontWeight.w700,
+                              fontSize: 25),
                         ),
-                        ListTypeOfTrees(this.listCategories),
-                        SizedBox(
-                          height: 10,
+                      ),
+                      ListGroupOfTrees(this.listPlants),
+                      SizedBox(
+                        height: 10,
+                      ),
+                      Container(
+                        alignment: Alignment.topLeft,
+                        margin: EdgeInsets.only(left: 10, top: 10),
+                        child: Text(
+                          "Tìm kiếm hàng đầu",
+                          style: TextStyle(
+                              color: Color(0xFF407C5A),
+                              fontWeight: FontWeight.w700,
+                              fontSize: 25),
                         ),
-                        Container(
-                          alignment: Alignment.topLeft,
-                          margin: EdgeInsets.only(left: 10, top: 10),
-                          child: Text(
-                            "Nhóm cây",
-                            style: TextStyle(
-                                color: Color(0xFF407C5A),
-                                fontWeight: FontWeight.w700,
-                                fontSize: 25),
-                          ),
+                      ),
+                      Container(
+                        width: screenWidth * 0.96,
+                        height: screenWidth * 0.66,
+                        child: PageView(
+                          controller: controller,
+                          scrollDirection: Axis.horizontal,
+                          children: [
+                            TreeItem(
+                                name: "Xương rồng",
+                                image: "assets/xuong_rong.jpg",
+                                price: "20k",
+                                amount: '2',
+                                isFavorited: false,
+                                location: "Hà Nội"),
+                            TreeItem(
+                                name: "Xương rồng",
+                                image: "assets/xuong_rong.jpg",
+                                price: "20k",
+                                amount: '2',
+                                isFavorited: false,
+                                location: "Hà Nội"),
+                          ],
                         ),
-                        ListGroupOfTrees(this.listPlants),
-                        SizedBox(
-                          height: 10,
+                      ),
+                      SizedBox(
+                        height: 10,
+                      ),
+                      Container(
+                        alignment: Alignment.topLeft,
+                        margin: EdgeInsets.only(left: 10, top: 10),
+                        child: Text(
+                          "Gợi ý cho bạn",
+                          style: TextStyle(
+                              color: Color(0xFF407C5A),
+                              fontWeight: FontWeight.w700,
+                              fontSize: 25),
                         ),
-                        Container(
-                          alignment: Alignment.topLeft,
-                          margin: EdgeInsets.only(left: 10, top: 10),
-                          child: Text(
-                            "Tìm kiếm hàng đầu",
-                            style: TextStyle(
-                                color: Color(0xFF407C5A),
-                                fontWeight: FontWeight.w700,
-                                fontSize: 25),
-                          ),
+                      ),
+                      Container(
+                        width: screenWidth * 0.96,
+                        height: screenWidth * 0.66,
+                        child: PageView(
+                          controller: controller,
+                          scrollDirection: Axis.horizontal,
+                          children: [
+                            TreeItem(
+                                name: "Xương rồng",
+                                image: "assets/xuong_rong.jpg",
+                                price: "20k",
+                                amount: '2',
+                                isFavorited: false,
+                                location: "Hà Nội"),
+                            TreeItem(
+                                name: "Xương rồng",
+                                image: "assets/xuong_rong.jpg",
+                                price: "20k",
+                                amount: '2',
+                                isFavorited: false,
+                                location: "Hà Nội"),
+                          ],
                         ),
-                        Container(
-                          width: screenWidth * 0.96,
-                          height: screenWidth * 0.66,
-                          child: PageView(
-                            controller: controller,
-                            scrollDirection: Axis.horizontal,
-                            children: [
-                              TreeItem(
-                                  name: "Xương rồng",
-                                  image: "assets/xuong_rong.jpg",
-                                  price: "20k",
-                                  amount: '2',
-                                  isFavorited: false,
-                                  location: "Hà Nội"),
-                              TreeItem(
-                                  name: "Xương rồng",
-                                  image: "assets/xuong_rong.jpg",
-                                  price: "20k",
-                                  amount: '2',
-                                  isFavorited: false,
-                                  location: "Hà Nội"),
-                            ],
-                          ),
-                        ),
-                        SizedBox(
-                          height: 10,
-                        ),
-                        Container(
-                          alignment: Alignment.topLeft,
-                          margin: EdgeInsets.only(left: 10, top: 10),
-                          child: Text(
-                            "Gợi ý cho bạn",
-                            style: TextStyle(
-                                color: Color(0xFF407C5A),
-                                fontWeight: FontWeight.w700,
-                                fontSize: 25),
-                          ),
-                        ),
-                        Container(
-                          width: screenWidth * 0.96,
-                          height: screenWidth * 0.66,
-                          child: PageView(
-                            controller: controller,
-                            scrollDirection: Axis.horizontal,
-                            children: [
-                              TreeItem(
-                                  name: "Xương rồng",
-                                  image: "assets/xuong_rong.jpg",
-                                  price: "20k",
-                                  amount: '2',
-                                  isFavorited: false,
-                                  location: "Hà Nội"),
-                              TreeItem(
-                                  name: "Xương rồng",
-                                  image: "assets/xuong_rong.jpg",
-                                  price: "20k",
-                                  amount: '2',
-                                  isFavorited: false,
-                                  location: "Hà Nội"),
-                            ],
-                          ),
-                        ),
-                      ]),
-                )
-                    )),
+                      ),
+                    ]),
+              )
+          )),
       Positioned(
         top: 55,
         child: Container(
@@ -201,11 +207,10 @@ class _bodyHomeState extends State<bodyHome> {
           margin: EdgeInsets.only(left: 22),
           child: SearchBox(text: "Little Garden"),
         ),
-      ),
-            ])
+      )
+    ])
         : Loading();
-  }
-}
+  }}
 
 class homeAppBar extends StatefulWidget {
   User user;

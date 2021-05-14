@@ -2,14 +2,12 @@ import 'dart:async';
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:first_app/NewsFeed/create_blog.dart';
-import 'package:first_app/NewsFeed/detail_blog.dart';
 import 'package:first_app/NewsFeed/my_blog.dart';
 import 'package:first_app/account/edit_info.dart';
-import 'package:first_app/login_reg_pages/loading.dart';
 import 'package:first_app/login_reg_pages/login_page.dart';
 import 'package:first_app/models/user.dart';
+import 'package:first_app/Sell/addProduct.dart';
 import 'package:first_app/services/database.dart';
-import 'package:first_app/services/uploadFile.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -21,6 +19,7 @@ class AccountPage extends StatefulWidget {
   AccountPage({this.user});
 }
 class _AccountPageState extends State<AccountPage> {
+
   @override
   Widget build(BuildContext context) {
     var screenHeight = MediaQuery
@@ -31,6 +30,7 @@ class _AccountPageState extends State<AccountPage> {
         .of(context)
         .size
         .width;
+
     return Scaffold(
         body: Column(
             children: [
@@ -110,7 +110,7 @@ class _AccountPageState extends State<AccountPage> {
                           child: Row(
                             children: [
                               Container(
-                                width: 100,
+                                width:170 ,
                                 child: Column(
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     children: [
@@ -128,7 +128,7 @@ class _AccountPageState extends State<AccountPage> {
                                 thickness: 1.5,
                               ),
                               Container(
-                                width: 110,
+                                width: 150,
                                 child: Column(
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     children: [
@@ -137,26 +137,11 @@ class _AccountPageState extends State<AccountPage> {
                                         style: TextStyle(fontSize: 24),
                                       ),
                                       Text(
-                                        "Người theo dõi",
+                                        "Bài viết",
                                         style: TextStyle(fontSize: 16),
                                       ),
                                     ]),
                               ),
-                              VerticalDivider(
-                                thickness: 1.5,
-                              ),
-                              Column(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    Text(
-                                      "3",
-                                      style: TextStyle(fontSize: 24),
-                                    ),
-                                    Text(
-                                      "Đang theo dõi",
-                                      style: TextStyle(fontSize: 16),
-                                    ),
-                                  ]),
                             ],
                           ),
                         ),
@@ -180,11 +165,11 @@ class _AccountPageState extends State<AccountPage> {
                             Navigator.push(context, MaterialPageRoute(
                                 builder: (context) =>
                                     EditInfo(user: widget.user))).then((value) {
-                                      if(value!=null){
-                                        setState(() {
-                                          widget.user = value;
-                                        });
-                                      }
+                              if(value!=null){
+                                setState(() {
+                                  widget.user = value;
+                                });
+                              }
                             });
                           },
                               child: Row(
@@ -204,8 +189,8 @@ class _AccountPageState extends State<AccountPage> {
                             decoration: BoxDecoration(color: Colors.white),
                           ),
                           FlatButton(onPressed: () {
-                            // Navigator.push(context, MaterialPageRoute(builder: (
-                            //     context) => CreateBlog()));
+                            Navigator.push(context, MaterialPageRoute(builder: (
+                                context) => AddProduct()));
                           },
                               child: Row(
                                 children: [
@@ -341,9 +326,9 @@ class _AccountPageState extends State<AccountPage> {
                           Positioned(
                             child: FlatButton(onPressed: (){
                               Database().deleteUser(widget.user.getUid());
-                                FirebaseAuth.instance.currentUser().then((value){
-                                  value.delete();
-                                });
+                              FirebaseAuth.instance.currentUser().then((value){
+                                value.delete();
+                              });
                               Navigator.pop(context);
                             },
                               padding: EdgeInsets.zero,

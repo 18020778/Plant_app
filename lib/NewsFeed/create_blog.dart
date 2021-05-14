@@ -133,42 +133,55 @@ class _CreateBlogState extends State<CreateBlog> {
                           onChanged: (val) {
                             title = val;
                           },
-                        ),
-
-                      Row(
-                        children: <Widget>[
-                          Container(
-                            width :150,
-                            child: Text(
-                            "Thể loại cây ", style: TextStyle( fontSize:20 ),
-                          ),
-                          ),
-                          Container(child:
-                          DropdownButton<String>(
-                            value: dropdownValue,
-                            iconSize: 24,
-                            elevation: 16,
-                            style: const TextStyle(color : Color(0xFF407C5A), fontSize: 15),
-                            underline: Container(
-                              height: 2,
-
-                            ),
-                            onChanged: (String newValue) {
-                              setState(() {
-                                dropdownValue = newValue;
-                              });
-                            },
-                            items: namePlants
-                                .map<DropdownMenuItem<String>>((String value) {
-                              return DropdownMenuItem<String>(
-                                value: value,
-                                child: Text(value),
-                              );
-                            }).toList(),
-                          ))
-                        ],
-                      )
+                        )
                   ,
+                  SizedBox(height: 8,),
+                  Row(
+                      children:<Widget>[
+                        Text(
+                          ' Phân loại cây ',
+                          style: TextStyle(fontSize: 20),
+                        ),
+                      ],
+                    ),
+                    SizedBox(height: 10),
+                    InputDecorator(
+                      decoration: InputDecoration(
+                        border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(20.0),
+                            borderSide: BorderSide(color:  Color(0xFF407C5A), )
+                        ),
+                        contentPadding: EdgeInsets.all(10),
+                      ),
+                      child: DropdownButtonHideUnderline(
+
+                        child:  DropdownButton(
+                          hint: Text('Select'),
+                          value: dropdownValue,
+                          icon: const Icon(Icons.arrow_drop_down),
+                          iconSize: 20,
+                          elevation: 16,
+                          isExpanded: true,
+                          isDense: true,
+                          //underline: ,
+                          style: const TextStyle(color: Colors.black, fontSize: 16),
+                          onChanged: (newValue){
+                            setState(() {
+                              dropdownValue=newValue;
+                            });
+                          },
+
+                          items: namePlants
+                              .map((String value) {
+                            return DropdownMenuItem<String>(
+                              value: value,
+                              child: Text(value),
+                            );
+                          }).toList(),
+
+                        ),
+                      ),
+                    ),
                      TextField(
                        textAlign: TextAlign.justify,
                        keyboardType: TextInputType.multiline,

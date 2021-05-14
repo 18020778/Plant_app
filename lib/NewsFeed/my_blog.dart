@@ -52,11 +52,9 @@ class _MyBlogState extends State<MyBlog> {
           appBar: AppBar(
             toolbarHeight: 100,
             centerTitle: true,
-            title: Text('Cẩm nang chăm cây', style: TextStyle(fontSize: 28),),
+            title: Text('Bài viết của tôi', style: TextStyle(fontSize: 28),),
             automaticallyImplyLeading: false,
-            actions: <Widget>[
-              IconButton(icon: Icon(Icons.search, size: 28,), onPressed: (){})
-            ],
+            // tôi
             // bottom: TabBar(
             //   isScrollable: true,
             //   indicatorColor: Colors.white,
@@ -176,10 +174,10 @@ class _MyBlogState extends State<MyBlog> {
                             TextSpan(
                                 children: [
                                   WidgetSpan(child: CircleAvatar(
-                                    radius: 15,
-                                    backgroundImage: NetworkImage(widget.user.getUrlImage())
-                                   // backgroundImage: NetworkImage(article.user.getUrlImage())
-                                    )),
+                                      radius: 15,
+                                      backgroundImage: NetworkImage(widget.user.getUrlImage())
+                                    // backgroundImage: NetworkImage(article.user.getUrlImage())
+                                  )),
                                   WidgetSpan(child: SizedBox(width: 5,)),
                                   TextSpan(
                                     text: widget.user.getUserName(),
