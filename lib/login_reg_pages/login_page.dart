@@ -79,10 +79,11 @@ class _loginPageState extends State<loginPage> {
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.all(Radius.circular(20)),
                             ),
-                              //Navigator.push(context, MaterialPageRoute(
-                              //     builder: (context) => SummaryPage()));
+
                             onPressed: () async {
-                              _verifyPhone();
+                             _verifyPhone();
+                              //Navigator.push(context, MaterialPageRoute(
+                                  // builder: (context) => SummaryPage()));
                             },
                             child: Text("LOGIN",
                               style: TextStyle(
