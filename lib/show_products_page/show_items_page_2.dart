@@ -25,7 +25,9 @@ class _ShowItemPageState extends State<ShowItemPage> {
                 width: 35,
                 height: 35,
               ),
-              onPressed: () {},
+              onPressed: () {
+
+              },
             )
           ]),
       body: ShowItem(),

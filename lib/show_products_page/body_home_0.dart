@@ -139,8 +139,8 @@ class _bodyHomeState extends State<bodyHome> {
                     controller: controller,
                     scrollDirection: Axis.horizontal,
                     children: [
-                      TreeItem(name: "Xương rồng", image: "assets/xuong_rong.jpg", price: "20k", amount: '2', isFavorited: false, location: "Hà Nội"),
-                      TreeItem(name: "Xương rồng", image: "assets/xuong_rong.jpg", price: "20k", amount: '2', isFavorited: false, location: "Hà Nội"),
+                      // TreeItem(name: "Xương rồng", image: "assets/xuong_rong.jpg", price: "20k", amount: '2', isFavorited: false, location: "Hà Nội"),
+                      // TreeItem(name: "Xương rồng", image: "assets/xuong_rong.jpg", price: "20k", amount: '2', isFavorited: false, location: "Hà Nội"),
                     ],
                   ),
                 ),

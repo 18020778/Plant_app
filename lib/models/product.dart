@@ -1,4 +1,6 @@
 import 'dart:core';
+import 'dart:io';
+
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 
@@ -17,7 +19,14 @@ class Product {
   bool fastDelivery;
   String quantityInStock;
   bool preOrder;
+  String address;
+  String accountID;
   Timestamp created;
+  String category;
+  List<String> listImage;
+  setlistImage(List<String> listImage){
+    this.listImage = listImage;
+  }
   Product(
       {this.productID,
       this.productName,
@@ -33,7 +42,10 @@ class Product {
       this.fastDelivery,
       this.quantityInStock,
       this.preOrder,
-      this.created});
+      this.created,
+      this.address,
+        this.category,
+      this.accountID});
   factory Product.fromJson(Map<String, dynamic> json) => Product(
     productID: json['productID'],
     productName:  json['productName'],
@@ -49,7 +61,10 @@ class Product {
     fastDelivery : json['fastDelivery'],
     quantityInStock :  json['quantityInStock'],
     preOrder : json['preOrder'],
-    created: json['created']
+    created: json['created'],
+    address: json['address'],
+    accountID: json['accountID'],
+    category: json['category']
   );
 
 }

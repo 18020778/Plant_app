@@ -1,25 +1,65 @@
 import 'package:first_app/buy_products/show_cart_0.dart';
+import 'package:first_app/login_reg_pages/loading.dart';
+import 'package:first_app/models/product.dart';
+import 'package:first_app/models/user.dart';
+import 'package:first_app/services/likeProduct.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:carousel_pro/carousel_pro.dart';
 
 class DetailItem extends StatefulWidget {
+  Product product;
+  User user;
   @override
   _DetailItemState createState() => _DetailItemState();
-}
 
+  DetailItem({this.product, this.user});
+}
 class _DetailItemState extends State<DetailItem> {
+  bool isFavorited;
+  bool viewResult = false;
+  @override
+  void initState() {
+    // xem xem cais nayf minhf cos like hay khong
+    likeProduct().isLiked(widget.user.uid, widget.product.productID).then((value){
+      setState(() {
+        this.isFavorited = value;
+        this.viewResult =  true;
+      });
+    });
+
+  }
   @override
   Widget build(BuildContext context) {
+    var setImage = isFavorited
+        ? Image.asset(
+      'assets/heart_like.png',
+      width: 25,
+    )
+        : Image.asset(
+      'assets/heart.png',
+      width: 25,
+    );
+
     var screenWidth = MediaQuery.of(context).size.width;
     var screenHeight = MediaQuery.of(context).size.height;
 
-    return Scaffold(
+    return (this.viewResult) ?  Scaffold(
       appBar: AppBar(
           toolbarHeight: 60,
           centerTitle: true,
           elevation: 0.0,
+          title: Text(
+            widget.product.productName.toString(),
+            overflow: TextOverflow.ellipsis,
+            maxLines: 2,
+            style: TextStyle(
+                fontFamily: "Merriweather",
+                fontSize: 25,
+                fontWeight: FontWeight.w700,
+                color: Colors.white),
+          ),
           bottomOpacity: 0.0,
           flexibleSpace: Container(
               decoration: BoxDecoration(
@@ -30,14 +70,19 @@ class _DetailItemState extends State<DetailItem> {
             ),
           )),
           actions: [
-            IconButton(
-              icon: Icon(
-                FontAwesomeIcons.bell,
-                color: Colors.white,
-                size: 27.0,
-              ),
-              onPressed: () {},
-            )
+          IconButton(
+          icon: (setImage),
+        onPressed: () {
+          setState(() {
+            this.isFavorited = !this.isFavorited;
+          });
+
+          if(this.isFavorited){
+            likeProduct().addFavoriteProduct(widget.user.getUid(), widget.product.productID);
+          }else{
+            likeProduct().deleteFavoriteProduct(widget.user.getUid(), widget.product.productID);
+          }
+        }),
           ]),
       body: Container(
           child: Stack(children: <Widget>[
@@ -87,7 +132,7 @@ class _DetailItemState extends State<DetailItem> {
               child: Align(
                 alignment: Alignment.centerLeft,
                 child: Text(
-                  "Ngày tưới 2 lần, phơi ra nắng, thích xvnjcgd fdg  s fsd  sf  fd sf asf a f f f sd  s  sf s f sf  fg df  fg d gs hfdjhgjd f bd  d d g d gf sf df sf  f sdf  f s fs f s f df  f d d f g fd  d  e fw ẻ we ",
+                  widget.product.takeCareOfTree.toString(),
                   textAlign: TextAlign.justify,
                   overflow: TextOverflow.ellipsis,
                   maxLines: 5,
@@ -123,21 +168,21 @@ class _DetailItemState extends State<DetailItem> {
                     Align(
                         alignment: Alignment.centerLeft,
                         child: Text(
-                          "Tuổi thọ: " + "1-3 năm",
+                          "Tuổi thọ: " + widget.product.longevity.toString(),
                           style: TextStyle(fontSize: 16, height: 1.5),
                         )),
                     Align(
                         alignment: Alignment.centerLeft,
                         child: Text(
-                          "Xuất xứ: " + "Pháp",
+                          "Xuất xứ: " + widget.product.origin.toString(),
                           style: TextStyle(fontSize: 16, height: 1.5),
                         )),
-                    Align(
-                        alignment: Alignment.centerLeft,
-                        child: Text(
-                          "Thời gian chăm sóc: " + "nhiều",
-                          style: TextStyle(fontSize: 16, height: 1.5),
-                        )),
+                    // Align(
+                    //     alignment: Alignment.centerLeft,
+                    //     child: Text(
+                    //       "Thời gian chăm sóc: " + "nhiều",
+                    //       style: TextStyle(fontSize: 16, height: 1.5),
+                    //     )),
                     /*Align(
                         alignment: Alignment.centerLeft,
                         child: Text(
@@ -156,26 +201,26 @@ class _DetailItemState extends State<DetailItem> {
                     colors: [Color(0xFF488B66), Color(4284859275)],
                   ),
                   borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(20),
+                    topLeft: Radius.circular(16),
                   ),
                 ),
                 child: Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: Column(
                     children: [
-                      Row(
-                        children: [
-                          Image.asset(
-                            "assets/sun.png",
-                            width: 35,
-                            height: 35,
-                          ),
-                          Text(
-                            "  " + "Phơi dưới nắng",
-                            style: TextStyle(color: Colors.white, fontSize: 20),
-                          )
-                        ],
-                      ),
+                      // Row(
+                      //   children: [
+                      //     Image.asset(
+                      //       "assets/sun.png",
+                      //       width: 35,
+                      //       height: 35,
+                      //     ),
+                      //     Text(
+                      //       "  " + widget.product.,
+                      //       style: TextStyle(color: Colors.white, fontSize: 16),
+                      //     )
+                      //   ],
+                      // ),
                       Container(
                         margin: EdgeInsets.only(left: 5),
                         child: Row(
@@ -186,9 +231,9 @@ class _DetailItemState extends State<DetailItem> {
                               height: 30,
                             ),
                             Text(
-                              "  " + "20-30ml nước",
+                              "  " + widget.product.theAmountOfWater.toString(),
                               style:
-                                  TextStyle(color: Colors.white, fontSize: 20),
+                                  TextStyle(color: Colors.white, fontSize: 16),
                             )
                           ],
                         ),
@@ -201,8 +246,8 @@ class _DetailItemState extends State<DetailItem> {
                             height: 40,
                           ),
                           Text(
-                            " " + "Dưới 30 độ",
-                            style: TextStyle(color: Colors.white, fontSize: 20),
+                            " " + widget.product.temperature.toString()+ " C",
+                            style: TextStyle(color: Colors.white, fontSize: 16),
                           )
                         ],
                       ),
@@ -214,7 +259,7 @@ class _DetailItemState extends State<DetailItem> {
           ),
         ),
       ])),
-    );
+    ) : Loading();
   }
 
   Widget _appBarDetail(BuildContext context) {
@@ -230,23 +275,7 @@ class _DetailItemState extends State<DetailItem> {
               child: Stack(
                 children: [
                   Positioned(
-                    top: 0,
-                    child: Align(
-                      alignment: Alignment.centerLeft,
-                      child: Text(
-                        "NameTree\n NameTree",
-                        overflow: TextOverflow.ellipsis,
-                        maxLines: 2,
-                        style: TextStyle(
-                            fontFamily: "Merriweather",
-                            fontSize: 25,
-                            fontWeight: FontWeight.w700,
-                            color: Colors.white),
-                      ),
-                    ),
-                  ),
-                  Positioned(
-                    top: 75,
+                    top: 30,
                     child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
@@ -261,7 +290,7 @@ class _DetailItemState extends State<DetailItem> {
                           Align(
                             alignment: Alignment.centerLeft,
                             child: Text(
-                              "20000" + "đ",
+                              widget.product.price.toString() + " đ",
                               style:
                                   TextStyle(fontSize: 16, color: Colors.white),
                             ),
@@ -280,7 +309,7 @@ class _DetailItemState extends State<DetailItem> {
                           Align(
                             alignment: Alignment.centerLeft,
                             child: Text(
-                              "150" + " cm",
+                              widget.product.height.toString() + " cm",
                               style:
                                   TextStyle(fontSize: 16, color: Colors.white),
                             ),
@@ -299,7 +328,7 @@ class _DetailItemState extends State<DetailItem> {
                           Align(
                             alignment: Alignment.centerLeft,
                             child: Text(
-                              "Cây trong nhà",
+                            widget.product.category.toString(),
                               style:
                                   TextStyle(fontSize: 16, color: Colors.white),
                             ),
@@ -308,7 +337,7 @@ class _DetailItemState extends State<DetailItem> {
                           Column(
                               children: [
                             Padding(
-                              padding: EdgeInsets.only(left: 40),
+                              padding: EdgeInsets.only(left: 0),
                               child: RaisedButton(
                                 textColor: Colors.black,
                                 color: Colors.white,
@@ -358,21 +387,17 @@ class _DetailItemState extends State<DetailItem> {
           ]),
           )),
           Container(
-                    width: screenWidth * 0.59,
+                    padding: const EdgeInsets.only(top: 30),
+                    width: screenWidth * 0.58,
                     child: ListView(
                       children: <Widget>[
                         Container(
-                          height: 320,
+                          height: 280,
+
                           child: new Carousel(
                             boxFit: BoxFit.cover,
-                            images: [
-                              AssetImage('assets/cay_phong_thuy.PNG'),
-                              AssetImage('assets/cay_trong_nha.jpg'),
-                              AssetImage('assets/cay_ngoai_troi.jpg'),
-                              AssetImage('assets/cay_phong_thuy.PNG'),
-                              AssetImage('assets/cay_trong_nha.jpg'),
-                              AssetImage('assets/cay_ngoai_troi.jpg'),
-                            ],
+                            images: widget.product.listImage.map((item) =>
+                            NetworkImage(item.toString())).toList(),
                             autoplay: false,
                             animationCurve: Curves.fastOutSlowIn,
                             animationDuration: Duration(milliseconds: 1000),
@@ -397,4 +422,6 @@ class _DetailItemState extends State<DetailItem> {
       }
     );
   }
+
+
 }

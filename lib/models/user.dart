@@ -10,6 +10,7 @@ class User{
   String gender;
   Timestamp accountCreated;
   Timestamp dob;
+  String address;
 
   // getter and setter
   Timestamp getAccountCreated(){

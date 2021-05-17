@@ -5,6 +5,7 @@ import 'package:first_app/models/plant.dart';
 import 'package:first_app/models/product.dart';
 import 'package:first_app/models/specifcation.dart';
 import 'package:first_app/models/transport.dart';
+import 'package:first_app/models/user.dart';
 import 'package:first_app/sell/specification.dart';
 import 'package:first_app/sell/transport.dart';
 import 'package:first_app/services/plant_service.dart';
@@ -18,8 +19,12 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:image_picker/image_picker.dart';
 
 class AddProduct extends StatefulWidget {
+  User user;
   @override
   _AddProductState createState() => _AddProductState();
+
+  AddProduct({this.user});
+
 }
 
 class _AddProductState extends State<AddProduct>{
@@ -30,6 +35,7 @@ class _AddProductState extends State<AddProduct>{
   String plant;
   String height='';
   String amount='';
+  String category = '';
   DateTime date=DateTime.now();
   bool enableFeature = false;
   final picker = ImagePicker();
@@ -37,8 +43,9 @@ class _AddProductState extends State<AddProduct>{
   CollectionReference imgRef;
   File imageFile;
   String quantityInStock='';
-  List<String> namePlants = new List();
+  List<Plants> listPlants = new List();
   bool viewResult = false;
+
   whenCompleted(){
     if(this.title!='' && this.description!='' && this.specificationProduct!=null && this.amount!='' && this.height!='' && this.plant!=null && this.transportProduct!=null && this.quantityInStock != ''){
       return true;
@@ -73,9 +80,8 @@ class _AddProductState extends State<AddProduct>{
           this.viewResult = true;
         });
         docs.documents.forEach((element) {
-          this.namePlants.add(element.data["plantName"]);
+          this.listPlants.add(Plants.fromJson(element.data));
         });
-        print(this.namePlants);
       }else{
         print("Empty");
       }
@@ -359,11 +365,11 @@ class _AddProductState extends State<AddProduct>{
                             });
                           },
 
-                          items: namePlants
-                              .map((String value) {
+                          items: listPlants
+                              .map((Plants value) {
                             return DropdownMenuItem<String>(
-                              value: value,
-                              child: Text(value),
+                              value: value.plantName.toString(),
+                              child: Text(value.plantName.toString()),
                             );
                           }).toList(),
                         ),
@@ -471,11 +477,20 @@ class _AddProductState extends State<AddProduct>{
               shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
               onPressed: () async {
                 if(whenCompleted()==true){
-                    Product product = new Product(productName: this.title, takeCareOfTree: this.description, longevity: this.specificationProduct.age, origin: this.specificationProduct.origin, temperature: this.specificationProduct.temperature, theAmountOfWater: this.specificationProduct.theAmountOfWater,price: this.amount, height: this.height, plantID: this.plant, weight: this.transportProduct.weight, fastDelivery: this.transportProduct.fastDelivery, quantityInStock: this.quantityInStock,preOrder: this.enableFeature );
+                    listPlants.forEach((element) {
+                      if(element.plantName == this.plant){
+                        setState(() {
+                          this.category =  element.categoryId.toString();
+                        });
+                      }
+                    });
+                    Product product = new Product(productName: this.title, takeCareOfTree: this.description, longevity: this.specificationProduct.age, origin: this.specificationProduct.origin, temperature: this.specificationProduct.temperature, theAmountOfWater: this.specificationProduct.theAmountOfWater,price: this.amount, height: this.height, plantID: this.plant, weight: this.transportProduct.weight, fastDelivery: this.transportProduct.fastDelivery, quantityInStock: this.quantityInStock,preOrder: this.enableFeature, address: widget.user.address, accountID:  widget.user.uid, category: this.category);
                     ProductService().createProduction(product).then((value){
                       if(_image.length>0){
+                        var  index = 0;
                         _image.forEach((element) {
-                          uploadFile().uploadImageProduct(value, element);
+                          uploadFile().uploadImageProduct(value, element, index);
+                          index ++;
                         });
                       }
                       Navigator.pop(context);

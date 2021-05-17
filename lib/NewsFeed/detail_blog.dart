@@ -130,7 +130,6 @@ class _DetailBlogState extends State<DetailBlog> {
                               setState(() {
                                 this.isFavorited = !this.isFavorited;
                               });
-                              print("handbook Id " + widget.articles.handbook.handbookId);
                               if(this.isFavorited){
                                 likeArticlesService().likeArticle(widget.articles.handbook.handbookId, widget.articles.author.getUid());
                               }else{

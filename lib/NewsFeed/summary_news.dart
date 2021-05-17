@@ -57,7 +57,6 @@ class _SummaryNewsState extends State<SummaryNews> {
         ),
         child: Scaffold(
           appBar: AppBar(
-
             toolbarHeight: 100,
             centerTitle: true,
             title: Text('Cẩm nang chăm cây', style: TextStyle(fontSize: 28),),

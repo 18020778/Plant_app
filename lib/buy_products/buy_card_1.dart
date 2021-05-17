@@ -114,7 +114,7 @@ class _buyCardState extends State<buyCard> {
                       children: [
                         Image.asset(
                           "assets/location.png",
-                          width: 20,
+                          width: 16,
                           fit: BoxFit.cover,
                         ),
                         Text(
