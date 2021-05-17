@@ -1,4 +1,5 @@
 import 'package:first_app/login_reg_pages/register_email.dart';
+import 'package:first_app/login_reg_pages/register_numberPhone.dart';
 import 'package:flutter/material.dart';
 import 'package:first_app/models/user.dart';
 class regName extends StatefulWidget {
@@ -58,7 +59,7 @@ class _regNameState extends State<regName> {
                     onPressed: () {
                       widget.user.setUserName(this.userName);
                       Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => regEmail(widget.user)));
+                      MaterialPageRoute(builder: (context) => regNumberPhone(user: widget.user)));
                     },
                     child: Text("NEXT",
                       style: TextStyle(

@@ -79,6 +79,7 @@ class _loginPageState extends State<loginPage> {
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.all(Radius.circular(20)),
                             ),
+
                             onPressed: () async {
                               FirebaseAuth.instance.signOut();
                               _verifyPhone();

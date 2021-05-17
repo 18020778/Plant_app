@@ -51,6 +51,12 @@ class _regOTPState extends State<regOTP> {
                     fontWeight: FontWeight.w700,
                   ),
                   textAlign: TextAlign.center,),
+                Text('Mã OTP được gửi về tin nhắn điện thoại của bạn',
+                  style: TextStyle(
+                    fontSize: 17,
+                    color: Colors.black54,
+                  ),
+                  textAlign: TextAlign.center,),
                 SizedBox(height: 40,),
                 Container(
                   alignment: Alignment.center,
