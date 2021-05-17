@@ -1,49 +1,56 @@
+import 'package:first_app/models/product.dart';
+import 'package:first_app/models/user.dart';
+import 'package:first_app/services/likeProduct.dart';
 import 'package:first_app/show_products_page/detail_item_4.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class TreeItem extends StatefulWidget {
-  final String name;
-  final String image;
-  final String price;
-  final String amount;
-  bool isFavorited;
-  final String location;
-
-  TreeItem(
-      {Key key,
-      this.name,
-      this.image,
-      this.price,
-      this.amount,
-      this.isFavorited,
-      this.location})
-      : super(key: key);
+  // final String name;
+  // final String image;
+  // final String price;
+  // final String amount;
+  // bool isFavorited;
+  // final String location;
+  //
+  // TreeItem(
+  //     {Key key,
+  //     this.name,
+  //     this.image,
+  //     this.price,
+  //     this.amount,
+  //     this.isFavorited,
+  //     this.location})
+  //     : super(key: key);
+  Product product;
+  User user;
+  TreeItem({this.product, this.user});
 
   @override
   _TreeItemState createState() => _TreeItemState();
 }
 
 class _TreeItemState extends State<TreeItem> {
+  bool isFavorited = true;
   @override
   Widget build(BuildContext context) {
-    var setImage = widget.isFavorited
+    var setImage = this.isFavorited
         ? Image.asset(
             'assets/heart_like.png',
-            width: 20,
+            width: 16,
           )
         : Image.asset(
             'assets/heart.png',
-            width: 20,
+            width: 16,
           );
 
     return Padding(
-      padding: EdgeInsets.only(left: 5, top: 10, right: 10, bottom: 10),
+      padding: EdgeInsets.only(left: 5, top: 5, right: 10, bottom: 0),
       child: Container(
         child: InkWell(
           onTap: (){
             Navigator.push(
-              context, MaterialPageRoute(builder: (context) => DetailItem())
+              context, MaterialPageRoute(builder: (context) => DetailItem(product: widget.product,user: widget.user,))
             );
           },
           child: Stack(
@@ -64,20 +71,21 @@ class _TreeItemState extends State<TreeItem> {
                             spreadRadius: 2.0,
                             blurRadius: 2.0),
                       ]),
-                  margin: EdgeInsets.only(left: 0, top: 5, right: 0, bottom: 5),
+                  margin: EdgeInsets.only(left: 0, top: 0, right: 0, bottom: 0),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: <Widget>[
                       Container(
                         width: 100,
-                        height: 137,
+                        height: 136,
                         alignment: Alignment.topLeft,
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.all(Radius.circular(20.0)),
                         ),
-                        child: Image.asset(
-                          widget.image,
+                        child:  Image.network(
+                          widget.product.listImage.last,
                           width: 200,
+                          height: 120,
                           fit: BoxFit.cover,
                         ),
                       ),
@@ -87,7 +95,7 @@ class _TreeItemState extends State<TreeItem> {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: <Widget>[
                                 Text(
-                                  widget.name,
+                                  widget.product.plantID,
                                   overflow: TextOverflow.ellipsis,
                                   maxLines: 1,
                                   style: TextStyle(
@@ -95,15 +103,15 @@ class _TreeItemState extends State<TreeItem> {
                                     fontWeight: FontWeight.w700,
                                   ),
                                 ),
-                                SizedBox(
-                                  height: 5,
-                                ),
+                                // SizedBox(
+                                //   height: 5,
+                                // ),
                                 Row(
                                   mainAxisAlignment:
                                       MainAxisAlignment.spaceBetween,
                                   children: [
                                     Text(
-                                      widget.price,
+                                      widget.product.price,
                                       style: TextStyle(color: Colors.green[900]),
                                     ),
                                     RichText(
@@ -113,7 +121,7 @@ class _TreeItemState extends State<TreeItem> {
                                           TextSpan(
                                             text: 'Đã bán ',
                                           ),
-                                          TextSpan(text: widget.amount),
+                                          TextSpan(text: widget.product.quantityInStock),
                                         ]))
                                   ],
                                 ),
@@ -127,29 +135,25 @@ class _TreeItemState extends State<TreeItem> {
                                           icon: (setImage),
                                           onPressed: () {
                                             setState(() {
-                                              if (widget.isFavorited) {
-                                                widget.isFavorited = false;
-                                                setImage = Image.asset(
-                                                  'assets/heart.png',
-                                                  width: 20,
-                                                );
-                                              } else {
-                                                widget.isFavorited = true;
-                                                setImage = Image.asset(
-                                                  'assets/heart_like.png',
-                                                  width: 20,
-                                                );
-                                              }
+                                              this.isFavorited = !this.isFavorited;
                                             });
+                                            if(this.isFavorited){
+                                              likeProduct().addFavoriteProduct(widget.user.getUid(), widget.product.productID);
+                                            }else{
+                                              likeProduct().deleteFavoriteProduct(widget.user.getUid(), widget.product.productID);
+                                            }
+
                                           }),
                                       //isFavorited là biến bool, xét xem ng đó đã tym sp đó chưa
                                       Row(
                                         children: <Widget>[
                                           Image.asset(
                                             "assets/location_small.png",
-                                            width: 19,
+                                            width: 16,
                                           ),
-                                          Text(" " + widget.location),
+                                          Text(" " + widget.product.address, style: TextStyle(
+                                            fontSize: 12,
+                                          ),),
                                         ],
                                       )
                                     ])
@@ -157,6 +161,7 @@ class _TreeItemState extends State<TreeItem> {
                     ],
                   ))
             ],
+
           ),
         ),
       ),

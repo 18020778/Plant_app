@@ -25,7 +25,10 @@ class ProductService{
         'fastDelivery' : product.fastDelivery,
         'quantityInStock' :  product.quantityInStock,
         'preOrder' : product.preOrder,
-        'created': Timestamp.now()
+        'created': Timestamp.now(),
+        'accountID' : product.accountID,
+        'address': product.address,
+        'category' : product.category
       });
       retVal = document.documentID;
     }catch(e){
@@ -33,11 +36,25 @@ class ProductService{
     }
     return retVal;
   }
-
-  getProductByID(String productID){
-      return   Firestore.instance
+  getProductByID(String productID) {
+    return _firestore.collection("products").where('productID', isEqualTo: productID).getDocuments();
+  }
+  getAllProduct(){
+    return Firestore.instance
           .collection("products")
+          .getDocuments();
+  }
+  getImageProduct(String productID){
+    return Firestore.instance
+          .collection("products")
+          .document(productID)
+          .collection("imageProduct")
           .where("productID", isEqualTo: productID)
           .getDocuments();
   }
+
+  getAllProductGroupByPlant(String plantID){
+    return _firestore.collection("products").where("plantID", isEqualTo: plantID).getDocuments();
+  }
+
 }

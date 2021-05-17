@@ -58,8 +58,6 @@ class handBook{
     this.imageUrl,
     this.timeCreated,
     this.userUid,
-    // this.userName,
-    // this.avatarArticle
 });
   factory handBook.fromJson(Map<String, dynamic> json) => handBook(
     handbookId: json['handbookId'],
@@ -69,8 +67,6 @@ class handBook{
     imageUrl: json['imageUrl'],
     timeCreated: json['timeCreated'],
     userUid: json['userUid'],
-    // userName: json['userName'],
-    // avatarArticle: json['avatarArticle']
   );
    handBook.fromMap(json)  :
     handbookId= json['handbookId'].toString(),
@@ -80,7 +76,5 @@ class handBook{
     imageUrl= json['imageUrl'].toString(),
     timeCreated= json['timeCreated'],
     userUid= json['userUid'].toString();
-    // userName: json['userName'],
-    // avatarArticle: json['avatarArticle']
 
 }

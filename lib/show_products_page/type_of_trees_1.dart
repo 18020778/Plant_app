@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:first_app/login_reg_pages/loading.dart';
 import 'package:first_app/models/plant.dart';
+import 'package:first_app/models/user.dart';
 import 'package:first_app/services/plant_service.dart';
 import 'package:first_app/show_products_page/group_of_trees_0.dart';
 import 'package:first_app/show_products_page/search_box_012.dart';
@@ -29,7 +30,7 @@ class _TypeOfTreesState extends State<TypeOfTrees> {
     return viewResult ? Scaffold(
       appBar: AppBar(
           toolbarHeight: 75,
-          title: SearchBox(text: 'NameTypeOfTree'),
+          //title: SearchBox(text: 'NameTypeOfTree'),
           leadingWidth: 20,
           centerTitle: true,
           backgroundColor: Color(0xFF407C5A),
@@ -77,24 +78,24 @@ class _TypeOfTreesState extends State<TypeOfTrees> {
               controller: controller,
               scrollDirection: Axis.horizontal,
               children: [
-                TreeItem(
-                    name: "Xương rồng",
-                    image: "assets/xuong_rong.jpg",
-                    price: "20k",
-                    amount: '2',
-                    isFavorited: false,
-                    location: "Hà Nội"),
-                TreeItem(
-                    name: "Xương rồng",
-                    image: "assets/xuong_rong.jpg",
-                    price: "20k",
-                    amount: '2',
-                    isFavorited: false,
-                    location: "Hà Nội"),
+                // TreeItem(
+                //     name: "Xương rồng",
+                //     image: "assets/xuong_rong.jpg",
+                //     price: "20k",
+                //     amount: '2',
+                //     isFavorited: false,
+                //     location: "Hà Nội"),
+                // TreeItem(
+                //     name: "Xương rồng",
+                //     image: "assets/xuong_rong.jpg",
+                //     price: "20k",
+                //     amount: '2',
+                //     isFavorited: false,
+                //     location: "Hà Nội"),
               ],
             ),
           ),
-          ShowItem(),
+          //ShowItem(),
         ],
       )),
       //bottomNavigationBar: BottomNavBar(),

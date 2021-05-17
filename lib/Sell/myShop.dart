@@ -2,6 +2,7 @@
 
 import 'dart:io';
 
+import 'package:first_app/models/user.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
@@ -11,8 +12,11 @@ import 'package:image_picker/image_picker.dart';
 import 'addProduct.dart';
 
 class MyShop extends StatefulWidget {
+  User user;
   @override
   _MyShopState createState() => _MyShopState();
+
+  MyShop({this.user});
 }
 
 class _MyShopState extends State<MyShop>{
@@ -40,7 +44,7 @@ class _MyShopState extends State<MyShop>{
                 onPressed: () async {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => AddProduct()),
+                    MaterialPageRoute(builder: (context) => AddProduct(user:widget.user)),
                   );
                 },
                 child: Row(

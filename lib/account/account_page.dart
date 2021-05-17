@@ -190,7 +190,7 @@ class _AccountPageState extends State<AccountPage> {
                           ),
                           FlatButton(onPressed: () {
                             Navigator.push(context, MaterialPageRoute(builder: (
-                                context) => AddProduct()));
+                                context) => AddProduct(user: widget.user)));
                           },
                               child: Row(
                                 children: [
@@ -323,19 +323,19 @@ class _AccountPageState extends State<AccountPage> {
                             child:
                             Text("Đăng xuất", style: TextStyle(fontSize: 24),),
                           ),
-                          Positioned(
-                            child: FlatButton(onPressed: (){
-                              Database().deleteUser(widget.user.getUid());
-                              FirebaseAuth.instance.currentUser().then((value){
-                                value.delete();
-                              });
-                              Navigator.pop(context);
-                            },
-                              padding: EdgeInsets.zero,
-                              child:
-                              Text("Yêu cầu hủy tài khoản", style: TextStyle(
-                                  fontSize: 17, color: Colors.black54),),
-                            ),)
+                          // Positioned(
+                          //   child: FlatButton(onPressed: (){
+                          //     Database().deleteUser(widget.user.getUid());
+                          //     FirebaseAuth.instance.currentUser().then((value){
+                          //       value.delete();
+                          //     });
+                          //     Navigator.pop(context);
+                          //   },
+                          //     padding: EdgeInsets.zero,
+                          //     child:
+                          //     Text("Yêu cầu hủy tài khoản", style: TextStyle(
+                          //         fontSize: 17, color: Colors.black54),),
+                          //   ),)
                         ]),
                   ),
                 ),

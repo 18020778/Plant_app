@@ -59,7 +59,7 @@ class _TransportState extends State<Transport>{
                 children: [
                   Icon(Icons.add_shopping_cart_sharp),
                   Text(
-                    'Cân nặng (kg)',
+                    'Cân nặng (g)',
                     style: TextStyle(fontSize: 23,),
                   ),
                   //
@@ -72,7 +72,7 @@ class _TransportState extends State<Transport>{
                             borderSide: BorderSide.none,
                           ),
                           fillColor: Colors.green,
-                          hintText: 'kilogram',
+                          hintText: 'gram',
                           hintStyle: TextStyle(color: Colors.green, decoration: TextDecoration.underline, fontSize: 20) ),
                       textDirection: TextDirection.rtl,
                       keyboardType: TextInputType.number,
