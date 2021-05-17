@@ -53,4 +53,8 @@ class ProductService{
           .getDocuments();
   }
 
+  getAllProductGroupByPlant(String plantID){
+    return _firestore.collection("products").where("plantID", isEqualTo: plantID).getDocuments();
+  }
+
 }

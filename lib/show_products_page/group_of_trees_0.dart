@@ -16,7 +16,7 @@ class ListGroupOfTrees extends StatelessWidget {
         child: InkWell(
           onTap: () {
             Navigator.push(
-                context, MaterialPageRoute(builder: (context) => ShowItemPage()));
+                context, MaterialPageRoute(builder: (context) => ShowItemPage(this.listPlants[i])));
           },
           child: Column(
             children: [

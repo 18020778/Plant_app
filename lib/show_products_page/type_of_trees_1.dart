@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:first_app/login_reg_pages/loading.dart';
 import 'package:first_app/models/plant.dart';
+import 'package:first_app/models/user.dart';
 import 'package:first_app/services/plant_service.dart';
 import 'package:first_app/show_products_page/group_of_trees_0.dart';
 import 'package:first_app/show_products_page/search_box_012.dart';
@@ -94,7 +95,7 @@ class _TypeOfTreesState extends State<TypeOfTrees> {
               ],
             ),
           ),
-          ShowItem(),
+          //ShowItem(),
         ],
       )),
       //bottomNavigationBar: BottomNavBar(),

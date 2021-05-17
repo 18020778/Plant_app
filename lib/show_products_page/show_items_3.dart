@@ -1,14 +1,26 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:first_app/login_reg_pages/loading.dart';
+import 'package:first_app/models/plant.dart';
+import 'package:first_app/models/product.dart';
+import 'package:first_app/models/user.dart';
+import 'package:first_app/services/productService.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'TreeItem.dart';
 
 class ShowItem extends StatefulWidget {
+  Plants plants ;
   @override
   _ShowItemState createState() => _ShowItemState();
+
+  ShowItem({this.plants});
 }
 @override
 class _ShowItemState extends State<ShowItem> {
-  List<String> _options = ["Tất cả", "Bán chạy", "Giá tăng", "Giá giảm"];
+ // List<String> _options = ["Tất cả", "Bán chạy", "Giá tăng", "Giá giảm"];
+  List<Product> listProduct = new List();
   int _selectedIndex = 0;
   Widget _buildMenu(int index) {
     return GestureDetector(
@@ -23,85 +35,108 @@ class _ShowItemState extends State<ShowItem> {
         decoration: BoxDecoration(
           color: Color(4291751385),
         ),
-        child: FlatButton(
-          onPressed: () {},
-          //padding: EdgeInsets.symmetric(horizontal: 50, vertical: 10),
-          child: Text(
-            _options[index],
-            style: TextStyle(
-              color: _selectedIndex == index
-                  ? Colors.black
-                  : Color(0xFF407C5A),
-              fontSize: 16,
-              fontWeight: FontWeight.w700,
-            ),
-          ),
-        ),
+
+        // child: FlatButton(
+        //   onPressed: () {},
+        //   //padding: EdgeInsets.symmetric(horizontal: 50, vertical: 10),
+        //   child: Text(
+        //     _options[index],
+        //     style: TextStyle(
+        //       color: _selectedIndex == index
+        //           ? Colors.black
+        //           : Color(0xFF407C5A),
+        //       fontSize: 16,
+        //       fontWeight: FontWeight.w700,
+        //     ),
+        //   ),
+        // ),
       ),
     );
   }
   @override
   Widget build(BuildContext context) {
-    return Container(
-        height: 610,
-        child: Column(
-          children: <Widget>[
-            SizedBox(height: 10,),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: _options
-                  .asMap()
-                  .entries
-                  .map(
-                    (MapEntry map) => _buildMenu(map.key),
-              )
-                  .toList(),
-            ),
-            Expanded(
-              child: GridView.count(
-                crossAxisCount: 2,
-                childAspectRatio: 0.6,
-                //padding: const EdgeInsets.all(4.0),
-                //mainAxisSpacing: 0.0,
-                //crossAxisSpacing: 0.0,
-                // children: [
-                //   TreeItem(name: "Xương rồng",
-                //       image: "assets/xuong_rong.jpg",
-                //       price: "20k",
-                //       amount: '2',
-                //       isFavorited: false,
-                //       location: "Hà Nội"),
-                //   TreeItem(name: "Xương rồng",
-                //       image: "assets/xuong_rong.jpg",
-                //       price: "20k",
-                //       amount: '2',
-                //       isFavorited: false,
-                //       location: "Hà Nội"),
-                //   TreeItem(name: "Xương rồng",
-                //       image: "assets/xuong_rong.jpg",
-                //       price: "20k",
-                //       amount: '2',
-                //       isFavorited: false,
-                //       location: "Hà Nội"),
-                //   TreeItem(name: "Xương rồng",
-                //       image: "assets/xuong_rong.jpg",
-                //       price: "20k",
-                //       amount: '2',
-                //       isFavorited: false,
-                //       location: "Hà Nội"),
-                //   TreeItem(name: "Xương rồng",
-                //       image: "assets/xuong_rong.jpg",
-                //       price: "20k",
-                //       amount: '2',
-                //       isFavorited: false,
-                //       location: "Hà Nội"),
-                // ],
-              ),
-            ),
-          ],
-        )
+    return Scaffold(
+        body: FutureBuilder(
+            future: loadingData(),
+            builder: (context, AsyncSnapshot snapshot){
+              if(snapshot.hasData){
+                return SingleChildScrollView(
+                    child: Column(
+                      children: [
+                        Container(
+                            height: 600,
+                            child: Column(
+                              children: <Widget>[
+                                // Row(
+                                //   mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                //   children: _options
+                                //       .asMap()
+                                //       .entries
+                                //       .map(
+                                //         (MapEntry map) => _buildMenu(map.key),
+                                //   )
+                                //       .toList(),
+                                // ),
+                                Expanded(
+                                  child: GridView.builder(
+                                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                                          crossAxisCount: 2,
+                                          childAspectRatio: 0.7),
+                                      itemCount: this.listProduct.length,
+                                      itemBuilder: (context, index){
+
+                                        return TreeItem(
+                                          product: this.listProduct[index],
+                                        );
+                                      }
+                                  ),
+
+                                ),
+
+                              ],
+                            )),
+                      ],
+                    )
+                );
+              }else{
+                return Loading();
+              }
+            })
 
     );
+  }
+
+  loadingData() async {
+      // return cacs list thuoc cai ho nay nay
+    int count;
+    List<Product> newList = new List();
+      ProductService().getAllProductGroupByPlant(widget.plants.plantId).then((QuerySnapshot docs){
+        if(docs.documents.isNotEmpty){
+          count = docs.documents.length;
+          docs.documents.forEach((element) {
+            List<String> imageList = new List();
+            Product product = Product.fromJson(element.data);
+            ProductService().getImageProduct(product.productID).then((QuerySnapshot image){
+              if(image.documents.isNotEmpty){
+                image.documents.forEach((element) {
+                  imageList.add(element.data['imageUrl']);
+                });
+                product.setlistImage(imageList);
+              }
+              else product.setlistImage(['https://img.freepik.com/free-vector/tree_1308-36471.jpg?size=626&ext=jpg']);
+              newList.add(product);
+              if(newList.length == count){
+                setState(() {
+                  this.listProduct = newList;
+                });
+              }
+            });
+
+          });
+        }
+
+      });
+      return this.listProduct;
   }}
 
     

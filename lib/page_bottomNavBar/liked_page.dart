@@ -34,26 +34,26 @@ class _LikedPageState extends State<LikedPage> {
     //         if(value.documents.isNotEmpty){
     //           List<String> listImage = new List();
     //           value.documents.forEach((element) {
-    //
     //             listImage.add(element.data['imageUrl']);
-    //
     //           });
     //           product.setlistImage(listImage);
-    //           newList.add(product);
-    //           if(newList.length == count){
-    //             this.setState(() {
-    //               this.listProduct = newList;
-    //             });
-    //           }
+    //         }
+    //         else{
+    //           product.setlistImage(['https://img.freepik.com/free-vector/tree_1308-36471.jpg?size=626&ext=jpg']);
+    //         }
+    //         newList.add(product);
+    //         if(newList.length == count){
+    //           this.setState(() {
+    //             this.listProduct = newList;
+    //
+    //           });
     //         }
     //       });
-    //
-    //
     //     });
     //   }
     // });
+    //
     // return this.listProduct;
-
 
     // lấy tất cả sản phẩm đã like .
       int count;
@@ -73,14 +73,18 @@ class _LikedPageState extends State<LikedPage> {
                       listImage.add(element.data['imageUrl']);
                     });
                     product.setlistImage(listImage);
-                    newList.add(product);
-                    if(newList.length == count){
-                      setState(() {
-                        this.listProduct = newList;
-                      });
-                    }
+
+
+                  }else product.setlistImage(['https://img.freepik.com/free-vector/tree_1308-36471.jpg?size=626&ext=jpg']);
+                  newList.add(product);
+                  if(newList.length == count){
+                    setState(() {
+                      this.listProduct = newList;
+                    });
                   }
                 });
+
+
               });
             }
           });

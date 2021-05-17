@@ -82,13 +82,12 @@ class _TreeItemState extends State<TreeItem> {
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.all(Radius.circular(20.0)),
                         ),
-                        child: (widget.product.listImage.length>0) ? Image.network(
+                        child:  Image.network(
                           widget.product.listImage.last,
                           width: 200,
                           height: 120,
                           fit: BoxFit.cover,
-                        ) : Image.asset("assets/xuong_rong.jpg", width: 200,
-                          fit: BoxFit.cover,),
+                        ),
                       ),
                       Padding(
                           padding: const EdgeInsets.all(8.0),
