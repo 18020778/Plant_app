@@ -84,7 +84,7 @@ class _LikedPageState extends State<LikedPage> {
                         Expanded(
                           child: GridView.count(
                             crossAxisCount: 2,
-                            childAspectRatio: 0.75,
+                            childAspectRatio: 0.6,
                             //padding: const EdgeInsets.all(4.0),
                             //mainAxisSpacing: 0.0,
                             //crossAxisSpacing: 0.0,
