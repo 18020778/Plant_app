@@ -4,7 +4,6 @@ import 'package:first_app/account/editEmail.dart';
 import 'package:first_app/account/utlis.dart';
 import 'package:first_app/login_reg_pages/loading.dart';
 import 'package:first_app/models/user.dart';
-import 'package:first_app/page_bottomNavBar/account_page.dart';
 import 'package:first_app/services/database.dart';
 import 'package:first_app/services/uploadFile.dart';
 import 'package:flutter/cupertino.dart';
