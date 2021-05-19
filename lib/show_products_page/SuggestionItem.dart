@@ -1,45 +1,35 @@
 import 'package:first_app/models/product.dart';
 import 'package:first_app/models/user.dart';
-import 'package:first_app/services/likeProduct.dart';
-import 'package:first_app/show_products_page/detail_item_4.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-class TreeItem extends StatefulWidget {
-  Product product;
+import 'detail_item_4.dart';
+
+class SuggestionItem extends StatelessWidget {
+  List<Product> listProduct = new List();
   User user;
-  TreeItem({this.product, this.user});
 
-  @override
-  _TreeItemState createState() => _TreeItemState();
-}
+  SuggestionItem(this.listProduct, this.user);
 
-class _TreeItemState extends State<TreeItem> {
-  bool isFavorited = true;
   @override
   Widget build(BuildContext context) {
-    var setImage = this.isFavorited
-        ? Image.asset(
-            'assets/heart_like.png',
-            width: 16,
-          )
-        : Image.asset(
-            'assets/heart.png',
-            width: 16,
-          );
-
-    return Padding(
-      padding: EdgeInsets.only(left: 5, top: 5, right: 10, bottom: 0),
-      child: Container(
+    PageController controller =
+    PageController(viewportFraction: 0.6, initialPage: 1);
+    List<Widget> banners = new List<Widget>();
+    for (int i = 0; i < listProduct.length; i++) {
+      var bannerView = Padding(
+        padding: EdgeInsets.fromLTRB(10, 0, 10, 20),
         child: InkWell(
-          onTap: (){
+          onTap: () {
             Navigator.push(
-              context, MaterialPageRoute(builder: (context) => DetailItem(product: widget.product,user: widget.user,))
-            );
+                context,
+                MaterialPageRoute(
+                    builder: (context) =>
+                        DetailItem(product: listProduct[i], user: user,)));
           },
           child: Stack(
             fit: StackFit.expand,
-            children: [
+            children: <Widget>[
               Container(
                   decoration: BoxDecoration(
                       color: Colors.white,
@@ -67,7 +57,7 @@ class _TreeItemState extends State<TreeItem> {
                           borderRadius: BorderRadius.all(Radius.circular(20.0)),
                         ),
                         child:  Image.network(
-                          widget.product.listImage.last,
+                          listProduct[i].listImage.last,
                           width: 200,
                           height: 140,
                           fit: BoxFit.cover,
@@ -79,7 +69,7 @@ class _TreeItemState extends State<TreeItem> {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: <Widget>[
                                 Text(
-                                  widget.product.plantID,
+                                  listProduct[i].plantID,
                                   overflow: TextOverflow.ellipsis,
                                   maxLines: 1,
                                   style: TextStyle(
@@ -92,42 +82,29 @@ class _TreeItemState extends State<TreeItem> {
                                 // ),
                                 Row(
                                   mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
+                                  MainAxisAlignment.spaceBetween,
                                   children: [
                                     Text(
-                                      widget.product.price,
+                                      listProduct[i].price,
                                       style: TextStyle(color: Colors.green[900]),
                                     ),
                                     RichText(
                                         text: TextSpan(
                                             style: TextStyle(color: Colors.black),
                                             children: <TextSpan>[
-                                          TextSpan(
-                                            text: 'Đã bán ',
-                                          ),
-                                          TextSpan(text: widget.product.quantityInStock),
-                                        ]))
+                                              TextSpan(
+                                                text: 'Đã bán ',
+                                              ),
+                                              TextSpan(text: listProduct[i].quantityInStock),
+                                            ]))
                                   ],
                                 ),
+                                SizedBox(height: 8,),
                                 Row(
-                                    crossAxisAlignment: CrossAxisAlignment.center,
+                                    crossAxisAlignment: CrossAxisAlignment.end,
                                     mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
+                                    MainAxisAlignment.spaceBetween,
                                     children: [
-                                      IconButton(
-                                          alignment: Alignment.centerLeft,
-                                          icon: (setImage),
-                                          onPressed: () {
-                                            setState(() {
-                                              this.isFavorited = !this.isFavorited;
-                                            });
-                                            if(this.isFavorited){
-                                              likeProduct().addFavoriteProduct(widget.user.getUid(), widget.product.productID);
-                                            }else{
-                                              likeProduct().deleteFavoriteProduct(widget.user.getUid(), widget.product.productID);
-                                            }
-
-                                          }),
                                       //isFavorited là biến bool, xét xem ng đó đã tym sp đó chưa
                                       Row(
                                         children: <Widget>[
@@ -135,7 +112,7 @@ class _TreeItemState extends State<TreeItem> {
                                             "assets/location_small.png",
                                             width: 16,
                                           ),
-                                          Text(" " + widget.product.address, style: TextStyle(
+                                          Text(" " + listProduct[i].address, style: TextStyle(
                                             fontSize: 12,
                                           ),),
                                         ],
@@ -145,10 +122,26 @@ class _TreeItemState extends State<TreeItem> {
                     ],
                   ))
             ],
+          ),
 
           ),
-        ),
-      ),
-    );
+        );
+      banners.add(bannerView);
+    }
+    return Container(
+        width: MediaQuery
+            .of(context)
+            .size
+            .width * 0.95,
+        height: MediaQuery
+            .of(context)
+            .size
+            .width *0.7,
+        child: PageView(
+          controller: controller,
+          scrollDirection: Axis.horizontal,
+          children: banners,
+
+        ));
   }
 }

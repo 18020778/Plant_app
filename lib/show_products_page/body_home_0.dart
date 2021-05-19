@@ -2,16 +2,19 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:first_app/login_reg_pages/loading.dart';
 import 'package:first_app/models/categories.dart';
 import 'package:first_app/models/plant.dart';
+import 'package:first_app/models/product.dart';
 import 'package:first_app/models/user.dart';
 import 'package:first_app/services/category_service.dart';
 import 'package:first_app/services/plant_service.dart';
-import 'package:first_app/show_products_page/TreeItem.dart';
+import 'package:first_app/services/productService.dart';
+import 'package:first_app/show_products_page/SuggestionItem.dart';
 import 'package:first_app/show_products_page/group_of_trees_0.dart';
 import 'package:first_app/show_products_page/search_box_012.dart';
 import 'package:first_app/show_products_page/type_of_trees_1.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+
+import 'TreeItem.dart';
 
 class bodyHome extends StatefulWidget {
   User user;
@@ -23,6 +26,7 @@ class bodyHome extends StatefulWidget {
 class _bodyHomeState extends State<bodyHome> {
   List<Categories> listCategories = new List();
   List<Plants> listPlants = new List();
+  List<Product> listProduct = new List();
   var viewResult = 0;
   bool showResult = false;
   // @override
@@ -35,7 +39,6 @@ class _bodyHomeState extends State<bodyHome> {
         });
         setState(() {
           this.viewResult += 1;
-          if (this.viewResult == 2) this.showResult = true;
         });
       } else {
         print("Empty");
@@ -48,12 +51,43 @@ class _bodyHomeState extends State<bodyHome> {
         });
         setState(() {
           this.viewResult +=1;
-          if (this.viewResult == 2) this.showResult = true;
         });
       }else{
         print("Empty");
       }
     });
+    // top 10 những sản phẩm mới đăng
+    int count ;
+    List<Product> newList = new List();
+    ProductService().top10NewProduct().then((QuerySnapshot docs){
+      count = docs.documents.length;
+      if(docs.documents.isNotEmpty){
+        docs.documents.forEach((element) {
+          Product product = Product.fromJson(element.data);
+          ProductService().getImageProduct(element.data['productID']).then(( QuerySnapshot value){
+            if(value.documents.isNotEmpty){
+              List<String> listImage = new List();
+              value.documents.forEach((element) {
+                listImage.add(element.data['imageUrl']);
+              });
+              product.setlistImage(listImage);
+            }
+            else{
+              product.setlistImage(['https://cdn.shopify.com/s/files/1/0212/1030/0480/products/BraidedMoneyTree-Full_560x560_crop_center.jpg?v=1605012647']);
+            }
+            newList.add(product);
+            if(newList.length == count){
+              this.setState(() {
+                this.listProduct = newList;
+                this.viewResult +=1;
+              });
+            }
+          });
+        });
+      }
+    });
+
+
   }
 
   @override
@@ -68,7 +102,7 @@ class _bodyHomeState extends State<bodyHome> {
         .height;
     PageController controller =
           PageController(viewportFraction: 0.4, initialPage: 1);
-          return this.showResult
+          return (this.viewResult == 3)
           ? Stack(children: [
           Positioned(
           top: 0,
@@ -104,7 +138,7 @@ class _bodyHomeState extends State<bodyHome> {
                                 fontSize: 25),
                           ),
                         ),
-                        ListTypeOfTrees(this.listCategories),
+                        ListTypeOfTrees(this.listCategories, widget.user),
                         SizedBox(
                           height: 10,
                         ),
@@ -119,7 +153,7 @@ class _bodyHomeState extends State<bodyHome> {
                                 fontSize: 25),
                           ),
                         ),
-                        ListGroupOfTrees(this.listPlants),
+                        ListGroupOfTrees(this.listPlants, widget.user),
                         SizedBox(
                           height: 10,
                         ),
@@ -165,6 +199,7 @@ class _bodyHomeState extends State<bodyHome> {
                           alignment: Alignment.topLeft,
                           margin: EdgeInsets.only(left: 10, top: 10),
                           child: Text(
+                            // top 10 nhung san pham mới ra
                             "Gợi ý cho bạn",
                             style: TextStyle(
                                 color: Color(0xFF407C5A),
@@ -172,31 +207,11 @@ class _bodyHomeState extends State<bodyHome> {
                                 fontSize: 25),
                           ),
                         ),
-                        Container(
-                          width: screenWidth * 0.96,
-                          height: screenWidth * 0.66,
-                          child: PageView(
-                            controller: controller,
-                            scrollDirection: Axis.horizontal,
-                            children: [
-                              // TreeItem(
-                              //     name: "Xương rồng",
-                              //     image: "assets/xuong_rong.jpg",
-                              //     price: "20k",
-                              //     amount: '2',
-                              //     isFavorited: false,
-                              //     location: "Hà Nội"),
-                              // TreeItem(
-                              //     name: "Xương rồng",
-                              //     image: "assets/xuong_rong.jpg",
-                              //     price: "20k",
-                              //     amount: '2',
-                              //     isFavorited: false,
-                              //     location: "Hà Nội"),
-                            ],
-                          ),
+                        SizedBox(height: 10,),
+                        SuggestionItem(this.listProduct, widget.user),
+                        SizedBox(height: 10,)
+                      ]
                         ),
-                      ]),
                 )
             )),
         Positioned(
@@ -270,14 +285,6 @@ class _homeAppBarState extends State<homeAppBar> {
                       ],
                     )),
                   )),
-              /*IconButton(
-                    padding: EdgeInsets.only(right: 15),
-                    icon: Icon(
-                      FontAwesomeIcons.bell,
-                      color: Colors.white,
-                    ),
-                    onPressed: () {},
-                  )*/
             ],
           ),
 
@@ -287,9 +294,12 @@ class _homeAppBarState extends State<homeAppBar> {
   }
 }
 
+
+
 class ListTypeOfTrees extends StatelessWidget {
   List<Categories> listCategories = new List();
-  ListTypeOfTrees(this.listCategories);
+  User user;
+  ListTypeOfTrees(this.listCategories, this.user);
   @override
   Widget build(BuildContext context) {
     PageController controller =
@@ -304,7 +314,7 @@ class ListTypeOfTrees extends StatelessWidget {
                 context,
                 MaterialPageRoute(
                     builder: (context) => TypeOfTrees(
-                          categoryId: listCategories[i].getCategoryId(),
+                          listCategories[i].getCategoryId(), user,
                         )));
           },
           child: Container(

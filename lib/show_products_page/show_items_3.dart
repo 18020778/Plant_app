@@ -11,11 +11,11 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'TreeItem.dart';
 
 class ShowItem extends StatefulWidget {
+  User user;
   Plants plants ;
   @override
   _ShowItemState createState() => _ShowItemState();
-
-  ShowItem({this.plants});
+  ShowItem({this.plants, this.user});
 }
 @override
 class _ShowItemState extends State<ShowItem> {
@@ -87,6 +87,7 @@ class _ShowItemState extends State<ShowItem> {
 
                                         return TreeItem(
                                           product: this.listProduct[index],
+                                          user: widget.user,
                                         );
                                       }
                                   ),
@@ -123,7 +124,7 @@ class _ShowItemState extends State<ShowItem> {
                 });
                 product.setlistImage(imageList);
               }
-              else product.setlistImage(['https://img.freepik.com/free-vector/tree_1308-36471.jpg?size=626&ext=jpg']);
+              else product.setlistImage(['https://cdn.shopify.com/s/files/1/0212/1030/0480/products/BraidedMoneyTree-Full_560x560_crop_center.jpg?v=1605012647']);
               newList.add(product);
               if(newList.length == count){
                 setState(() {

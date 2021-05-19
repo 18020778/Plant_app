@@ -1,8 +1,11 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:first_app/login_reg_pages/loading.dart';
 import 'package:first_app/models/plant.dart';
+import 'package:first_app/models/product.dart';
 import 'package:first_app/models/user.dart';
 import 'package:first_app/services/plant_service.dart';
+import 'package:first_app/services/productService.dart';
+import 'package:first_app/show_products_page/SuggestionItem.dart';
 import 'package:first_app/show_products_page/group_of_trees_0.dart';
 import 'package:first_app/show_products_page/search_box_012.dart';
 import 'package:first_app/show_products_page/show_items_3.dart';
@@ -12,22 +15,26 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'TreeItem.dart';
 
 class TypeOfTrees extends StatefulWidget {
+  User user;
   String categoryId;
   @override
   _TypeOfTreesState createState() => _TypeOfTreesState();
-  TypeOfTrees({this.categoryId});
+  TypeOfTrees(this.categoryId, this.user);
 }
 
 class _TypeOfTreesState extends State<TypeOfTrees> {
-  bool viewResult = false;
+
+
+  var  viewResult = 0;
   List<Plants> listPlantGroupByCategory = new List();
+  List<Product> listProduct = new List();
   PageController controller =
       PageController(viewportFraction: 0.4, initialPage: 1);
 
   Widget build(BuildContext context) {
     var screenHeight = MediaQuery.of(context).size.height;
     var screenWidth = MediaQuery.of(context).size.width;
-    return viewResult ? Scaffold(
+    return (this.viewResult == 2) ? Scaffold(
       appBar: AppBar(
           toolbarHeight: 75,
           title: SearchBox(text: 'NameTypeOfTree'),
@@ -59,7 +66,7 @@ class _TypeOfTreesState extends State<TypeOfTrees> {
                   fontSize: 25),
             ),
           ),
-          ListGroupOfTrees(this.listPlantGroupByCategory),
+          ListGroupOfTrees(this.listPlantGroupByCategory, widget.user),
           Container(
             alignment: Alignment.topLeft,
             margin: EdgeInsets.only(left: 10, top: 10),
@@ -71,31 +78,7 @@ class _TypeOfTreesState extends State<TypeOfTrees> {
                   fontSize: 25),
             ),
           ),
-          Container(
-            width: screenWidth * 0.96,
-            height: screenWidth * 0.66,
-            child: PageView(
-              controller: controller,
-              scrollDirection: Axis.horizontal,
-              children: [
-                // TreeItem(
-                //     name: "Xương rồng",
-                //     image: "assets/xuong_rong.jpg",
-                //     price: "20k",
-                //     amount: '2',
-                //     isFavorited: false,
-                //     location: "Hà Nội"),
-                // TreeItem(
-                //     name: "Xương rồng",
-                //     image: "assets/xuong_rong.jpg",
-                //     price: "20k",
-                //     amount: '2',
-                //     isFavorited: false,
-                //     location: "Hà Nội"),
-              ],
-            ),
-          ),
-          //ShowItem(),
+         SuggestionItem(listProduct, widget.user),
         ],
       )),
       //bottomNavigationBar: BottomNavBar(),
@@ -111,8 +94,45 @@ class _TypeOfTreesState extends State<TypeOfTrees> {
           });
       }
       setState(() {
-        this.viewResult = true;
+        this.viewResult += 1;
       });
     });
+
+    // top 10 san pham ban chay cua cai nhom cay nay nhes
+    int count ;
+    List<Product> newList = new List();
+    ProductService().top10ProductOrderByCategory(widget.categoryId).then((QuerySnapshot docs){
+      count = docs.documents.length;
+      if(count == 0){
+        setState(() {
+          this.viewResult+=1;
+        });
+      }
+      if(docs.documents.isNotEmpty){
+        docs.documents.forEach((element) {
+          Product product = Product.fromJson(element.data);
+          ProductService().getImageProduct(element.data['productID']).then(( QuerySnapshot value){
+            if(value.documents.isNotEmpty){
+              List<String> listImage = new List();
+              value.documents.forEach((element) {
+                listImage.add(element.data['imageUrl']);
+              });
+              product.setlistImage(listImage);
+            }
+            else{
+              product.setlistImage(['https://cdn.shopify.com/s/files/1/0212/1030/0480/products/BraidedMoneyTree-Full_560x560_crop_center.jpg?v=1605012647']);
+            }
+            newList.add(product);
+            if(newList.length == count){
+              this.setState(() {
+                this.listProduct = newList;
+                this.viewResult+=1;
+              });
+            }
+          });
+        });
+      }
+    });
+
   }
 }

@@ -75,7 +75,7 @@ class _LikedPageState extends State<LikedPage> {
                     product.setlistImage(listImage);
 
 
-                  }else product.setlistImage(['https://img.freepik.com/free-vector/tree_1308-36471.jpg?size=626&ext=jpg']);
+                  }else product.setlistImage(['https://cdn.shopify.com/s/files/1/0212/1030/0480/products/BraidedMoneyTree-Full_560x560_crop_center.jpg?v=1605012647']);
                   newList.add(product);
                   if(newList.length == count){
                     setState(() {

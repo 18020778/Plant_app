@@ -44,6 +44,23 @@ class ProductService{
           .collection("products")
           .getDocuments();
   }
+
+  top10NewProduct(){
+    return Firestore.instance
+        .collection("products")
+        .orderBy("created", descending: true)
+        .limit(10)
+        .getDocuments();
+  }
+
+
+  top10ProductOrderByCategory(String category){
+    return Firestore.instance
+        .collection("products")
+        .where("category", isEqualTo: category)
+        .limit(10)
+        .getDocuments();
+  }
   getImageProduct(String productID){
     return Firestore.instance
           .collection("products")

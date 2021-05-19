@@ -1,11 +1,13 @@
 import 'package:first_app/models/plant.dart';
+import 'package:first_app/models/user.dart';
 import 'package:first_app/show_products_page/show_items_page_2.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class ListGroupOfTrees extends StatelessWidget {
+  User user;
   List<Plants> listPlants = new List();
-  ListGroupOfTrees(this.listPlants);
+  ListGroupOfTrees(this.listPlants, this.user);
 
   @override
   Widget build(BuildContext context) {
@@ -16,7 +18,7 @@ class ListGroupOfTrees extends StatelessWidget {
         child: InkWell(
           onTap: () {
             Navigator.push(
-                context, MaterialPageRoute(builder: (context) => ShowItemPage(this.listPlants[i])));
+                context, MaterialPageRoute(builder: (context) => ShowItemPage(this.listPlants[i], this.user)));
           },
           child: Column(
             children: [

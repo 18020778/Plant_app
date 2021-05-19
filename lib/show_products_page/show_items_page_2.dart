@@ -6,8 +6,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class ShowItemPage extends StatefulWidget {
+  User user;
   Plants plant;
-  ShowItemPage(this.plant);
+  ShowItemPage(this.plant, this.user);
 
   @override
   _ShowItemPageState createState() => _ShowItemPageState();
@@ -35,7 +36,7 @@ class _ShowItemPageState extends State<ShowItemPage> {
               },
             )
           ]),
-      body: ShowItem(plants: widget.plant),
+      body: ShowItem(plants: widget.plant, user: widget.user,),
      //bottomNavigationBar: BottomNavBar(),
     );
   }

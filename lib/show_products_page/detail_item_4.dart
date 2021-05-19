@@ -231,7 +231,7 @@ class _DetailItemState extends State<DetailItem> {
                               height: 30,
                             ),
                             Text(
-                              "  " + widget.product.theAmountOfWater.toString(),
+                              "  " + widget.product.theAmountOfWater.toString() + " ml",
                               style:
                                   TextStyle(color: Colors.white, fontSize: 16),
                             )
@@ -246,7 +246,7 @@ class _DetailItemState extends State<DetailItem> {
                             height: 40,
                           ),
                           Text(
-                            " " + widget.product.temperature.toString()+ " C",
+                            " " + widget.product.temperature.toString()+ " °C",
                             style: TextStyle(color: Colors.white, fontSize: 16),
                           )
                         ],
