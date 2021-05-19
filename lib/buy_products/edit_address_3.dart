@@ -1,4 +1,5 @@
 import 'package:first_app/buy_products/choice_address_2.dart';
+import 'package:first_app/buy_products/choose_map_4.dart';
 import 'package:flutter/material.dart';
 
 class EditAddress extends StatefulWidget {
@@ -124,7 +125,9 @@ class _EditAddressState extends State<EditAddress> {
               SizedBox(height: 15,),
               FlatButton(
                 padding: EdgeInsets.symmetric(vertical: 10, horizontal: 10),
-                  onPressed: (){},
+                  onPressed: (){
+                  //Navigator.push(context, MaterialPageRoute(builder: (context) => ChooseMap()));
+                  },
                   color: Colors.white,
                   child: Row(
                     children: [

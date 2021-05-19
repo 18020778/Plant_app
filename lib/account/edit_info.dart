@@ -47,7 +47,7 @@ class _EditInfoState extends State<EditInfo> {
   static List<String> gentles = ['Nam', 'Nữ', 'Khác'];
 
   _openGallery(BuildContext context) async {
-    var picture = await ImagePicker.pickImage(source: ImageSource.gallery);
+    var picture = await picker.getImage (source: ImageSource.gallery);
     setState(() {
       if (picture != null) {
         imageFile = File(picture.path);
@@ -58,7 +58,7 @@ class _EditInfoState extends State<EditInfo> {
   }
 
   _openCamera(BuildContext context) async {
-    var picture = await ImagePicker.pickImage(source: ImageSource.camera);
+    var picture = await picker.getImage(source: ImageSource.camera);
     this.setState(() {
       imageFile = File(picture.path);
     });

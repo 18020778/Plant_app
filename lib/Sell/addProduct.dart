@@ -52,8 +52,9 @@ class _AddProductState extends State<AddProduct>{
     }
     return false;
   }
+
   _openGallery(BuildContext context) async {
-    var picture = await ImagePicker.pickImage(source: ImageSource.gallery);
+    var picture = await picker.getImage(source: ImageSource.gallery);
     setState(() {
       if (picture != null) {
         _image.insert(0, File(picture.path));
@@ -63,7 +64,7 @@ class _AddProductState extends State<AddProduct>{
   }
 
   _openCamera(BuildContext context) async {
-    var picture = await ImagePicker.pickImage(source: ImageSource.camera);
+    var picture = await picker.getImage(source: ImageSource.camera);
     this.setState(() {
       _image.insert(0, File(picture.path));
     });

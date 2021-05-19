@@ -30,8 +30,10 @@ class _CreateBlogState extends State<CreateBlog> {
   String title, desc;
   String dropdownValue;
   bool viewResult = false;
+  final picker = ImagePicker();
+
   Future getImage() async {
-    var image = await ImagePicker.pickImage(source: ImageSource.gallery);
+    var image = await picker.getImage(source: ImageSource.gallery);
     setState(() {
       selectedImage = File(image.path);
     });

@@ -37,7 +37,7 @@ class _TypeOfTreesState extends State<TypeOfTrees> {
     return (this.viewResult == 2) ? Scaffold(
       appBar: AppBar(
           toolbarHeight: 75,
-          title: SearchBox(text: 'NameTypeOfTree'),
+          //title: SearchBox(text: 'NameTypeOfTree'),
           leadingWidth: 20,
           centerTitle: true,
           backgroundColor: Color(0xFF407C5A),
