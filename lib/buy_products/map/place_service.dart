@@ -27,7 +27,7 @@ class PlacesService {
     var url = 'https://maps.googleapis.com/maps/api/place/textsearch/json?location=$lat,$lng&type=$placeType&rankby=distance&key=$key';
     var response = await http.get(Uri.parse(url));
     var json = convert.jsonDecode(response.body);
-    var jsonResults = json['result'] as List;
+    var jsonResults = json['results'] as List;
     return jsonResults.map((place) => Place.fromJson(place)).toList();
   }
 }
