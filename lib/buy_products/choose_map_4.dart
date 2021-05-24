@@ -94,6 +94,7 @@ class _screenState extends State<screen> {
                     Container(
                       height: MediaQuery.of(context).size.height - 60,
                       child: GoogleMap(
+                        myLocationButtonEnabled: true,
                         mapType: MapType.normal,
                         myLocationEnabled: true,
                         initialCameraPosition: CameraPosition(
@@ -101,7 +102,7 @@ class _screenState extends State<screen> {
                               applicationBloc.currentLocation.latitude,
                               applicationBloc.currentLocation.longitude,
                             ),
-                            zoom: 14),
+                            zoom: 60),
                         onMapCreated: (GoogleMapController controller) {
                           _mapController.complete(controller);
                         },

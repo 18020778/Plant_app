@@ -1,5 +1,7 @@
+import 'package:flutter/cupertino.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:custom_marker_icon/custom_marker_icon.dart';
 
 import 'geometry.dart';
 
@@ -22,6 +24,9 @@ class MarkerService {
   }
 
   Marker createMarkerFromPlace(Place place, bool center) {
+    BitmapDescriptor markerIcon = BitmapDescriptor.fromAssetImage(ImageConfiguration(size: Size(48, 48)),
+        "assets/mapMarker.png"
+    ) as BitmapDescriptor;
     var markerId = place.name;
     if (center) markerId = 'center';
 
@@ -30,9 +35,11 @@ class MarkerService {
         draggable: false,
         visible: (center) ? false : true,
         infoWindow: InfoWindow(
-            title: place.name, snippet: place.vicinity),
+            title: place.name),
         position: LatLng(place.geometry.location.lat,
-            place.geometry.location.lng)
+            place.geometry.location.lng),
+      icon: markerIcon,
+
     );
   }
 }
