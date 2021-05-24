@@ -75,18 +75,143 @@ class _showCartState extends State<showCart> {
                     height: 192.0*list_cart.length,
                     child: Column(
                       children: [
-                    for(int i=0; i<list_cart.length;i++) cartItem(shopName: list_cart[i].shopName, checkBox: list_cart[i].checkBox, img: list_cart[i].img, nameProduct: list_cart[i].nameProduct, price: list_cart[i].price, amount: list_cart[i].amount,),
+                    for(int i=0; i<list_cart.length;i++)
+              Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    Container(
+                        margin: EdgeInsets.only(bottom: 30),
+                        child: Column(children: [
+                          ColoredBox(
+                            color: Color(0xFFE6FFEE),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                FlatButton(
+                                  onPressed: () {},
+                                  child: Row(
+                                    children: [
+                                      Text(
+                                        list_cart[i].shopName,
+                                        style: TextStyle(fontWeight: FontWeight.w700, fontSize: 18),
+                                      ),
+                                      Icon(Icons.arrow_forward_ios),
+                                    ],
+                                  ),
+                                ),
+                                FlatButton(
+                                    onPressed: () {
+                                    },
+                                    child: Text(
+                                      "Xóa",
+                                      style: TextStyle(color: Colors.black54, fontSize: 16),
+                                    ))
+                              ],
+                            ),
+                          ),
+                          Row(children: [
+                            Checkbox(
+                              value: list_cart[i].checkBox,
+                              onChanged: (bool value) {
+                                setState(() {
+                                  list_cart[i].checkBox = value;
+                                  if (list_cart[i].checkBox) totalMoney += list_cart[i].price*list_cart[i].amount;
+                                });
+                              },
+                              activeColor: Color(0xFF488B66),
+                              checkColor: Colors.white,
+                            ),
+                            Image.asset(
+                              list_cart[i].img,
+                              width: 100,
+                              fit: BoxFit.cover,
+                            ),
+                            Container(
+                              margin: EdgeInsets.only(left: 20),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    list_cart[i].nameProduct,
+                                    style: TextStyle(fontWeight: FontWeight.w700, fontSize: 18),
+                                    overflow: TextOverflow.ellipsis,
+                                    maxLines: 1,
+                                  ),
+                                  Text(
+                                    "đ" + list_cart[i].price.toString(),
+                                    style: TextStyle(color: Color(0xFF488B66), fontSize: 16),
+                                  ),
+                                  SizedBox(
+                                    height: 10,
+                                  ),
+                                  Row(
+                                    children: [
+                                      ButtonTheme(
+                                        minWidth: 50,
+                                        child: OutlineButton(
+                                          onPressed: () {
+                                            setState(() {
+                                              while (list_cart[i].amount > 0) {
+                                                list_cart[i].amount--;
+                                              }
+                                            });
+                                          },
+                                          child: Text(
+                                            "-",
+                                            style: TextStyle(fontWeight: FontWeight.w700),
+                                          ),
+                                        ),
+                                      ),
+                                      ButtonTheme(
+                                          minWidth: 50,
+                                          child: OutlineButton(
+                                            onPressed: null,
+                                            child: Text(
+                                              list_cart[i].amount.toString(),
+                                              style: TextStyle(fontWeight: FontWeight.w700),
+                                            ),
+                                          )),
+                                      ButtonTheme(
+                                        minWidth: 50,
+                                        child: OutlineButton(
+                                          onPressed: () {
+                                            setState(() {
+                                              list_cart[i].amount++;
+                                            });
+                                          },
+                                          child: Text(
+                                            "+",
+                                            style: TextStyle(
+                                                fontWeight: FontWeight.w700, fontSize: 18),
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  )
+                                ],
+                              ),
+                            ),
+                          ])
+                        ])),
+                    Container(
+                      height: 10,
+                      decoration: BoxDecoration(
+                          color: Colors.black12
+                      ),
+                    )
+                  ])
                     ]),
-                  ),
-                ],
-              ),
-          ),
-        bottomNavigationBar: Container(
-          height: 60,
-          decoration: BoxDecoration(
+            ),
+            ],
+            ),
+            ),
+            bottomNavigationBar: Container(
+            height: 60,
+            decoration: BoxDecoration(
             color: Colors.white,
             borderRadius: BorderRadius.only(
-              topRight: Radius.circular(30),
+            topRight: Radius.circular(30
+            ),
               topLeft: Radius.circular(30),
             ),
             boxShadow: [BoxShadow(
@@ -127,146 +252,3 @@ class _showCartState extends State<showCart> {
   }
 }
 
-class cartItem extends StatefulWidget {
-  final String shopName;
-  bool checkBox;
-  final String img;
-  final String nameProduct;
-  final int price;
-  int amount;
-
-  cartItem({Key key, this.shopName, this.checkBox, this.img, this.nameProduct, this.price, this.amount}): super(key: key);
-
-  @override
-  _cartItemState createState() => _cartItemState();
-}
-
-class _cartItemState extends State<cartItem> {
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-      children: [
-      Container(
-        margin: EdgeInsets.only(bottom: 30),
-          child: Column(children: [
-        ColoredBox(
-          color: Color(0xFFE6FFEE),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              FlatButton(
-                onPressed: () {},
-                child: Row(
-                  children: [
-                    Text(
-                      widget.shopName,
-                      style: TextStyle(fontWeight: FontWeight.w700, fontSize: 18),
-                    ),
-                    Icon(Icons.arrow_forward_ios),
-                  ],
-                ),
-              ),
-              FlatButton(
-                  onPressed: () {
-                  },
-                  child: Text(
-                    "Xóa",
-                    style: TextStyle(color: Colors.black54, fontSize: 16),
-                  ))
-            ],
-          ),
-        ),
-        Row(children: [
-          Checkbox(
-            value: widget.checkBox,
-            onChanged: (bool value) {
-              setState(() {
-                widget.checkBox = value;
-              });
-            },
-            activeColor: Color(0xFF488B66),
-            checkColor: Colors.white,
-          ),
-          Image.asset(
-            widget.img,
-            width: 100,
-            fit: BoxFit.cover,
-          ),
-          Container(
-            margin: EdgeInsets.only(left: 20),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  widget.nameProduct,
-                  style: TextStyle(fontWeight: FontWeight.w700, fontSize: 18),
-                  overflow: TextOverflow.ellipsis,
-                  maxLines: 1,
-                ),
-                Text(
-                  "đ" + widget.price.toString(),
-                  style: TextStyle(color: Color(0xFF488B66), fontSize: 16),
-                ),
-                SizedBox(
-                  height: 10,
-                ),
-                Row(
-                  children: [
-                    ButtonTheme(
-                      minWidth: 50,
-                      child: OutlineButton(
-                        onPressed: () {
-                          setState(() {
-                            while (widget.amount > 0) {
-                              widget.amount--;
-                            }
-                          });
-                        },
-                        child: Text(
-                          "-",
-                          style: TextStyle(fontWeight: FontWeight.w700),
-                        ),
-                      ),
-                    ),
-                    ButtonTheme(
-                        minWidth: 50,
-                        child: OutlineButton(
-                          onPressed: null,
-                          child: Text(
-                            widget.amount.toString(),
-                            style: TextStyle(fontWeight: FontWeight.w700),
-                          ),
-                        )),
-                    ButtonTheme(
-                      minWidth: 50,
-                      child: OutlineButton(
-                        onPressed: () {
-                          setState(() {
-                            widget.amount++;
-                          });
-                        },
-                        child: Text(
-                          "+",
-                          style: TextStyle(
-                              fontWeight: FontWeight.w700, fontSize: 18),
-                        ),
-                      ),
-                    ),
-                  ],
-                )
-              ],
-            ),
-          ),
-        ])
-      ])),
-    Container(
-      height: 10,
-      decoration: BoxDecoration(
-        color: Colors.black12
-      ),
-    )
-      ]);
-  }
-}
