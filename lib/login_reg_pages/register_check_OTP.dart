@@ -173,9 +173,8 @@ class _regOTPState extends State<regOTP> {
   }
   _signIn() async {
     AuthCredential phoneAuthCredential = PhoneAuthProvider.getCredential(verificationId: verificationCode, smsCode: smsCode);
-    // Sign in to an existing phone number/ sign up with a new phonenumber
       FirebaseAuth.instance.signInWithCredential(phoneAuthCredential).then((user){
-        //print("this is uid of user: " + user.user.uid);
+
         widget.user.setUid(user.user.uid);
       setState(() {
         _clearString = false;
@@ -184,9 +183,7 @@ class _regOTPState extends State<regOTP> {
           if(value == null) {
             _createAccount(widget.user);
             Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) =>loginPage()),
-            );
+                context, MaterialPageRoute(builder: (context) => SummaryPage(user: value)));
           }
           else {
             setState(() {

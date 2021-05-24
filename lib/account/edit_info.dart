@@ -2,16 +2,14 @@ import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:first_app/account/editEmail.dart';
 import 'package:first_app/account/utlis.dart';
-import 'package:first_app/login_reg_pages/loading.dart';
 import 'package:first_app/models/user.dart';
 import 'package:first_app/services/database.dart';
 import 'package:first_app/services/uploadFile.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
-import 'EditName.dart';
 import 'package:intl/intl.dart';
-import 'package:first_app/account/EditPhone1.dart';
+import 'EditName.dart';
 class EditInfo extends StatefulWidget {
   User user;
   @override
@@ -328,7 +326,7 @@ class _EditInfoState extends State<EditInfo> {
                       ),
                       new Spacer(),
                       Text(
-                        this.email,
+                        this.email.toString(),
                         style: TextStyle(color: Colors.black54, fontSize: 18),
                       ),
                       Icon(Icons.arrow_forward_ios)

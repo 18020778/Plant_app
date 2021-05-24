@@ -29,7 +29,7 @@ class _bodyHomeState extends State<bodyHome> {
   List<Product> listProduct = new List();
   var viewResult = 0;
   bool showResult = false;
-  // @override
+  @override
   void initState() {
     super.initState();
     CategoryService().getCategories().then((QuerySnapshot docs) {

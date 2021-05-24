@@ -17,7 +17,7 @@ class Database{
           'dob' : user.dob,
           'email': user.email,
           'urlImage' : "https://i.dlpng.com/static/png/6866112_preview.png",
-          'address': user.address,
+          'address': "",
           'accountCreated': Timestamp.now(),
         }
       );

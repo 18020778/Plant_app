@@ -1,42 +1,84 @@
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:first_app/buy_products/buy_card_1.dart';
+import 'package:first_app/login_reg_pages/loading.dart';
+import 'package:first_app/models/user.dart';
+import 'package:first_app/services/database.dart';
+import 'package:first_app/services/purchase_service.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class Cart {
-  final String shopName;
-  bool checkBox;
-  final String img;
-  final String nameProduct;
-  final int price;
-  int amount;
-
-  Cart({this.shopName, this.checkBox, this.img, this.nameProduct, this.price, this.amount});
-
+   User shop;
+   String img;
+   String nameProduct;
+   String price;
+   int amount;
+  void setUser(User user){
+    this.shop = user;
+  }
+  Cart({this.shop, this.img, this.nameProduct, this.price, this.amount});
+  factory Cart.fromJson(Map<String, dynamic> json) => Cart(
+    img : json['imageUrl'],
+    nameProduct: json['productName'],
+    price: json['price'],
+    amount: json['amount']
+  );
 }
 
-
 class showCart extends StatefulWidget {
+  User user;
   @override
   _showCartState createState() => _showCartState();
+  showCart(this.user);
+
 }
 
 class _showCartState extends State<showCart> {
+  static List<bool> listCheckBox = new List();
+  bool viewResult = false;
+  List<Cart> listCart = new List();
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    var count = 0;
+    PurchaseService().getAllProductInCart(widget.user.uid).then((QuerySnapshot docs){
+      if(docs.documents.isNotEmpty){
+        count =  docs.documents.length;
+        docs.documents.forEach((element) {
+          Cart cart = Cart.fromJson(element.data);
+          Database().getUserInfo(element.data['shopID']).then((value){
+            cart.setUser(value);
+            listCart.add(cart);
+            listCheckBox.add(false);
+            if(listCart.length == count ){
+              setState(() {
+                this.viewResult = true;
+              });
+            }
+          });
 
+        });
+
+      }
+      else {
+        setState(() {
+          this.viewResult  = true;
+        });
+      }
+
+    });
+  }
   @override
   Widget build(BuildContext context) {
-    List<Cart> list_cart = [
-      Cart(shopName: "shopname1", checkBox: true, img: 'assets/bonsai.jpg', nameProduct: 'NameProduct1', price: 100000, amount:2),
-      Cart(shopName: "shopname2", checkBox: false, img: 'assets/cay_day_leo.jpg', nameProduct: 'NameProduct2', price: 200000, amount:1),
-      Cart(shopName: "shopname3", checkBox: true, img: 'assets/bonsai.jpg', nameProduct: 'NameProduct1', price: 100000, amount:2),
-      Cart(shopName: "shopname4", checkBox: false, img: 'assets/cay_day_leo.jpg', nameProduct: 'NameProduct2', price: 200000, amount:1),
-    ] ;
-    return StatefulBuilder(
+    return this.viewResult ? StatefulBuilder(
         builder: (BuildContext context, StateSetter setState) {
-      var totalMoney = 0;
-      for(var item in list_cart) {
-        if (item.checkBox) totalMoney += item.price*item.amount;
-      }
+          var totalMoney =0;
+      // listCart.forEach((element) {
+      //  if(element.checkBox)
+      //   totalMoney += int.parse(element.price)*element.amount;
+      // });
       return Scaffold(
           appBar: AppBar(
               toolbarHeight: 60,
@@ -72,10 +114,11 @@ class _showCartState extends State<showCart> {
             child: Stack(
                 children: [
                   Container(
-                    height: 192.0*list_cart.length,
+                    height: 205.0*listCart.length,
                     child: Column(
                       children: [
-                    for(int i=0; i<list_cart.length;i++) cartItem(shopName: list_cart[i].shopName, checkBox: list_cart[i].checkBox, img: list_cart[i].img, nameProduct: list_cart[i].nameProduct, price: list_cart[i].price, amount: list_cart[i].amount,),
+                   for(int i=0; i<listCart.length;i++)
+                     cartItem(cart: listCart[i], number : i)
                     ]),
                   ),
                 ],
@@ -112,7 +155,7 @@ class _showCartState extends State<showCart> {
               RaisedButton(
                 padding: EdgeInsets.symmetric(vertical: 17, horizontal: 25),
                 color: Color(0xFF488B66),
-                child: Text("Mua hàng", style: TextStyle(color: Colors.white, fontSize: 22, fontWeight: FontWeight.w600),),
+                child: Text("Mua hàng", style: TextStyle(color: Colors.white, fontSize: 18, fontWeight: FontWeight.w600),),
                 onPressed: () {
                   Navigator.push(context, MaterialPageRoute(builder: (context) => buyCard()));
                 },
@@ -123,26 +166,20 @@ class _showCartState extends State<showCart> {
 
 
       );
-    });
+    }) : Loading();
   }
 }
 
 class cartItem extends StatefulWidget {
-  final String shopName;
-  bool checkBox;
-  final String img;
-  final String nameProduct;
-  final int price;
-  int amount;
-
-  cartItem({Key key, this.shopName, this.checkBox, this.img, this.nameProduct, this.price, this.amount}): super(key: key);
-
+  Cart cart;
+  bool checkBox = false;
+  int number;
+  cartItem({Key key, this.cart, this.number}): super(key: key);
   @override
   _cartItemState createState() => _cartItemState();
 }
 
 class _cartItemState extends State<cartItem> {
-
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -161,7 +198,7 @@ class _cartItemState extends State<cartItem> {
                 child: Row(
                   children: [
                     Text(
-                      widget.shopName,
+                      widget.cart.shop.userName,
                       style: TextStyle(fontWeight: FontWeight.w700, fontSize: 18),
                     ),
                     Icon(Icons.arrow_forward_ios),
@@ -182,6 +219,13 @@ class _cartItemState extends State<cartItem> {
           Checkbox(
             value: widget.checkBox,
             onChanged: (bool value) {
+
+              if (value){
+                _showCartState.listCheckBox[]
+              }else{
+
+              }
+              print("this is total "+_showCartState.totalMoney.toString());
               setState(() {
                 widget.checkBox = value;
               });
@@ -189,8 +233,8 @@ class _cartItemState extends State<cartItem> {
             activeColor: Color(0xFF488B66),
             checkColor: Colors.white,
           ),
-          Image.asset(
-            widget.img,
+          Image.network(
+            widget.cart.img,
             width: 100,
             fit: BoxFit.cover,
           ),
@@ -200,13 +244,13 @@ class _cartItemState extends State<cartItem> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  widget.nameProduct,
+                  widget.cart.nameProduct,
                   style: TextStyle(fontWeight: FontWeight.w700, fontSize: 18),
                   overflow: TextOverflow.ellipsis,
                   maxLines: 1,
                 ),
                 Text(
-                  "đ" + widget.price.toString(),
+                  "đ" + widget.cart.price.toString(),
                   style: TextStyle(color: Color(0xFF488B66), fontSize: 16),
                 ),
                 SizedBox(
@@ -219,8 +263,8 @@ class _cartItemState extends State<cartItem> {
                       child: OutlineButton(
                         onPressed: () {
                           setState(() {
-                            while (widget.amount > 0) {
-                              widget.amount--;
+                            while (widget.cart.amount > 0) {
+                              widget.cart.amount--;
                             }
                           });
                         },
@@ -235,7 +279,7 @@ class _cartItemState extends State<cartItem> {
                         child: OutlineButton(
                           onPressed: null,
                           child: Text(
-                            widget.amount.toString(),
+                            widget.cart.amount.toString(),
                             style: TextStyle(fontWeight: FontWeight.w700),
                           ),
                         )),
@@ -244,7 +288,7 @@ class _cartItemState extends State<cartItem> {
                       child: OutlineButton(
                         onPressed: () {
                           setState(() {
-                            widget.amount++;
+                            widget.cart.amount++;
                           });
                         },
                         child: Text(
