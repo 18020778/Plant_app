@@ -1,14 +1,28 @@
+import 'package:first_app/buy_products/show_cart_0.dart';
+import 'package:first_app/models/user.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import 'choice_address_2.dart';
 
 class buyCard extends StatefulWidget {
+  User user;
+  List<Cart> listCard;
   @override
   _buyCardState createState() => _buyCardState();
+  buyCard(this.user, this.listCard);
 }
 
 class _buyCardState extends State<buyCard> {
+  String userNameShop="";
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    setState(() {
+      this.userNameShop =  widget.listCard[0].shop.userName;
+    });
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -35,13 +49,18 @@ class _buyCardState extends State<buyCard> {
               height: 10,
               decoration: BoxDecoration(color: Colors.black12),
             ),
-            listProducts(
-                shopName: "ShopName",
-                productName: "NameProduct",
-                img: "assets/bonsai.jpg",
-                price: "20000",
-                amount: 3),
-            choiceDeliver(),
+            // chon cac san pham nay
+           Container(
+             child: Column(
+               children: [
+                 for(int i = 0; i< widget.listCard.length; i++)
+                     listProducts(shop: widget.listCard[i].shop, productName: widget.listCard[i].nameProduct, img: widget.listCard[i].img, price: widget.listCard[i].price, amount: widget.listCard[i].amount),
+                 choiceDeliver()
+               ],
+
+             )
+             ,
+           ),
             Container(
               height: 10,
               decoration: BoxDecoration(color: Colors.black12),
@@ -85,11 +104,11 @@ class _buyCardState extends State<buyCard> {
               ),
             ),
             RaisedButton(
-              padding: EdgeInsets.symmetric(vertical: 17, horizontal: 25),
+              padding: EdgeInsets.symmetric(vertical: 17, horizontal: 14),
               color: Color(0xFF488B66),
-              child: Text("Đặt hàng", style: TextStyle(color: Colors.white, fontSize: 22, fontWeight: FontWeight.w600),),
+              child: Text("Đặt hàng", style: TextStyle(color: Colors.white, fontSize: 20, fontWeight: FontWeight.w600),),
               onPressed: () {
-                Navigator.push(context, MaterialPageRoute(builder: (context) => buyCard()));
+                //Navigator.push(context, MaterialPageRoute(builder: (context) => buyCard(widget.user, widget.listCard)));
               },
             ),
           ],
@@ -98,6 +117,7 @@ class _buyCardState extends State<buyCard> {
     );
   }
 
+  // in the end of class by card
   buyerAddress() {
     var screenWidth = MediaQuery.of(context).size.width;
     return Padding(
@@ -107,7 +127,7 @@ class _buyCardState extends State<buyCard> {
           Row(
             children: [
               Container(
-                width: screenWidth * 0.84,
+                width: screenWidth * 0.8,
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -169,17 +189,21 @@ class _buyCardState extends State<buyCard> {
       ),
     );
   }
-
   listProducts(
-      {String shopName,
+      {User shop,
       String productName,
       String img,
       String price,
-      int amount}) {
-    return Column(
+      int amount})
+  {
+    setState(() {
+      this.userNameShop = shop.userName;
+    });
+    return  Column(
       children: [
         Container(
           height: 35,
+
           decoration: BoxDecoration(
               color: Color(0xFFE6FFEE),
             boxShadow: [BoxShadow(
@@ -195,7 +219,7 @@ class _buyCardState extends State<buyCard> {
                   fit: BoxFit.cover,
                 ),
                 Text(
-                  "  " + shopName,
+                  "  " + shop.userName,
                   style: TextStyle(fontWeight: FontWeight.w700, fontSize: 17),
                 ),
               ],
@@ -206,14 +230,14 @@ class _buyCardState extends State<buyCard> {
           padding: const EdgeInsets.all(8.0),
           child: Row(
             children: [
-              Image.asset(
+              Image.network(
                 img,
                 width: 80,
                 height: 80,
                 fit: BoxFit.cover,
               ),
               Container(
-                width: MediaQuery.of(context).size.width * 0.76,
+                width: MediaQuery.of(context).size.width * 0.72,
                 child: Padding(
                   padding: const EdgeInsets.only(left: 8.0),
                   child: Column(
@@ -251,16 +275,19 @@ class _buyCardState extends State<buyCard> {
             ],
           ),
         ),
+        if (shop.userName!=userNameShop)
+        choiceDeliver(),
+
       ],
-    );
+    ) ;
   }
 
   choiceDeliver() {
     var screenWidth = MediaQuery.of(context).size.width;
-    return
-        Column(
+       return Column(
           children: [
             Container(
+
               height: 1,
               width: double.infinity,
               color: Color(0xFF488B66),
@@ -270,13 +297,13 @@ class _buyCardState extends State<buyCard> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-              FlatButton(
-                child: Text("Đơn vị vận chuyển (Nhấn để chọn)", style: TextStyle(fontSize: 18, color: Color(0xFF488B66),),),
-              onPressed: (){},),
+              // FlatButton(
+              //   child: Text("Đơn vị vận chuyển Express)", style: TextStyle(fontSize: 18, color: Color(0xFF488B66),),),
+              // onPressed: (){},),
+                SizedBox(height: 8,),
                 Container(
                   height: 1,
                   width: 380,
-                  margin: EdgeInsets.only(left: (screenWidth-380)/2),
                   color: Colors.black54,
                 ),
                 SizedBox(height: 5,
@@ -284,13 +311,12 @@ class _buyCardState extends State<buyCard> {
                 Row(
                   children: [
                     Container(
-                      margin: EdgeInsets.only(left: (screenWidth-380)/2),
                       width: screenWidth * 0.6,
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                               Text(
-                                "Vận chuyển nhanh",
+                                "Phí ship",
                                 style: TextStyle(fontSize: 17, fontWeight: FontWeight.w700, height: 1.5),
                               ),
                                 Text(

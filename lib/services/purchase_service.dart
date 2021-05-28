@@ -25,6 +25,7 @@ class PurchaseService{
   getAllProductInCart(String userUID) {
     return Firestore.instance.collection("users").document(userUID)
         .collection("productInCart")
+        .orderBy("shopID", descending: true)
         .getDocuments();
   }
 }

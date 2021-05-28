@@ -126,7 +126,7 @@ class _EditAddressState extends State<EditAddress> {
               FlatButton(
                 padding: EdgeInsets.symmetric(vertical: 10, horizontal: 10),
                   onPressed: (){
-                  //Navigator.push(context, MaterialPageRoute(builder: (context) => ChooseMap()));
+                  Navigator.push(context, MaterialPageRoute(builder: (context) => ChooseMap()));
                   },
                   color: Colors.white,
                   child: Row(
