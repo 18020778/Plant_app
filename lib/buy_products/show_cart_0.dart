@@ -6,6 +6,7 @@ import 'package:first_app/models/user.dart';
 import 'package:first_app/services/database.dart';
 import 'package:first_app/services/purchase_service.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class Cart {
@@ -72,34 +73,39 @@ class _showCartState extends State<showCart> {
   }
   @override
   Widget build(BuildContext context) {
+    List<Cart> listCartHasBeenSelected = new List();
+    bool _isDisable = true;
     return this.viewResult ? StatefulBuilder(
         builder: (BuildContext context, StateSetter setState) {
           var totalMoney =0;
       listCart.forEach((element) {
-       if(element.checkBox)
-        totalMoney += int.parse(element.price)*element.amount;
+       if(element.checkBox){
+         totalMoney += int.parse(element.price)*element.amount;
+       }
+
       });
+
       return Scaffold(
-          appBar: AppBar(
-              toolbarHeight: 60,
-              title: Text(
-                "Giỏ hàng",
-                style: TextStyle(
-                    color: Colors.white,
-                    fontWeight: FontWeight.w700,
-                    fontSize: 25),
+        appBar: AppBar(
+            toolbarHeight: 60,
+            title: Text(
+              "Giỏ hàng",
+              style: TextStyle(
+                  color: Colors.white,
+                  fontWeight: FontWeight.w700,
+                  fontSize: 25),
+            ),
+            centerTitle: true,
+            elevation: 0.0,
+            bottomOpacity: 0.0,
+            flexibleSpace: Container(
+                decoration: BoxDecoration(
+              gradient: LinearGradient(
+                begin: Alignment.topCenter,
+                end: Alignment.bottomCenter,
+                colors: [Color(4281755726), Color(0xFF488B66)],
               ),
-              centerTitle: true,
-              elevation: 0.0,
-              bottomOpacity: 0.0,
-              flexibleSpace: Container(
-                  decoration: BoxDecoration(
-                gradient: LinearGradient(
-                  begin: Alignment.topCenter,
-                  end: Alignment.bottomCenter,
-                  colors: [Color(4281755726), Color(0xFF488B66)],
-                ),
-              )),
+            )),
               actions: [
                 IconButton(
                   icon: Icon(
@@ -158,6 +164,18 @@ class _showCartState extends State<showCart> {
                                        setState(() {
                                          listCart[i].checkBox = value;
                                          if (listCart[i].checkBox) totalMoney += int.parse(listCart[i].price)*listCart[i].amount;
+                                       });
+                                       setState((){
+                                         _isDisable =true;
+                                       });
+                                       listCart.forEach((element) {
+
+                                         if(element.checkBox){
+                                           setState((){
+                                             _isDisable = false;
+                                           });
+
+                                         }
                                        });
                                      },
                                      activeColor: Color(0xFF488B66),
@@ -245,59 +263,61 @@ class _showCartState extends State<showCart> {
                     ]),
             ),
             ],
-            ),
-            ),
-            bottomNavigationBar: Container(
-            height: 60,
-            decoration: BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.only(
-            topRight: Radius.circular(30
-            ),
-              topLeft: Radius.circular(30),
-            ),
-            boxShadow: [BoxShadow(
-              offset: Offset(0, -5),
-              blurRadius: 5,
-              color: Color(0xFFDADADA).withOpacity(0.5),
-            )]
           ),
-
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 30),
+        ),
+        bottomNavigationBar: Container(
+          height: 60,
+          decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.only(
+                topRight: Radius.circular(30),
+                topLeft: Radius.circular(30),
+              ),
+              boxShadow: [
+                BoxShadow(
+                  offset: Offset(0, -5),
+                  blurRadius: 5,
+                  color: Color(0xFFDADADA).withOpacity(0.5),
+                )
+              ]),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 30),
                 child: Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text("Tổng tiền: ", style: TextStyle(fontSize: 18),),
-                Text("đ" + totalMoney.toString(), style: TextStyle(fontSize: 20, fontWeight: FontWeight.w700,)),
+                    Text(
+                      "Tổng tiền: ",
+                      style: TextStyle(fontSize: 18),
+                    ),
+                    Text("đ" + totalMoney.toString(),
+                        style: TextStyle(
+                          fontSize: 20,
+                          fontWeight: FontWeight.w700,
+                        )),
                   ],
                 ),
-          ),
+              ),
               RaisedButton(
                 padding: EdgeInsets.symmetric(vertical: 17, horizontal: 25),
                 color: Color(0xFF488B66),
                 child: Text("Mua hàng", style: TextStyle(color: Colors.white, fontSize: 18, fontWeight: FontWeight.w600),),
-                onPressed: () {
+                onPressed: _isDisable ? null : () {
 
                   // change to list cart
-                  List<Cart> listCartHasBeenSelected = new List();
                   listCart.forEach((element) {
                     if(element.checkBox){
                       listCartHasBeenSelected.add(element);
                     }
                   });
-                  print("list length : "+listCartHasBeenSelected.length.toString());
                   Navigator.push(context, MaterialPageRoute(builder: (context) => buyCard(widget.user, listCartHasBeenSelected)));
                 },
               ),
-              ],
-            ),
+            ],
+          ),
         ),
-
-
       );
     }) : Loading();
   }

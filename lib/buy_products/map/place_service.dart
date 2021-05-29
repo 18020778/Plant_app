@@ -8,7 +8,7 @@ class PlacesService {
   final key = 'AIzaSyDunZ6-AUASpPRlrgbHUnyFGJrvTB5UV1k';
 
   Future<List<PlaceSearch>> getAutocomplete(String search) async {
-    var endpointUrl = 'https://maps.googleapis.com/maps/api/place/autocomplete/json?input=$search&types=(cities)&key=$key';
+    var endpointUrl = 'https://maps.googleapis.com/maps/api/place/autocomplete/json?input=$search&types=geocode&key=$key';
     var response = await http.get(Uri.parse(endpointUrl));
     var json = convert.jsonDecode(response.body);
     var jsonResults = json['predictions'] as List;
@@ -27,7 +27,7 @@ class PlacesService {
     var url = 'https://maps.googleapis.com/maps/api/place/textsearch/json?location=$lat,$lng&type=$placeType&rankby=distance&key=$key';
     var response = await http.get(Uri.parse(url));
     var json = convert.jsonDecode(response.body);
-    var jsonResults = json['result'] as List;
+    var jsonResults = json['results'] as List;
     return jsonResults.map((place) => Place.fromJson(place)).toList();
   }
 }

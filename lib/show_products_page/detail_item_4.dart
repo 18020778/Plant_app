@@ -26,7 +26,7 @@ class _DetailItemState extends State<DetailItem> {
     likeProduct().isLiked(widget.user.uid, widget.product.productID).then((value){
       setState(() {
         this.isFavorited = value;
-        this.viewResult =  true;
+        this.viewResult=true;
       });
     });
 

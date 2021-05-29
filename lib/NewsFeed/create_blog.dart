@@ -33,7 +33,7 @@ class _CreateBlogState extends State<CreateBlog> {
   final picker = ImagePicker();
 
   Future getImage() async {
-    var image = await picker.getImage(source: ImageSource.gallery);
+    var image = await ImagePicker.pickImage(source: ImageSource.gallery);
     setState(() {
       selectedImage = File(image.path);
     });

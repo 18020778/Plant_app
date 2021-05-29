@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:first_app/account/EditAddress.dart';
 import 'package:first_app/account/editEmail.dart';
 import 'package:first_app/account/utlis.dart';
 import 'package:first_app/models/user.dart';
@@ -28,6 +29,7 @@ class _EditInfoState extends State<EditInfo> {
     if(widget.user.getDob() !=null ){
       this.dateTime = DateTime.fromMillisecondsSinceEpoch(widget.user.getDob().seconds*1000);
     }
+    this.address=widget.user.address;
     this.phoneNumber = widget.user.phoneNumber;
     this.email = widget.user.email;
 
@@ -37,7 +39,7 @@ class _EditInfoState extends State<EditInfo> {
   String phoneNumber = "";
   String email = "";
   File imageFile;
-
+  String address = "";
   DateTime dateTime = DateTime.now();
   String value = "Thiết lập ngay";
  // bool viewResult = true;
@@ -45,7 +47,7 @@ class _EditInfoState extends State<EditInfo> {
   static List<String> gentles = ['Nam', 'Nữ', 'Khác'];
 
   _openGallery(BuildContext context) async {
-    var picture = await picker.getImage (source: ImageSource.gallery);
+    var picture = await ImagePicker.pickImage(source: ImageSource.gallery);
     setState(() {
       if (picture != null) {
         imageFile = File(picture.path);
@@ -56,7 +58,7 @@ class _EditInfoState extends State<EditInfo> {
   }
 
   _openCamera(BuildContext context) async {
-    var picture = await picker.getImage(source: ImageSource.camera);
+    var picture = await ImagePicker.pickImage(source: ImageSource.camera);
     this.setState(() {
       imageFile = File(picture.path);
     });
@@ -117,6 +119,7 @@ class _EditInfoState extends State<EditInfo> {
                 widget.user.setGender(this.gender);
                 widget.user.setUserName(this.userName);
                 widget.user.setDob(Timestamp.fromDate(this.dateTime));
+                widget.user.setAddress(this.address);
                 Database().updateUser(widget.user);
                 if(imageFile != null ){
                   await uploadFile().uploadImageToFirebase(widget.user.getUid(),imageFile);
@@ -195,6 +198,7 @@ class _EditInfoState extends State<EditInfo> {
                             });
                           }
 
+
                     });
 
                   },
@@ -252,7 +256,15 @@ class _EditInfoState extends State<EditInfo> {
               padding: const EdgeInsets.all(8.0),
               child:FlatButton(
                 onPressed: (){
-                  print("add address");
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => EditAddress())).then((value){
+                    if (value != null){
+                      setState(() {
+                        this.address =  value;
+                      });
+                    }
+
+                  });
                 },
 
               child: Row(
@@ -263,7 +275,7 @@ class _EditInfoState extends State<EditInfo> {
                   ),
                   new Spacer(),
                   Text(
-                    "Thiết lập ngay",
+                    '$address' == "" ? "Thiết lập ngay" :  '$address'.split(',').last,
                     style: TextStyle(color: Colors.black54, fontSize: 18),
                   ),
                   Icon(Icons.arrow_forward_ios)

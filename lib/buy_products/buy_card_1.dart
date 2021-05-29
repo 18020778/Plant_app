@@ -1,3 +1,5 @@
+import 'dart:collection';
+
 import 'package:first_app/buy_products/show_cart_0.dart';
 import 'package:first_app/models/user.dart';
 import 'package:flutter/cupertino.dart';
@@ -14,7 +16,12 @@ class buyCard extends StatefulWidget {
 }
 
 class _buyCardState extends State<buyCard> {
-  String userNameShop="";
+ String userNameShop;
+  List<String> nameShop = new List();
+  List<Map> listTotalMoney = new List();
+  var totalMoney = 0;
+  var totalMoneyPayForProduct = 0;
+  var totalMoneyPayForShip = 0;
   @override
   void initState() {
     // TODO: implement initState
@@ -22,6 +29,26 @@ class _buyCardState extends State<buyCard> {
     setState(() {
       this.userNameShop =  widget.listCard[0].shop.userName;
     });
+    widget.listCard.forEach((element) {
+      nameShop.add(element.shop.userName);
+    });
+   var name = nameShop.toSet().toList();
+
+   name.forEach((element) {
+     var totalMoneyPayForCurrentShop  =  0;
+     var feeShip  =0;
+     widget.listCard.forEach((product) {
+       if(product.shop.userName == element){
+         totalMoneyPayForCurrentShop  += product.amount *  int.parse(product.price);
+       }
+     });
+     if(totalMoneyPayForCurrentShop  < 100000) feeShip = 15000;
+     totalMoneyPayForProduct += totalMoneyPayForCurrentShop;
+     totalMoneyPayForShip += feeShip;
+     var shop = {'shopName' : element, 'totalMoney':  totalMoneyPayForCurrentShop, 'feeShip': feeShip};
+     listTotalMoney.add(shop);
+   });
+   totalMoney = totalMoneyPayForShip +  totalMoneyPayForProduct;
   }
   @override
   Widget build(BuildContext context) {
@@ -55,9 +82,8 @@ class _buyCardState extends State<buyCard> {
                children: [
                  for(int i = 0; i< widget.listCard.length; i++)
                      listProducts(shop: widget.listCard[i].shop, productName: widget.listCard[i].nameProduct, img: widget.listCard[i].img, price: widget.listCard[i].price, amount: widget.listCard[i].amount),
-                 choiceDeliver()
+                  choiceDeliver(widget.listCard[0].shop.userName)
                ],
-
              )
              ,
            ),
@@ -99,7 +125,7 @@ class _buyCardState extends State<buyCard> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text("Tổng thanh toán: ", style: TextStyle(fontSize: 18),),
-                  Text("đ" + 35000.toString(), style: TextStyle(fontSize: 20, fontWeight: FontWeight.w700,)),
+                  Text(totalMoney.toString()+'d', style: TextStyle(fontSize: 20, fontWeight: FontWeight.w700,)),
                 ],
               ),
             ),
@@ -196,11 +222,10 @@ class _buyCardState extends State<buyCard> {
       String price,
       int amount})
   {
-    setState(() {
-      this.userNameShop = shop.userName;
-    });
     return  Column(
-      children: [
+       children: [
+        (shop.userName!=userNameShop) ?
+        choiceDeliver(shop.userName) : SizedBox(height: 0,),
         Container(
           height: 35,
 
@@ -275,19 +300,31 @@ class _buyCardState extends State<buyCard> {
             ],
           ),
         ),
-        if (shop.userName!=userNameShop)
-        choiceDeliver(),
+
 
       ],
     ) ;
+
   }
 
-  choiceDeliver() {
+  choiceDeliver(String shopName) {
+    var totalMoney = 0;
+    var feeShip = 0;
+    this.listTotalMoney.forEach((element) {
+      if(element['shopName'] == this.userNameShop){
+        totalMoney= element['totalMoney'];
+        feeShip = element['feeShip'];
+      }
+    });
+    setState(() {
+      this.userNameShop =shopName;
+    });
     var screenWidth = MediaQuery.of(context).size.width;
+
+
        return Column(
           children: [
             Container(
-
               height: 1,
               width: double.infinity,
               color: Color(0xFF488B66),
@@ -301,13 +338,13 @@ class _buyCardState extends State<buyCard> {
               //   child: Text("Đơn vị vận chuyển Express)", style: TextStyle(fontSize: 18, color: Color(0xFF488B66),),),
               // onPressed: (){},),
                 SizedBox(height: 8,),
-                Container(
-                  height: 1,
-                  width: 380,
-                  color: Colors.black54,
-                ),
-                SizedBox(height: 5,
-                ),
+                // Container(
+                //   height: 1,
+                //   width: 380,
+                //   color: Colors.black54,
+                // ),
+                // SizedBox(height: 5,
+                // ),
                 Row(
                   children: [
                     Container(
@@ -316,16 +353,16 @@ class _buyCardState extends State<buyCard> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                               Text(
-                                "Phí ship",
-                                style: TextStyle(fontSize: 17, fontWeight: FontWeight.w700, height: 1.5),
+                                "Số tiền: ",
+                                style: TextStyle(fontSize: 15, height: 1.5),
                               ),
                                 Text(
-                                  "Shopee Express",
-                                  style: TextStyle(fontSize: 16, height: 1.5),
+                                  "Phí ship: ",
+                                  style: TextStyle(fontSize: 15, height: 1.5),
                                 ),
                                 Text(
-                                  "Nhận hàng vào " + "15 Th04 - 17 Th04",
-                                  style: TextStyle(fontSize: 15, color: Colors.black54, height: 1.5),
+                                  "Tổng số tiền: ",
+                                  style: TextStyle(fontSize: 17, fontWeight: FontWeight.w700, height: 1.5),
                                 ),
                         ],
                       ),
@@ -333,32 +370,40 @@ class _buyCardState extends State<buyCard> {
                    new Spacer(),
                    Row(
                       children: [
-                        Text("đ" + "15000", style: TextStyle(fontSize: 16),),
-                        IconButton(
-                          onPressed: () {},
-                          icon: Icon(Icons.arrow_forward_ios),
-                        ),
+                        Container(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.end,
+                            children: [
+                              Text(totalMoney.toString()+"d", style: TextStyle(fontSize: 15, height: 1.5),),
+                              Text(feeShip.toString() + 'd', style: TextStyle(fontSize: 15, height: 1.5),),
+                              Text((totalMoney + feeShip).toString()+ 'd', style: TextStyle(fontSize: 17,fontWeight: FontWeight.w700, height: 1.5),),
+                            ],
+                          ),
+                        )
+
                       ],
                     ),
                   ],
                 ),
-                SizedBox(height: 5,),
-                Container(
-                  height: 1,
-                  width: double.infinity,
-                  color: Color(0xFF488B66),
-                ),
-                Padding(
-                  padding: const EdgeInsets.all(15.0),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      Text("Tổng số tiền (1 sản phẩm): ", style: TextStyle(fontSize: 17),),
-                      new Spacer(),
-                      Text("đ" + 35000.toString(), style: TextStyle(fontSize: 18, color: Color(0xFF488B66), fontWeight: FontWeight.w700),),
-                    ],
-                  ),
-                )
+
+                SizedBox(height: 10,)
+                // SizedBox(height: 5,),
+                // Container(
+                //   height: 1,
+                //   width: double.infinity,
+                //   color: Color(0xFF488B66),
+                // ),
+                // Padding(
+                //   padding: const EdgeInsets.all(15.0),
+                //   child: Row(
+                //     mainAxisAlignment: MainAxisAlignment.start,
+                //     children: [
+                //       Text("Tổng số tiền (1 sản phẩm): ", style: TextStyle(fontSize: 17),),
+                //       new Spacer(),
+                //       Text("đ" + 35000.toString(), style: TextStyle(fontSize: 18, color: Color(0xFF488B66), fontWeight: FontWeight.w700),),
+                //     ],
+                //   ),
+                // )
     ]
     ),
             ),
@@ -391,7 +436,7 @@ class _buyCardState extends State<buyCard> {
                   children: [
                     Text("Tổng tiền hàng", style: TextStyle(fontSize: 15, color: Colors.black54),),
                     Spacer(),
-                    Text("đ" + 15000.toString(), style: TextStyle(fontSize: 16, color: Colors.black54))
+                    Text(totalMoneyPayForProduct.toString()  +'d', style: TextStyle(fontSize: 16, color: Colors.black54))
                   ],
                 ),
 
@@ -399,14 +444,14 @@ class _buyCardState extends State<buyCard> {
               children: [
                 Text("Tổng tiền phí vận chuyển", style: TextStyle(fontSize: 15, color: Colors.black54),),
                 Spacer(),
-                Text("đ" + 15000.toString(), style: TextStyle(fontSize: 16, color: Colors.black54))
+                Text( totalMoneyPayForShip.toString()+'d', style: TextStyle(fontSize: 16, color: Colors.black54))
               ],
             ),
             Row(
               children: [
                 Text("Tổng thanh toán", style: TextStyle(fontSize: 18, color: Colors.black),),
                 Spacer(),
-                Text("đ" + 35000.toString(), style: TextStyle(fontSize: 18, color: Color(0xFF488B66)))
+                Text(totalMoney.toString()+'d', style: TextStyle(fontSize: 18, color: Color(0xFF488B66)))
               ],
             ),
               ],

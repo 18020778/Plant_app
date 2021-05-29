@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class User{
   String uid;
@@ -21,6 +22,9 @@ class User{
   }
   void setDob(Timestamp timestamp){
     this.dob = timestamp;
+  }
+  void setAddress(String address){
+    this.address = address;
   }
   String getUid(){
     return this.uid;

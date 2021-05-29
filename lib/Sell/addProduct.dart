@@ -36,6 +36,7 @@ class _AddProductState extends State<AddProduct>{
   String height='';
   String amount='';
   String category = '';
+  String address = '';
   DateTime date=DateTime.now();
   bool enableFeature = false;
   final picker = ImagePicker();
@@ -47,14 +48,14 @@ class _AddProductState extends State<AddProduct>{
   bool viewResult = false;
 
   whenCompleted(){
-    if(this.title!='' && this.description!='' && this.specificationProduct!=null && this.amount!='' && this.height!='' && this.plant!=null && this.transportProduct!=null && this.quantityInStock != ''){
+    if(this.title!='' && this.description!='' && this.specificationProduct!=null && this.amount!='' && this.height!='' && this.plant!=null && this.transportProduct!=null && this.quantityInStock != '' && this.address!=''){
       return true;
     }
     return false;
   }
 
   _openGallery(BuildContext context) async {
-    var picture = await picker.getImage(source: ImageSource.gallery);
+    var picture = await ImagePicker.pickImage(source: ImageSource.gallery);
     setState(() {
       if (picture != null) {
         _image.insert(0, File(picture.path));
@@ -64,7 +65,7 @@ class _AddProductState extends State<AddProduct>{
   }
 
   _openCamera(BuildContext context) async {
-    var picture = await picker.getImage(source: ImageSource.camera);
+    var picture = await ImagePicker.pickImage(source: ImageSource.camera);
     this.setState(() {
       _image.insert(0, File(picture.path));
     });
@@ -448,6 +449,44 @@ class _AddProductState extends State<AddProduct>{
             ),
 
             SizedBox(height: 5,),
+
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16.0),
+              child: Row(
+                //mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  Icon(Icons.account_balance_rounded),
+                  Text(
+                    ' Địa chỉ shop',
+                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.w600),
+                  ),
+                  //
+                  Expanded(
+                    child: new TextField(
+                      textAlign: TextAlign.right,
+                      decoration: InputDecoration(
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(10.0),
+                            borderSide: BorderSide.none,
+                          ),
+                          fillColor: Colors.green,
+                          hintText: 'Nhập ',
+                          hintStyle: TextStyle(color: Colors.green, decoration: TextDecoration.underline, fontSize: 18) ),
+                      textDirection: TextDirection.rtl,
+                      keyboardType: TextInputType.text,
+                      style: TextStyle(fontSize: 20),
+                      onChanged: (value){
+                        this.address = value;
+                      },
+                      inputFormatters: <TextInputFormatter>[
+                        WhitelistingTextInputFormatter.digitsOnly
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            SizedBox(height: 5,),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16),
               child: Row(
@@ -485,7 +524,7 @@ class _AddProductState extends State<AddProduct>{
                         });
                       }
                     });
-                    Product product = new Product(productName: this.title, takeCareOfTree: this.description, longevity: this.specificationProduct.age, origin: this.specificationProduct.origin, temperature: this.specificationProduct.temperature, theAmountOfWater: this.specificationProduct.theAmountOfWater,price: this.amount, height: this.height, plantID: this.plant, weight: this.transportProduct.weight, fastDelivery: this.transportProduct.fastDelivery, quantityInStock: this.quantityInStock,preOrder: this.enableFeature, address: widget.user.address, accountID:  widget.user.uid, category: this.category);
+                    Product product = new Product(productName: this.title, takeCareOfTree: this.description, longevity: this.specificationProduct.age, origin: this.specificationProduct.origin, temperature: this.specificationProduct.temperature, theAmountOfWater: this.specificationProduct.theAmountOfWater,price: this.amount, height: this.height, plantID: this.plant, weight: this.transportProduct.weight, fastDelivery: this.transportProduct.fastDelivery, quantityInStock: this.quantityInStock,preOrder: this.enableFeature, address: this.address, accountID:  widget.user.uid, category: this.category);
                     ProductService().createProduction(product).then((value){
                       if(_image.length>0){
                         var  index = 0;
