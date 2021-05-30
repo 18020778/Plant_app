@@ -1,9 +1,13 @@
 import 'dart:collection';
 
 import 'package:first_app/buy_products/show_cart_0.dart';
+import 'package:first_app/models/shippingInfor.dart';
 import 'package:first_app/models/user.dart';
+import 'package:first_app/services/purchase_service.dart';
+import 'package:first_app/show_products_page/body_home_0.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 import 'choice_address_2.dart';
 
@@ -17,6 +21,7 @@ class buyCard extends StatefulWidget {
 
 class _buyCardState extends State<buyCard> {
  String userNameShop;
+ shippingInfor  item;
   List<String> nameShop = new List();
   List<Map> listTotalMoney = new List();
   var totalMoney = 0;
@@ -28,6 +33,8 @@ class _buyCardState extends State<buyCard> {
     super.initState();
     setState(() {
       this.userNameShop =  widget.listCard[0].shop.userName;
+      if(widget.user.listShippingInfor.isNotEmpty)
+      this.item = widget.user.listShippingInfor.last;
     });
     widget.listCard.forEach((element) {
       nameShop.add(element.shop.userName);
@@ -49,6 +56,7 @@ class _buyCardState extends State<buyCard> {
      listTotalMoney.add(shop);
    });
    totalMoney = totalMoneyPayForShip +  totalMoneyPayForProduct;
+
   }
   @override
   Widget build(BuildContext context) {
@@ -134,7 +142,22 @@ class _buyCardState extends State<buyCard> {
               color: Color(0xFF488B66),
               child: Text("Đặt hàng", style: TextStyle(color: Colors.white, fontSize: 20, fontWeight: FontWeight.w600),),
               onPressed: () {
-                //Navigator.push(context, MaterialPageRoute(builder: (context) => buyCard(widget.user, widget.listCard)));
+                if(item==null){
+                  Fluttertoast.showToast(msg: "Vui lòng chọn địa chỉ nhận hàng");
+                }
+                else {
+                  widget.listCard.forEach((element) {
+                    PurchaseService().buyProducts(widget.user.uid, item.uid, element.img, element.price,element.productID,  element.nameProduct, element.shop.uid, element.amount, totalMoney);
+                    PurchaseService().deteleItemInCart(widget.user.uid, element.productID);
+                  });
+                  // laf toi man hinh home
+
+                  Navigator.pop(context);
+                  Navigator.pop(context);
+                  Navigator.pop(context);
+                 // Navigator.push(context, MaterialPageRoute(builder: (context) => bodyHome(user: widget.user,)));
+                }
+
               },
             ),
           ],
@@ -175,18 +198,24 @@ class _buyCardState extends State<buyCard> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text(
-                            "Nguyễn Hồng Lĩnh" + " | " + "06746576573",
-                            style: TextStyle(fontSize: 16),
-                          ),
-                          Text(
-                            "Số 10, ngõ 1 Thiên Hiền",
-                            style: TextStyle(fontSize: 16),
-                          ),
-                          Text(
-                            "Quận Nam Từ Liêm, Hà Nội",
-                            style: TextStyle(fontSize: 16),
-                          )
+                          (widget.user.listShippingInfor.length > 0) ?
+                          Column(
+                            children: [
+                              Text(
+                                item.name + " | " + item.phoneNumber,
+                                style: TextStyle(fontSize: 16),
+                              ),
+                              Text(
+                               item.address.toString(),
+                                style: TextStyle(fontSize: 16),
+                                textAlign: TextAlign.start,
+                                
+                              ),
+
+                            ],
+
+                          ) : Text("Thêm địa chỉ", style: TextStyle(fontSize: 20, fontWeight: FontWeight.w700),),
+
                         ],
                       ),
                     ),
@@ -196,7 +225,11 @@ class _buyCardState extends State<buyCard> {
               IconButton(
                 onPressed: () {
                   Navigator.push(context, MaterialPageRoute(
-                      builder: (context) => ChoiceAddress()));
+                      builder: (context) => ChoiceAddress(user: widget.user,))).then((value){
+                        setState(() {
+                          this.item = value;
+                        });
+                  });
                 },
                 icon: Icon(Icons.arrow_forward_ios),
               ),

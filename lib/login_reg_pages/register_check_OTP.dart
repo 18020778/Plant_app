@@ -182,6 +182,7 @@ class _regOTPState extends State<regOTP> {
         Database().getUserInfo(user.user.uid.toString()).then((value){
           if(value == null) {
             _createAccount(widget.user);
+
             Navigator.push(
                 context, MaterialPageRoute(builder: (context) => SummaryPage(user: value)));
           }

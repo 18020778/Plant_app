@@ -16,15 +16,17 @@ class Cart {
    String price;
    int amount;
    bool checkBox = false;
+   String productID;
   void setUser(User user){
     this.shop = user;
   }
-  Cart({this.shop, this.img, this.nameProduct, this.price, this.amount});
+  Cart({this.shop, this.img, this.nameProduct, this.price, this.amount, this.productID});
   factory Cart.fromJson(Map<String, dynamic> json) => Cart(
     img : json['imageUrl'],
     nameProduct: json['productName'],
     price: json['price'],
-    amount: json['amount']
+    amount: json['amount'],
+    productID: json['productID']
   );
 }
 
@@ -149,6 +151,10 @@ class _showCartState extends State<showCart> {
                                        ),
                                        FlatButton(
                                            onPressed: () {
+                                             setState((){
+                                               listCart.removeAt(i);
+                                             });
+                                             PurchaseService().deteleItemInCart(widget.user.uid, listCart[i].productID);
                                            },
                                            child: Text(
                                              "Xóa",
