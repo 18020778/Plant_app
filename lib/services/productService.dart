@@ -44,7 +44,12 @@ class ProductService{
           .collection("products")
           .getDocuments();
   }
-
+  getAllProductByPersonal(String uid){
+    return Firestore.instance
+        .collection("products")
+        .where("accountID", isEqualTo: uid)
+        .getDocuments();
+  }
   top10NewProduct(){
     return Firestore.instance
         .collection("products")
