@@ -1,5 +1,4 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_storage/firebase_storage.dart';
 import 'package:first_app/models/product.dart';
 
 class ProductService{
@@ -28,7 +27,10 @@ class ProductService{
         'created': Timestamp.now(),
         'accountID' : product.accountID,
         'address': product.address,
-        'category' : product.category
+        'category' : product.category,
+        'sold' : 0,
+        'liked' : 0,
+        'watched': 0
       });
       retVal = document.documentID;
     }catch(e){
@@ -78,5 +80,81 @@ class ProductService{
   getAllProductGroupByPlant(String plantID){
     return _firestore.collection("products").where("plantID", isEqualTo: plantID).getDocuments();
   }
+  Future<String> updateLike (String productId, bool isAdd) async{
+    int number = 0;
+    getProductByID(productId).then((QuerySnapshot docs){
+      if(docs.documents.isNotEmpty){
+        docs.documents.forEach((element) {
+          number = element['liked'];
+        });
+        if(isAdd) number ++;
+        else number --;
+        try{
+          _firestore.collection("products").document(productId).updateData({
+            'liked' : number
+          });
+          return 'success';
+        }catch(e){
+          return e.toString();
+        }
+
+      }
+      else{
+        if(isAdd) number ++;
+        else number --;
+        try{
+          _firestore.collection("products").document(productId).updateData({
+            'liked' : number
+          });
+          return 'success';
+        }catch(e){
+          return e.toString();
+        }
+      }
+    });
+
+  }
+
+  updateWatched(String productId, int number){
+    try{
+      _firestore.collection("products").document(productId).updateData({
+        'watched' : number + 1
+      });
+      return 'success';
+    }catch(e){
+      return e.toString();
+    }
+  }
+  updateSold(String productId, int amount){
+    int number = 0;
+    getProductByID(productId).then((QuerySnapshot docs){
+      if(docs.documents.isNotEmpty){
+        docs.documents.forEach((element) {
+          number = element['sold'];
+        });
+        try{
+          _firestore.collection("products").document(productId).updateData({
+            'sold' : number + amount
+          });
+          return 'success';
+        }catch(e){
+          return e.toString();
+        }
+      }
+      else{
+        try{
+          _firestore.collection("products").document(productId).updateData({
+            'sold' : number + 1
+          });
+          return 'success';
+        }catch(e){
+          return e.toString();
+        }
+      }
+    });
+
+  }
+
+
 
 }

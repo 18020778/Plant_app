@@ -44,6 +44,7 @@
     geolocator:
     http: ^0.13.3
     custom_marker_icon:
+    like_button: ^2.0.2
     #  transparent_image: ^1.0.0
     #firebase_auth: ^0.20.1
     #firebase_core: ^0.4.0

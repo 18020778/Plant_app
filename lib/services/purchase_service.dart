@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:first_app/buy_products/show_cart_0.dart';
 import 'package:first_app/models/shippingInfor.dart';
+import 'package:first_app/services/productService.dart';
 
 class PurchaseService{
   final Firestore _firestore = new Firestore();
@@ -33,6 +34,8 @@ class PurchaseService{
   
   // delete
   Future<String> deteleItemInCart(String uid, String itemInCartUID) async{
+    print(itemInCartUID);
+    print(uid);
     try{
       _firestore.collection("users").document(uid).collection("productInCart").document(itemInCartUID).delete();
       return "success";
@@ -57,6 +60,7 @@ class PurchaseService{
               'amount' : amount,
               'totalMoney' : totalMoney
       });
+      ProductService().updateSold(productID,amount );
         return "success";
     }catch(e){
       return e.toString();

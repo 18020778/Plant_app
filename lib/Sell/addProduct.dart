@@ -541,6 +541,7 @@ class _AddProductState extends State<AddProduct>{
                       }
                     });
                     Product product = new Product(productName: this.title, takeCareOfTree: this.description, longevity: this.specificationProduct.age, origin: this.specificationProduct.origin, temperature: this.specificationProduct.temperature, theAmountOfWater: this.specificationProduct.theAmountOfWater,price: this.amount, height: this.height, plantID: this.plant, weight: this.transportProduct.weight, fastDelivery: this.transportProduct.fastDelivery, quantityInStock: this.quantityInStock,preOrder: this.enableFeature, address: this.address, accountID:  widget.user.uid, category: this.category);
+                    String image = "https://ak.picdn.net/shutterstock/videos/2599205/thumb/1.jpg";
                     ProductService().createProduction(product).then((value){
                       if(_image.length>0){
                         var  index = 0;

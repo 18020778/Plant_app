@@ -4,6 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:first_app/NewsFeed/create_blog.dart';
 import 'package:first_app/NewsFeed/my_blog.dart';
+import 'package:first_app/Sell/MyProduct.dart';
 import 'package:first_app/account/edit_info.dart';
 import 'package:first_app/login_reg_pages/loading.dart';
 import 'package:first_app/login_reg_pages/login_page.dart';
@@ -232,7 +233,7 @@ class _AccountPageState extends State<AccountPage> {
                             decoration: BoxDecoration(color: Colors.white),
                           ),
                           FlatButton(onPressed: () {
-                            // Navigator.push(context,  MaterialPageRoute(builder: (context) => DetailBlog()));
+                            Navigator.push(context,  MaterialPageRoute(builder: (context) => MyProduct(user: widget.user,)));
                           },
                               child: Row(
                                 children: [

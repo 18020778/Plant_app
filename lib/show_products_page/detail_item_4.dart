@@ -349,7 +349,7 @@ class _DetailItemState extends State<DetailItem> {
 
 
                                 onPressed: () {
-                                  addProductToCart();
+                                  PurchaseService().addProductToTheCart(widget.product.productID, 1, widget.user.uid, widget.product.accountID, widget.product.listImage.last, widget.product.productName, widget.product.price);
                                   Navigator.push(context, MaterialPageRoute(builder: (context) => showCart(widget.user)));
                                 },
                                 splashColor: Colors.black,
@@ -381,7 +381,7 @@ class _DetailItemState extends State<DetailItem> {
                                       ),
                                       onPressed: () {
                                         // adding product to them cart
-                                       addProductToCart();
+                                        PurchaseService().addProductToTheCart(widget.product.productID, 1, widget.user.uid, widget.product.accountID, widget.product.listImage.last, widget.product.productName, widget.product.price);
                                         // Announcement of adding products to the cart
                                         showAlert(context);
                                       },
@@ -417,8 +417,7 @@ class _DetailItemState extends State<DetailItem> {
               ));
   }
   addProductToCart(){
-    // product ID , product Name, shop name, user, price, quantityOrder
-    PurchaseService().addProductToTheCart(widget.product.productID, 1, widget.user.uid, widget.product.accountID, widget.product.listImage.last, widget.product.productName, widget.product.price);
+
   }
   showAlert(BuildContext context) {
     AlertDialog alert = AlertDialog(

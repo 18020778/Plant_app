@@ -151,10 +151,11 @@ class _showCartState extends State<showCart> {
                                        ),
                                        FlatButton(
                                            onPressed: () {
+                                             PurchaseService().deteleItemInCart(widget.user.uid, listCart[i].productID);
                                              setState((){
                                                listCart.removeAt(i);
                                              });
-                                             PurchaseService().deteleItemInCart(widget.user.uid, listCart[i].productID);
+
                                            },
                                            child: Text(
                                              "Xóa",
@@ -189,7 +190,7 @@ class _showCartState extends State<showCart> {
                                    ),
                                    Image.network(
                                      listCart[i].img,
-                                     width: 100,
+                                     height: 100 ,
                                      fit: BoxFit.cover,
                                    ),
                                    Container(
