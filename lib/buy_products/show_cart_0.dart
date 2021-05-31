@@ -307,7 +307,7 @@ class _showCartState extends State<showCart> {
                 ),
               ),
               RaisedButton(
-                padding: EdgeInsets.symmetric(vertical: 17, horizontal: 25),
+                padding: EdgeInsets.symmetric(vertical: 17, horizontal: 17),
                 color: Color(0xFF488B66),
                 child: Text("Mua hàng", style: TextStyle(color: Colors.white, fontSize: 18, fontWeight: FontWeight.w600),),
                 onPressed: _isDisable ? null : () {

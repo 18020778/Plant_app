@@ -32,12 +32,12 @@ class _AccountPageState extends State<AccountPage> {
     super.initState();
     ProductService().getAllProductByPersonal(widget.user.uid).then((QuerySnapshot docs){
       setState(() {
-        this.article = docs.documents.length;
+        this.posted = docs.documents.length;
       });
     });
     handbookService().getHandBook(widget.user.uid).then((QuerySnapshot docs){
       setState(() {
-        this.posted = docs.documents.length;
+        this.article = docs.documents.length;
         this.viewResult = true;
       });
     });

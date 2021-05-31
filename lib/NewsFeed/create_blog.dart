@@ -5,6 +5,7 @@ import 'dart:math';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:first_app/login_reg_pages/loading.dart';
+import 'package:first_app/models/articles.dart';
 import 'package:first_app/models/handBook.dart';
 import 'package:first_app/models/plant.dart';
 import 'package:first_app/models/user.dart';
@@ -31,6 +32,7 @@ class _CreateBlogState extends State<CreateBlog> {
   String dropdownValue;
   bool viewResult = false;
   final picker = ImagePicker();
+  String imageUrl = 'https://ak.picdn.net/shutterstock/videos/2599205/thumb/1.jpg';
 
   Future getImage() async {
     var image = await ImagePicker.pickImage(source: ImageSource.gallery);
@@ -72,14 +74,13 @@ class _CreateBlogState extends State<CreateBlog> {
                 }
                 else {
                   handBook  handBookValue  = new handBook(  title:  this.title, plantName: this.dropdownValue, content: this.desc);
-                  //CollectionReference ref = Firestore.instance.collection('users').document(widget.user.getUid()).collection("handbooks");
                   CollectionReference ref = Firestore.instance.collection("handbooks");
                   DocumentReference document = ref.document();
                   document.setData({
                     'title' : handBookValue.title,
                     'plantName' : handBookValue.plantName,
                     'content' :  handBookValue.content,
-                    'imageUrl' : "https://ak.picdn.net/shutterstock/videos/2599205/thumb/1.jpg",
+                    'imageUrl' : this.imageUrl,
                     'handbookId' : document.documentID,
                     'timeCreated' : Timestamp.now(),
                     'userUid' : widget.user.getUid(),
@@ -88,9 +89,23 @@ class _CreateBlogState extends State<CreateBlog> {
                   if (selectedImage != null){
                     print("not null");
                     print(document.documentID);
-                    uploadFile().uploadImageHandBook(widget.user.getUid(),document.documentID , selectedImage);
+                    uploadFile().uploadImageHandBook(widget.user.getUid(),document.documentID , selectedImage).then((value){
+                      setState(() {
+                        this.imageUrl = value;
+                      });
+                      handBook newHandBook = new handBook(handbookId: document.documentID, title: handBookValue.title, plantName: handBookValue.plantName,
+                          content: handBookValue.content, imageUrl: this.imageUrl, timeCreated: Timestamp.now(), userUid: widget.user.uid);
+                      Articles newArticles = new Articles(widget.user, newHandBook);
+                      Navigator.pop(context, newArticles);
+                    });
+                  }else{
+                    handBook newHandBook = new handBook(handbookId: document.documentID, title: handBookValue.title, plantName: handBookValue.plantName,
+                        content: handBookValue.content, imageUrl: this.imageUrl, timeCreated: Timestamp.now(), userUid: widget.user.uid);
+                    Articles newArticles = new Articles(widget.user, newHandBook);
+                    Navigator.pop(context, newArticles);
                   }
-                  Navigator.pop(context);
+
+
                 }
               },
               child: Text("Lưu", style: TextStyle( fontSize: 20, color: Colors.white),)),

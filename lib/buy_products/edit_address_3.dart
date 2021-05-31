@@ -39,9 +39,10 @@ class _EditAddressState extends State<EditAddress> {
                 FlatButton(
                     onPressed: () {
                       Database().deleteDeliver(widget.user.uid, widget.documentID);
-                      widget.user.listShippingInfor.removeWhere((element) => element.uid==widget.documentID);
+                      var index = widget.user.listShippingInfor.indexWhere((element) => element.uid==widget.documentID);
                       Navigator.of(context).pop();
-                      Navigator.push(context, MaterialPageRoute(builder: (context) => ChoiceAddress()));
+                      Navigator.of(context).pop();
+                      Navigator.pop(context, index);
                     },
                     child: Text(
                       "Xóa",

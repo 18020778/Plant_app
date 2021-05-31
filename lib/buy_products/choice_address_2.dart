@@ -54,7 +54,11 @@ class _ChoiceAddressState extends State<ChoiceAddress> {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => AddAddress(user: widget.user)));
+                              builder: (context) => AddAddress(user: widget.user))).then((value){
+                                setState(() {
+                                  widget.user.listShippingInfor.add(value);
+                                });
+                      });
                     },
                     color: Colors.white,
                     padding: EdgeInsets.all(15),
@@ -103,9 +107,6 @@ class _AddressItemState extends State<AddressItem> {
                       setState(() {
                         widget.chose = true;
                       });
-                      // shippingInfor item = widget.user.listShippingInfor.firstWhere((element) => element.uid == widget.documentID);
-                      // widget.user.listShippingInfor.removeWhere((element) => element.uid ==  widget.documentID);
-                      // widget.user.listShippingInfor.add(item);
                       shippingInfor item = widget.user.listShippingInfor.firstWhere((element) => element.uid == widget.documentID);
                       Navigator.pop(context);
                       Navigator.pop(context, item);
@@ -150,6 +151,7 @@ class _AddressItemState extends State<AddressItem> {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
+                              settings: RouteSettings(name: "/choiceAddress"),
                               builder: (context) => EditAddress(
                                   name: widget.name,
                                   sdt: widget.sdt,

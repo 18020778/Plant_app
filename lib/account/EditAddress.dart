@@ -15,7 +15,7 @@ class _EditAddressState extends State<EditAddress> {
         iconTheme: IconThemeData(
           color: Color(0xFF407C5A), //change your color here
         ),
-        title: Text("Sửa Địa chỉ", style: TextStyle(color: Colors.black, fontSize: 22),),
+        title: Text("Địa chỉ shop", style: TextStyle(color: Colors.black, fontSize: 22),),
         centerTitle: true,
         actions: [
           FlatButton(

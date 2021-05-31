@@ -82,7 +82,13 @@ class _bodyHomeState extends State<bodyHome> {
             }
           });
         });
+      }else{
+        setState(() {
+          this.viewResult+=1;
+        });
       }
+
+
     });
 
 

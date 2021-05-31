@@ -132,13 +132,13 @@ class _buyCardState extends State<buyCard> {
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text("Tổng thanh toán: ", style: TextStyle(fontSize: 18),),
-                  Text(totalMoney.toString()+'d', style: TextStyle(fontSize: 20, fontWeight: FontWeight.w700,)),
+                  Text("Tổng thanh toán: ", style: TextStyle(fontSize: 17),),
+                  Text(totalMoney.toString()+'d', style: TextStyle(fontSize: 17, fontWeight: FontWeight.w700,)),
                 ],
               ),
             ),
             RaisedButton(
-              padding: EdgeInsets.symmetric(vertical: 17, horizontal: 14),
+              padding: EdgeInsets.symmetric(vertical: 17, horizontal: 10),
               color: Color(0xFF488B66),
               child: Text("Đặt hàng", style: TextStyle(color: Colors.white, fontSize: 20, fontWeight: FontWeight.w600),),
               onPressed: () {
@@ -209,7 +209,7 @@ class _buyCardState extends State<buyCard> {
                                item.address.toString(),
                                 style: TextStyle(fontSize: 16),
                                 textAlign: TextAlign.start,
-                                
+
                               ),
 
                             ],

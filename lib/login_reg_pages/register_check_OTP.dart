@@ -184,7 +184,7 @@ class _regOTPState extends State<regOTP> {
             _createAccount(widget.user);
 
             Navigator.push(
-                context, MaterialPageRoute(builder: (context) => SummaryPage(user: value)));
+                context, MaterialPageRoute(builder: (context) => loginPage()));
           }
           else {
             setState(() {

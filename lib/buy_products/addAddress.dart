@@ -136,11 +136,8 @@ class _AddAddressState extends State<AddAddress> {
                   }else{
                     Fluttertoast.showToast(msg: "Xin vui lòng điền đầy đủ thông tin!!! ");
                   }
-                  // update lai cai list
-
-                  widget.user.addListShippingInfor(new shippingInfor(documentId, this.address, this.phoneNumber, this.userName));
-                  Navigator.pop(context);
-                  Navigator.push(context, MaterialPageRoute(builder: (context) => ChoiceAddress(user: widget.user,)));
+                  shippingInfor newAdd = new shippingInfor(documentId, this.address, this.phoneNumber, this.userName);
+                  Navigator.pop(context, newAdd);
                 },
                   padding: EdgeInsets.all(15),
                   minWidth: 410,
