@@ -29,7 +29,6 @@ class _SummaryNewsState extends State<SummaryNews> {
       count = value.documents.length;
       if(value.documents.isNotEmpty) {
         value.documents.forEach((element){
-          //listHandBook.add(handBook.fromJson(element.data));
           Database().getUserInfo(element.data['userUid']).then((value){
             rawData.add(new Articles(value, handBook.fromJson(element.data)));
             if(rawData.length == count)

@@ -1,37 +1,47 @@
+import 'package:first_app/Sell/product_detail.dart';
+import 'package:first_app/models/posted_products.dart';
 import 'package:first_app/models/product.dart';
 import 'package:first_app/models/user.dart';
-import 'package:first_app/services/productService.dart';
+import 'package:first_app/services/likeProduct.dart';
+import 'package:first_app/show_products_page/detail_item_4.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-import 'detail_item_4.dart';
-
-class SuggestionItem extends StatelessWidget {
-  List<Product> listProduct = new List();
+class ProductItem extends StatefulWidget {
+  Product product;
   User user;
-
-  SuggestionItem(this.listProduct, this.user);
+  ProductItem({this.product, this.user});
 
   @override
+  _ProductItemState createState() => _ProductItemState();
+}
+
+class _ProductItemState extends State<ProductItem> {
+  bool isFavorited = true;
+  @override
   Widget build(BuildContext context) {
-    PageController controller =
-    PageController(viewportFraction: 0.6, initialPage: 1);
-    List<Widget> banners = new List<Widget>();
-    for (int i = 0; i < listProduct.length; i++) {
-      var bannerView = Padding(
-        padding: EdgeInsets.fromLTRB(10, 0, 10, 20),
+    var setImage = this.isFavorited
+        ? Image.asset(
+      'assets/heart_like.png',
+      width: 16,
+    )
+        : Image.asset(
+      'assets/heart.png',
+      width: 16,
+    );
+
+    return Padding(
+      padding: EdgeInsets.only(left: 5, top: 5, right: 10, bottom: 0),
+      child: Container(
         child: InkWell(
-          onTap: () {
-            ProductService().updateWatched(listProduct[i].productID, listProduct[i].watched);
+          onTap: (){
             Navigator.push(
-                context,
-                MaterialPageRoute(
-                    builder: (context) =>
-                        DetailItem(product: listProduct[i], user: user,)));
+                context, MaterialPageRoute(builder: (context) => ProductDetail(postedProducts: new PostedProducts(widget.user, widget.product),))
+            );
           },
           child: Stack(
             fit: StackFit.expand,
-            children: <Widget>[
+            children: [
               Container(
                   decoration: BoxDecoration(
                       color: Colors.white,
@@ -59,7 +69,7 @@ class SuggestionItem extends StatelessWidget {
                           borderRadius: BorderRadius.all(Radius.circular(20.0)),
                         ),
                         child:  Image.network(
-                          listProduct[i].listImage.last,
+                          widget.product.listImage.last,
                           width: 200,
                           height: 140,
                           fit: BoxFit.cover,
@@ -71,7 +81,7 @@ class SuggestionItem extends StatelessWidget {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: <Widget>[
                                 Text(
-                                  listProduct[i].plantID,
+                                  widget.product.plantID,
                                   overflow: TextOverflow.ellipsis,
                                   maxLines: 1,
                                   style: TextStyle(
@@ -87,7 +97,7 @@ class SuggestionItem extends StatelessWidget {
                                   MainAxisAlignment.spaceBetween,
                                   children: [
                                     Text(
-                                      listProduct[i].price,
+                                      widget.product.price,
                                       style: TextStyle(color: Colors.green[900]),
                                     ),
                                     RichText(
@@ -97,16 +107,29 @@ class SuggestionItem extends StatelessWidget {
                                               TextSpan(
                                                 text: 'Đã bán ',
                                               ),
-                                              TextSpan(text: listProduct[i].quantityInStock),
+                                              TextSpan(text: widget.product.quantityInStock),
                                             ]))
                                   ],
                                 ),
-                                SizedBox(height: 8,),
                                 Row(
-                                    crossAxisAlignment: CrossAxisAlignment.end,
+                                    crossAxisAlignment: CrossAxisAlignment.center,
                                     mainAxisAlignment:
                                     MainAxisAlignment.spaceBetween,
                                     children: [
+                                      IconButton(
+                                          alignment: Alignment.centerLeft,
+                                          icon: (setImage),
+                                          onPressed: () {
+                                            setState(() {
+                                              this.isFavorited = !this.isFavorited;
+                                            });
+                                            if(this.isFavorited){
+                                              likeProduct().addFavoriteProduct(widget.user.getUid(), widget.product.productID);
+                                            }else{
+                                              likeProduct().deleteFavoriteProduct(widget.user.getUid(), widget.product.productID);
+                                            }
+
+                                          }),
                                       //isFavorited là biến bool, xét xem ng đó đã tym sp đó chưa
                                       Row(
                                         children: <Widget>[
@@ -114,7 +137,7 @@ class SuggestionItem extends StatelessWidget {
                                             "assets/location_small.png",
                                             width: 16,
                                           ),
-                                          Text(" " + listProduct[i].address, style: TextStyle(
+                                          Text(" " + widget.product.address, style: TextStyle(
                                             fontSize: 12,
                                           ),),
                                         ],
@@ -124,26 +147,10 @@ class SuggestionItem extends StatelessWidget {
                     ],
                   ))
             ],
-          ),
 
           ),
-        );
-      banners.add(bannerView);
-    }
-    return Container(
-        width: MediaQuery
-            .of(context)
-            .size
-            .width * 0.95,
-        height: MediaQuery
-            .of(context)
-            .size
-            .width *0.7,
-        child: PageView(
-          controller: controller,
-          scrollDirection: Axis.horizontal,
-          children: banners,
-
-        ));
+        ),
+      ),
+    );
   }
 }

@@ -54,33 +54,6 @@ class _MyBlogState extends State<MyBlog> {
             centerTitle: true,
             title: Text('Bài viết của tôi', style: TextStyle(fontSize: 28),),
             automaticallyImplyLeading: false,
-            // tôi
-            // bottom: TabBar(
-            //   isScrollable: true,
-            //   indicatorColor: Colors.white,
-            //   tabs: <Widget>[
-            //     Padding(
-            //       padding: const EdgeInsets.all(8.0),
-            //       child: Text("Hoa hồng", style: TextStyle(fontSize: 18)),
-            //     ),
-            //     Padding(
-            //       padding: const EdgeInsets.all(8.0),
-            //       child: Text("Hoa cúc", style: TextStyle(fontSize: 18)),
-            //     ),
-            //     Padding(
-            //       padding: const EdgeInsets.all(8.0),
-            //       child: Text("Hoa lan", style: TextStyle(fontSize: 18)),
-            //     ),
-            //     Padding(
-            //       padding: const EdgeInsets.all(8.0),
-            //       child: Text("Bonsai", style: TextStyle(fontSize: 18)),
-            //     ),
-            //     Padding(
-            //       padding: const EdgeInsets.all(8.0),
-            //       child: Text('Cây ăn quả', style: TextStyle(fontSize: 18),),
-            //     ),
-            //   ],
-            // ),
           ),
           body: Container(
             color: Colors.blueGrey[50],
@@ -119,7 +92,11 @@ class _MyBlogState extends State<MyBlog> {
               FloatingActionButton(
                 backgroundColor: Color(0xFF407C5A),
                 onPressed: (){
-                  Navigator.push(context, MaterialPageRoute(builder: (context) => CreateBlog(user: widget.user,)));
+                  Navigator.push(context, MaterialPageRoute(builder: (context) => CreateBlog(user: widget.user,))).then((value){
+                    setState(() {
+                      this.blog.add(value.handbook);
+                    });
+                  });
                 },
                 child: Icon(FontAwesomeIcons.pen),)
             ],

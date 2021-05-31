@@ -1,6 +1,7 @@
 import 'package:first_app/models/product.dart';
 import 'package:first_app/models/user.dart';
 import 'package:first_app/services/likeProduct.dart';
+import 'package:first_app/services/productService.dart';
 import 'package:first_app/show_products_page/detail_item_4.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -33,6 +34,7 @@ class _TreeItemState extends State<TreeItem> {
       child: Container(
         child: InkWell(
           onTap: (){
+            ProductService().updateWatched(widget.product.productID, widget.product.watched);
             Navigator.push(
               context, MaterialPageRoute(builder: (context) => DetailItem(product: widget.product,user: widget.user,))
             );

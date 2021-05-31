@@ -1,41 +1,29 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:first_app/buy_products/buy_card_1.dart';
 import 'package:first_app/buy_products/choice_address_2.dart';
 import 'package:first_app/buy_products/choose_map_4.dart';
 import 'package:first_app/buy_products/wemap_chooseAddress.dart';
+import 'package:first_app/models/shippingInfor.dart';
+import 'package:first_app/models/user.dart';
+import 'package:first_app/services/database.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 class AddAddress extends StatefulWidget {
+  User user;
 
+  AddAddress({Key key, this.user}) : super(key: key);
   @override
   _AddAddressState createState() => _AddAddressState();
 }
 
 class _AddAddressState extends State<AddAddress> {
+  String userName='';
+  String phoneNumber='';
+  String address='';
   @override
   Widget build(BuildContext context) {
-
-    _showAlertDialog(BuildContext context) {
-      return showDialog(
-          context: context,
-          builder: (BuildContext context) {
-            return AlertDialog(
-              title: Text("Bạn chắc chắn xóa?"),
-              actions: [
-                FlatButton(
-                    onPressed: () {
-                      setState(() {
-                      });
-                      Navigator.of(context).pop();
-                      Navigator.push(context, MaterialPageRoute(builder: (context) => ChoiceAddress()));
-                    },
-                    child: Text(
-                      "Xóa",
-                      style: TextStyle(fontSize: 16),
-                    ))
-              ],
-            );
-          });
-    }
-
     return Scaffold(
         appBar: AppBar(
           title: Text(
@@ -65,15 +53,14 @@ class _AddAddressState extends State<AddAddress> {
                     decoration: BoxDecoration(color: Colors.white),
                     padding: EdgeInsets.symmetric(horizontal: 8),
                     child: Row(children: [
-                      Text(
-                        "Họ tên",
-                        style: TextStyle(fontSize: 18),
-                      ),
-                      Spacer(),
                       Flexible(
                           child: TextField(
-                            textAlign: TextAlign.end,
                             style: TextStyle(color: Colors.black54, fontSize: 18),
+                            onChanged: (value){
+                              setState(() {
+                                this.userName = value;
+                              });
+                            },
                             decoration: InputDecoration(
                               border: InputBorder.none,
                               hintText: "Nhập họ tên"
@@ -85,19 +72,19 @@ class _AddAddressState extends State<AddAddress> {
                     decoration: BoxDecoration(color: Colors.white),
                     padding: EdgeInsets.symmetric(horizontal: 8),
                     child: Row(children: [
-                      Text(
-                        "Số điện thoại",
-                        style: TextStyle(fontSize: 18),
-                      ),
-                      Spacer(),
                       Flexible(
                           child: TextField(
-                            textAlign: TextAlign.end,
                             style: TextStyle(color: Colors.black54, fontSize: 18),
                             decoration: InputDecoration(
                               border: InputBorder.none,
                               hintText: "Nhập số"
                             ),
+                            keyboardType: TextInputType.number,
+                            onChanged: (value){
+                              setState(() {
+                                this.phoneNumber = value;
+                              });
+                            },
                           ))
                     ])),
                 SizedBox(height: 2,),
@@ -105,19 +92,18 @@ class _AddAddressState extends State<AddAddress> {
                     decoration: BoxDecoration(color: Colors.white),
                     padding: EdgeInsets.symmetric(horizontal: 8),
                     child: Row(children: [
-                      Text(
-                        "Địa chỉ",
-                        style: TextStyle(fontSize: 18),
-                      ),
-                      SizedBox(width: 10,),
                       Flexible(
                           child: TextField(
-                            textAlign: TextAlign.end,
                             style: TextStyle(color: Colors.black54, fontSize: 18),
                             decoration: InputDecoration(
                               border: InputBorder.none,
-                              hintText: "Nhập địa chỉ"
+                              hintText: "Nhập điạ chỉ"
                             ),
+                            onChanged: (value){
+                              setState(() {
+                                this.address = value;
+                              });
+                            },
                           ))
                     ])),
                 SizedBox(height: 15,),
@@ -143,22 +129,20 @@ class _AddAddressState extends State<AddAddress> {
                       ],
                     )),
                 SizedBox(height: 15,),
-                Container(
-                  alignment: Alignment.topLeft,
-                  width: MediaQuery.of(context).size.width,
-                  decoration: BoxDecoration(
-                      color: Colors.white
-                  ),
-                ),
                 SizedBox(height: 25,),
-                FlatButton(
-                  onPressed: (){
-                    Navigator.pop(context);
-
-                  },
+                FlatButton(onPressed: () async {
+                  String documentId='';
+                  if(this.address!=''&&this.userName!=''&&this.phoneNumber!=''){
+                    documentId = await Database().addAddress(widget.user.getUid(), this.address, this.phoneNumber, this.userName);
+                  }else{
+                    Fluttertoast.showToast(msg: "Xin vui lòng điền đầy đủ thông tin!!! ");
+                  }
+                  shippingInfor newAdd = new shippingInfor(documentId, this.address, this.phoneNumber, this.userName);
+                  Navigator.pop(context, newAdd);
+                },
                   padding: EdgeInsets.all(15),
                   minWidth: 410,
-                  child: Text("THÊM ĐỊA CHỈ", style: TextStyle(color: Colors.white, fontSize: 18),),
+                  child: Text("CHỌN ĐỊA CHỈ", style: TextStyle(color: Colors.white, fontSize: 18),),
                   color: Color(0xFF488B66),
                 )
               ])),

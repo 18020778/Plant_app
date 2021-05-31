@@ -1,19 +1,32 @@
 import 'package:first_app/buy_products/choice_address_2.dart';
-import 'package:first_app/buy_products/choose_map_4.dart';
+
 import 'package:first_app/buy_products/wemap_chooseAddress.dart';
+import 'package:first_app/models/user.dart';
+import 'package:first_app/services/database.dart';
 import 'package:flutter/material.dart';
 
 class EditAddress extends StatefulWidget {
+  User user;
   String name;
   String sdt;
   String diachi;
-
-  EditAddress({Key key, this.name, this.sdt, this.diachi}) : super(key: key);
+  String documentID;
+  EditAddress({Key key, this.name, this.sdt, this.diachi,this.documentID, this.user}) : super(key: key);
   @override
   _EditAddressState createState() => _EditAddressState();
 }
 
 class _EditAddressState extends State<EditAddress> {
+  String address;
+  String username;
+  String phoneNumber;
+  initState(){
+    super.initState();
+     address = widget.diachi;
+     username = widget.name;
+     phoneNumber = widget.sdt;
+  }
+
   @override
   Widget build(BuildContext context) {
 
@@ -26,10 +39,11 @@ class _EditAddressState extends State<EditAddress> {
               actions: [
                 FlatButton(
                     onPressed: () {
-                      setState(() {
-                      });
+                      Database().deleteDeliver(widget.user.uid, widget.documentID);
+                      var index = widget.user.listShippingInfor.indexWhere((element) => element.uid==widget.documentID);
                       Navigator.of(context).pop();
-                      Navigator.push(context, MaterialPageRoute(builder: (context) => ChoiceAddress()));
+                      Navigator.of(context).pop();
+                      Navigator.pop(context, index);
                     },
                     child: Text(
                       "Xóa",
@@ -82,6 +96,9 @@ class _EditAddressState extends State<EditAddress> {
                       decoration: InputDecoration(
                         border: InputBorder.none,
                       ),
+                          onChanged: (value){
+                            this.username= value;
+                          },
                     ))
                   ])),
               SizedBox(height: 2,),
@@ -102,6 +119,9 @@ class _EditAddressState extends State<EditAddress> {
                           decoration: InputDecoration(
                             border: InputBorder.none,
                           ),
+                          onChanged: (value){
+                            this.phoneNumber= value;
+                          },
                         ))
                   ])),
               SizedBox(height: 2,),
@@ -122,6 +142,9 @@ class _EditAddressState extends State<EditAddress> {
                           decoration: InputDecoration(
                             border: InputBorder.none,
                           ),
+                          onChanged: (value){
+                            this.address= value;
+                          },
                         ))
                   ])),
               SizedBox(height: 15,),
@@ -164,11 +187,24 @@ class _EditAddressState extends State<EditAddress> {
               SizedBox(height: 25,),
               FlatButton(onPressed: (){
                 //sửa database thành true nếu ng dùng chọn
+                Database().updateDAddress(widget.user.getUid(),widget.documentID,  this.address, this.phoneNumber, this.username);
+                print(widget.documentID);
+                widget.user.listShippingInfor.forEach((element) {
+                  if(element.uid==widget.documentID){
+                    element.address = this.address;
+                    element.phoneNumber = this.phoneNumber;
+                    element.name = this.username;
+                  }
+                });
                 Navigator.pop(context);
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => ChoiceAddress(user: widget.user,)));
               },
                 padding: EdgeInsets.all(15),
                 minWidth: 410,
-                child: Text("CHỌN ĐỊA CHỈ", style: TextStyle(color: Colors.white, fontSize: 18),),
+                child: Text("SỬA ĐỊA CHỈ", style: TextStyle(color: Colors.white, fontSize: 18),),
                 color: Color(0xFF488B66),
               )
             ])),

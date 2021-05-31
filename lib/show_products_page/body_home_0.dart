@@ -14,8 +14,6 @@ import 'package:first_app/show_products_page/type_of_trees_1.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-import 'TreeItem.dart';
-
 class bodyHome extends StatefulWidget {
   User user;
   @override
@@ -29,7 +27,7 @@ class _bodyHomeState extends State<bodyHome> {
   List<Product> listProduct = new List();
   var viewResult = 0;
   bool showResult = false;
-  // @override
+  @override
   void initState() {
     super.initState();
     CategoryService().getCategories().then((QuerySnapshot docs) {
@@ -84,7 +82,13 @@ class _bodyHomeState extends State<bodyHome> {
             }
           });
         });
+      }else{
+        setState(() {
+          this.viewResult+=1;
+        });
       }
+
+
     });
 
 

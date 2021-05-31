@@ -1,13 +1,18 @@
 import 'dart:async';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:first_app/NewsFeed/create_blog.dart';
 import 'package:first_app/NewsFeed/my_blog.dart';
+import 'package:first_app/Sell/MyProduct.dart';
 import 'package:first_app/account/edit_info.dart';
+import 'package:first_app/login_reg_pages/loading.dart';
 import 'package:first_app/login_reg_pages/login_page.dart';
 import 'package:first_app/models/user.dart';
 import 'package:first_app/Sell/addProduct.dart';
 import 'package:first_app/services/database.dart';
+import 'package:first_app/services/handbookService.dart';
+import 'package:first_app/services/productService.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -19,7 +24,25 @@ class AccountPage extends StatefulWidget {
   AccountPage({this.user});
 }
 class _AccountPageState extends State<AccountPage> {
-
+  var posted=0;
+  var  article =0;
+  bool viewResult = false;
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    ProductService().getAllProductByPersonal(widget.user.uid).then((QuerySnapshot docs){
+      setState(() {
+        this.posted = docs.documents.length;
+      });
+    });
+    handbookService().getHandBook(widget.user.uid).then((QuerySnapshot docs){
+      setState(() {
+        this.article = docs.documents.length;
+        this.viewResult = true;
+      });
+    });
+  }
   @override
   Widget build(BuildContext context) {
     var screenHeight = MediaQuery
@@ -31,7 +54,7 @@ class _AccountPageState extends State<AccountPage> {
         .size
         .width;
 
-    return Scaffold(
+    return this.viewResult ? Scaffold(
         body: Column(
             children: [
               Container(
@@ -115,7 +138,7 @@ class _AccountPageState extends State<AccountPage> {
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     children: [
                                       Text(
-                                        "70",
+                                        this.posted.toString(),
                                         style: TextStyle(fontSize: 24),
                                       ),
                                       Text(
@@ -133,7 +156,7 @@ class _AccountPageState extends State<AccountPage> {
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     children: [
                                       Text(
-                                        "24",
+                                        this.article.toString(),
                                         style: TextStyle(fontSize: 24),
                                       ),
                                       Text(
@@ -210,7 +233,7 @@ class _AccountPageState extends State<AccountPage> {
                             decoration: BoxDecoration(color: Colors.white),
                           ),
                           FlatButton(onPressed: () {
-                            // Navigator.push(context,  MaterialPageRoute(builder: (context) => DetailBlog()));
+                            Navigator.push(context,  MaterialPageRoute(builder: (context) => MyProduct(user: widget.user,)));
                           },
                               child: Row(
                                 children: [
@@ -341,7 +364,7 @@ class _AccountPageState extends State<AccountPage> {
                 ),
               ),
             ])
-    );
+    ) : Loading();
   }
 
 }
