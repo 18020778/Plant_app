@@ -1,4 +1,4 @@
-import 'package:first_app/buy_products/map/location.dart';
+/*import 'package:first_app/buy_products/map/location.dart';
 
 class Geometry {
   final Location location;
@@ -26,4 +26,4 @@ class Place {
       vicinity: parsedJson['vicinity']
     );
   }
-}
+}*/

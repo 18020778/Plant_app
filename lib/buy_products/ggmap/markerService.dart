@@ -1,4 +1,4 @@
-import 'package:flutter/cupertino.dart';
+/*import 'package:flutter/cupertino.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:custom_marker_icon/custom_marker_icon.dart';
@@ -24,9 +24,9 @@ class MarkerService {
   }
 
   Marker createMarkerFromPlace(Place place, bool center) {
-    BitmapDescriptor markerIcon = BitmapDescriptor.fromAssetImage(ImageConfiguration(size: Size(48, 48)),
+    /*BitmapDescriptor markerIcon = BitmapDescriptor.fromAssetImage(ImageConfiguration(size: Size(48, 48)),
         "assets/mapMarker.png"
-    ) as BitmapDescriptor;
+    ) as BitmapDescriptor;*/
     var markerId = place.name;
     if (center) markerId = 'center';
 
@@ -38,7 +38,7 @@ class MarkerService {
             title: place.name),
         position: LatLng(place.geometry.location.lat,
             place.geometry.location.lng),
-      icon: markerIcon,
+      icon: BitmapDescriptor.defaultMarker,
 
     );
   }
@@ -49,4 +49,4 @@ class GeolocatorService {
   Future<Position> getCurrentLocation() async {
     return  await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
   }
-}
+}*/

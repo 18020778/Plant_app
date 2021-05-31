@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-
+import 'add_address.dart';
 import 'edit_address_3.dart';
 
 class ChoiceAddress extends StatefulWidget {
@@ -53,7 +53,9 @@ class _ChoiceAddressState extends State<ChoiceAddress> {
                     sdt: "08475384",
                     diachi: "So 10, ngõ 1 Thiên Hiền, Mỹ Đình, Hà Nội"),
                 FlatButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      Navigator.push(context, MaterialPageRoute(builder: (context) => AddAddress()));
+                    },
                     color: Colors.white,
                     padding: EdgeInsets.all(15),
                     child: Row(

@@ -1,4 +1,4 @@
-import 'dart:async';
+/*import 'dart:async';
 
 import 'package:first_app/buy_products/map/place_search.dart';
 import 'package:first_app/buy_products/map/place_service.dart';
@@ -98,4 +98,4 @@ class Zoommap {
     return await Geolocator.getCurrentPosition(
         desiredAccuracy: LocationAccuracy.high);
   }
-}
+}*/

@@ -1,4 +1,4 @@
-import 'package:first_app/buy_products/map/place_search.dart';
+/*import 'package:first_app/buy_products/map/place_search.dart';
 import 'dart:convert' as convert;
 import 'package:http/http.dart' as http;
 
@@ -30,4 +30,4 @@ class PlacesService {
     var jsonResults = json['results'] as List;
     return jsonResults.map((place) => Place.fromJson(place)).toList();
   }
-}
+}*/

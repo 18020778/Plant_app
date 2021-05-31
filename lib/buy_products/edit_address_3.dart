@@ -1,5 +1,6 @@
 import 'package:first_app/buy_products/choice_address_2.dart';
 import 'package:first_app/buy_products/choose_map_4.dart';
+import 'package:first_app/buy_products/wemap_chooseAddress.dart';
 import 'package:flutter/material.dart';
 
 class EditAddress extends StatefulWidget {
@@ -75,6 +76,7 @@ class _EditAddressState extends State<EditAddress> {
                     Spacer(),
                     Flexible(
                         child: TextField(
+                          textAlign: TextAlign.end,
                       controller: TextEditingController(text: widget.name),
                       style: TextStyle(color: Colors.black54, fontSize: 18),
                       decoration: InputDecoration(
@@ -126,7 +128,7 @@ class _EditAddressState extends State<EditAddress> {
               FlatButton(
                 padding: EdgeInsets.symmetric(vertical: 10, horizontal: 10),
                   onPressed: (){
-                  Navigator.push(context, MaterialPageRoute(builder: (context) => ChooseMap()));
+                  Navigator.push(context, MaterialPageRoute(builder: (context) => FullMap()));
                   },
                   color: Colors.white,
                   child: Row(
@@ -160,7 +162,10 @@ class _EditAddressState extends State<EditAddress> {
                   child: Text("Xóa địa chỉ",style: TextStyle(fontSize: 18, color: Color(0xFF488B66)),),
                   ),),
               SizedBox(height: 25,),
-              FlatButton(onPressed: (){},
+              FlatButton(onPressed: (){
+                //sửa database thành true nếu ng dùng chọn
+                Navigator.pop(context);
+              },
                 padding: EdgeInsets.all(15),
                 minWidth: 410,
                 child: Text("CHỌN ĐỊA CHỈ", style: TextStyle(color: Colors.white, fontSize: 18),),
