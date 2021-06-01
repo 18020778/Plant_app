@@ -124,6 +124,9 @@ class _TypeOfTreesState extends State<TypeOfTrees> {
             }
             newList.add(product);
             if(newList.length == count){
+              newList.sort((a,b){
+                return b.sold.toString().compareTo(a.sold.toString());
+              });
               this.setState(() {
                 this.listProduct = newList;
                 this.viewResult+=1;

@@ -25,6 +25,7 @@ class _bodyHomeState extends State<bodyHome> {
   List<Categories> listCategories = new List();
   List<Plants> listPlants = new List();
   List<Product> listProduct = new List();
+  List<Product> listProductInterested = new List();
   var viewResult = 0;
   bool showResult = false;
   @override
@@ -87,8 +88,42 @@ class _bodyHomeState extends State<bodyHome> {
           this.viewResult+=1;
         });
       }
+    });
+  // top nhung san pham duoc xem nhieu nhats
 
 
+    int countProduct ;
+    List<Product> newProduct = new List();
+    ProductService().top10InterestedProducts().then((QuerySnapshot docs){
+      countProduct = docs.documents.length;
+      if(docs.documents.isNotEmpty){
+        docs.documents.forEach((element) {
+          Product product = Product.fromJson(element.data);
+          ProductService().getImageProduct(element.data['productID']).then(( QuerySnapshot value){
+            if(value.documents.isNotEmpty){
+              List<String> listImage = new List();
+              value.documents.forEach((element) {
+                listImage.add(element.data['imageUrl']);
+              });
+              product.setlistImage(listImage);
+            }
+            else{
+              product.setlistImage(['https://cdn.shopify.com/s/files/1/0212/1030/0480/products/BraidedMoneyTree-Full_560x560_crop_center.jpg?v=1605012647']);
+            }
+            newProduct.add(product);
+            if(newProduct.length == countProduct){
+              this.setState(() {
+                this.listProductInterested = newProduct;
+                this.viewResult +=1;
+              });
+            }
+          });
+        });
+      }else{
+        setState(() {
+          this.viewResult+=1;
+        });
+      }
     });
 
 
@@ -106,7 +141,7 @@ class _bodyHomeState extends State<bodyHome> {
         .height;
     PageController controller =
           PageController(viewportFraction: 0.4, initialPage: 1);
-          return (this.viewResult == 3)
+          return (this.viewResult == 4)
           ? Stack(children: [
           Positioned(
           top: 0,
@@ -165,37 +200,17 @@ class _bodyHomeState extends State<bodyHome> {
                           alignment: Alignment.topLeft,
                           margin: EdgeInsets.only(left: 10, top: 10),
                           child: Text(
-                            "Tìm kiếm hàng đầu",
+                            "Được quan tâm hàng đầu",
                             style: TextStyle(
                                 color: Color(0xFF407C5A),
                                 fontWeight: FontWeight.w700,
                                 fontSize: 25),
                           ),
                         ),
-                        Container(
-                          width: screenWidth * 0.96,
-                          height: screenWidth * 0.66,
-                          child: PageView(
-                            controller: controller,
-                            scrollDirection: Axis.horizontal,
-                            children: [
-                              // TreeItem(
-                              //     name: "Xương rồng",
-                              //     image: "assets/xuong_rong.jpg",
-                              //     price: "20k",
-                              //     amount: '2',
-                              //     isFavorited: false,
-                              //     location: "Hà Nội"),
-                              // TreeItem(
-                              //     name: "Xương rồng",
-                              //     image: "assets/xuong_rong.jpg",
-                              //     price: "20k",
-                              //     amount: '2',
-                              //     isFavorited: false,
-                              //     location: "Hà Nội"),
-                            ],
-                          ),
+                        SizedBox(
+                          height: 10,
                         ),
+                        SuggestionItem(listProductInterested, widget.user),
                         SizedBox(
                           height: 10,
                         ),
@@ -203,7 +218,6 @@ class _bodyHomeState extends State<bodyHome> {
                           alignment: Alignment.topLeft,
                           margin: EdgeInsets.only(left: 10, top: 10),
                           child: Text(
-                            // top 10 nhung san pham mới ra
                             "Gợi ý cho bạn",
                             style: TextStyle(
                                 color: Color(0xFF407C5A),
@@ -224,10 +238,8 @@ class _bodyHomeState extends State<bodyHome> {
             height: 350,
             width: screenWidth * 0.9,
             margin: EdgeInsets.only(left: 22),
-            child: SearchBox(text: "Little Garden"),
+            child: SearchBox(widget.user,"Little Garden"),
           ),
-
-
         ),
     ])
     : Loading();

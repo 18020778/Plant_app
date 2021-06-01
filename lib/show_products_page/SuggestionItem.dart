@@ -87,7 +87,7 @@ class SuggestionItem extends StatelessWidget {
                                   MainAxisAlignment.spaceBetween,
                                   children: [
                                     Text(
-                                      listProduct[i].price,
+                                      listProduct[i].price +'đ',
                                       style: TextStyle(color: Colors.green[900]),
                                     ),
                                     RichText(
@@ -97,7 +97,7 @@ class SuggestionItem extends StatelessWidget {
                                               TextSpan(
                                                 text: 'Đã bán ',
                                               ),
-                                              TextSpan(text: listProduct[i].quantityInStock),
+                                              TextSpan(text: listProduct[i].sold.toString()),
                                             ]))
                                   ],
                                 ),

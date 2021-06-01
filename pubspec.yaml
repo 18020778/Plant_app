@@ -69,6 +69,8 @@ flutter:
   # the material Icons class.
   uses-material-design: true
   assets:
+    - assets/gold_star.png
+    - assets/NoResult.png
     - assets/logo.png
     - assets/alert.png
     - assets/Search_Icon.svg.png

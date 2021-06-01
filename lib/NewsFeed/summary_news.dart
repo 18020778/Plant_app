@@ -21,7 +21,7 @@ class SummaryNews extends StatefulWidget {
 }
 
 class _SummaryNewsState extends State<SummaryNews> {
-  List<Articles> articles  = new List();
+  List<Articles> articles;
   var count;
   loadingData() async {
     List<Articles> rawData = new List();
