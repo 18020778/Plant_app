@@ -95,7 +95,7 @@ class FullMapState extends State<FullMap> {
                     minWidth: 400,
                     height: 50,
                     onPressed: (){
-                      Navigator.pop(context);
+                     Navigator.pop(context, place.placeName.toString());
                     },
                     color: Color(4281755726),
                     child: Text("ĐỒNG Ý", style: TextStyle(color: Colors.white, fontSize: 22),),

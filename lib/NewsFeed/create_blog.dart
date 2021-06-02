@@ -90,6 +90,7 @@ class _CreateBlogState extends State<CreateBlog> {
                     print("not null");
                     print(document.documentID);
                     uploadFile().uploadImageHandBook(widget.user.getUid(),document.documentID , selectedImage).then((value){
+                      if(value!=null)
                       setState(() {
                         this.imageUrl = value;
                       });

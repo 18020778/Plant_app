@@ -3,6 +3,7 @@ import 'dart:collection';
 import 'package:first_app/buy_products/show_cart_0.dart';
 import 'package:first_app/models/shippingInfor.dart';
 import 'package:first_app/models/user.dart';
+import 'package:first_app/my_orders/my_orders_screen.dart';
 import 'package:first_app/services/purchase_service.dart';
 import 'package:first_app/show_products_page/body_home_0.dart';
 import 'package:flutter/cupertino.dart';
@@ -27,6 +28,7 @@ class _buyCardState extends State<buyCard> {
   var totalMoney = 0;
   var totalMoneyPayForProduct = 0;
   var totalMoneyPayForShip = 0;
+  var name = [];
   @override
   void initState() {
     // TODO: implement initState
@@ -39,7 +41,7 @@ class _buyCardState extends State<buyCard> {
     widget.listCard.forEach((element) {
       nameShop.add(element.shop.userName);
     });
-   var name = nameShop.toSet().toList();
+   name = nameShop.toSet().toList();
 
    name.forEach((element) {
      var totalMoneyPayForCurrentShop  =  0;
@@ -151,11 +153,10 @@ class _buyCardState extends State<buyCard> {
                     PurchaseService().deteleItemInCart(widget.user.uid, element.productID);
                   });
                   // laf toi man hinh home
-
                   Navigator.pop(context);
                   Navigator.pop(context);
                   Navigator.pop(context);
-                 // Navigator.push(context, MaterialPageRoute(builder: (context) => bodyHome(user: widget.user,)));
+                 Navigator.push(context, MaterialPageRoute(builder: (context) => MyOrdersScreen(user: widget.user,)));
                 }
 
               },
@@ -226,6 +227,7 @@ class _buyCardState extends State<buyCard> {
                 onPressed: () {
                   Navigator.push(context, MaterialPageRoute(
                       builder: (context) => ChoiceAddress(user: widget.user,))).then((value){
+                        if(value!=null)
                         setState(() {
                           this.item = value;
                         });

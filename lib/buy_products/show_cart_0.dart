@@ -52,6 +52,7 @@ class _showCartState extends State<showCart> {
         docs.documents.forEach((element) {
           Cart cart = Cart.fromJson(element.data);
           Database().getUserInfo(element.data['shopID']).then((value){
+            if(value!=null)
             cart.setUser(value);
             listCart.add(cart);
             listCheckBox.add(false);
