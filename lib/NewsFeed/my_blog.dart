@@ -32,6 +32,10 @@ class _MyBlogState extends State<MyBlog> {
         setState(() {
           this.viewResult = true;
         });
+      }else{
+        setState(() {
+          this.viewResult = true;
+        });
       }
     });
   }
@@ -93,6 +97,7 @@ class _MyBlogState extends State<MyBlog> {
                 backgroundColor: Color(0xFF407C5A),
                 onPressed: (){
                   Navigator.push(context, MaterialPageRoute(builder: (context) => CreateBlog(user: widget.user,))).then((value){
+                    if(value!=null)
                     setState(() {
                       this.blog.add(value.handbook);
                     });

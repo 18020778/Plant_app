@@ -24,6 +24,7 @@ class _DetailItemState extends State<DetailItem> {
   void initState() {
     // xem xem cais nayf minhf cos like hay khong
     likeProduct().isLiked(widget.user.uid, widget.product.productID).then((value){
+      if(value!=null)
       setState(() {
         this.isFavorited = value;
         this.viewResult=true;
@@ -395,16 +396,8 @@ class _DetailItemState extends State<DetailItem> {
                           SizedBox(height: 8,),
                           Align(
                             alignment: Alignment.centerLeft,
-                            child: Text(
-                              "Đánh giá",
-                              style: TextStyle(
-                                  fontSize: 16, color: Colors.white70),
-                            ),
-                          ),
-                          Align(
-                            alignment: Alignment.centerLeft,
-                            child: (widget.product.rating>0) ? Text(
-                              widget.product.rating.toString(),
+                            child: (widget.product.rating !=null ) ? Text("Đánh giá:  " +
+                              widget.product.rating.toString() + " ☆",
                               style:
                               TextStyle(fontSize: 16, color: Colors.white),
                             ): Text(

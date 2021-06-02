@@ -236,6 +236,7 @@ class _AddProductState extends State<AddProduct>{
                       context,
                       MaterialPageRoute(builder: (context) => Specification()),
                     ).then((value){
+                      if(value!=null)
                       setState(() {
                         this.specificationProduct = value;
                       });
@@ -393,6 +394,7 @@ class _AddProductState extends State<AddProduct>{
                     context,
                     MaterialPageRoute(builder: (context) => Transport()),
                   ).then((value){
+                    if(value!=null)
                     setState(() {
                       this.transportProduct = value;
                     });

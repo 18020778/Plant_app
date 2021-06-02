@@ -21,6 +21,7 @@ class _DetailBlogState extends State<DetailBlog> {
     // TODO: implement initState
     super.initState();
     likeArticlesService().isLiked(widget.articles.handbook.handbookId,widget.articles.author.getUid()).then((value){
+      if(value!=null)
         setState(() {
           this.isFavorited = value;
           this.viewResult = true;

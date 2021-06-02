@@ -94,14 +94,16 @@ class _AddAddressState extends State<AddAddress> {
                     child: Row(children: [
                       Flexible(
                           child: TextField(
+                            controller: TextEditingController(text: this.address),
                             style: TextStyle(color: Colors.black54, fontSize: 18),
                             decoration: InputDecoration(
                               border: InputBorder.none,
-                              hintText: "Nhập điạ chỉ"
+
+                              hintText: "Nhập điạ chỉ",
                             ),
                             onChanged: (value){
                               setState(() {
-                                this.address = value;
+                               this.address = value;
                               });
                             },
                           ))
@@ -110,7 +112,12 @@ class _AddAddressState extends State<AddAddress> {
                 FlatButton(
                     padding: EdgeInsets.symmetric(vertical: 10, horizontal: 10),
                     onPressed: (){
-                      Navigator.push(context, MaterialPageRoute(builder: (context) => FullMap()));
+                      Navigator.push(context, MaterialPageRoute(builder: (context) => FullMap())).then((value){
+                        if(value!=null)
+                        setState(() {
+                          this.address = value;
+                        });
+                      });
                     },
                     color: Colors.white,
                     child: Row(

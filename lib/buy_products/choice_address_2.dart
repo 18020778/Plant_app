@@ -55,6 +55,7 @@ class _ChoiceAddressState extends State<ChoiceAddress> {
                           context,
                           MaterialPageRoute(
                               builder: (context) => AddAddress(user: widget.user))).then((value){
+                                if(value!=null)
                                 setState(() {
                                   widget.user.listShippingInfor.add(value);
                                 });
