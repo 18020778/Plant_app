@@ -316,7 +316,6 @@ packages:
       name: json_annotation
       url: "https://pub.dartlang.org"
     source: hosted
-<<<<<<< HEAD
     version: "3.1.1"
   location:
     dependency: transitive
@@ -325,16 +324,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.5.4"
-=======
-    version: "4.0.1"
-  like_button:
-    dependency: "direct main"
-    description:
-      name: like_button
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "2.0.2"
->>>>>>> 62e935013e270c981f4db58cea2938a0c2967c5e
   logging:
     dependency: transitive
     description:
@@ -383,11 +372,7 @@ packages:
       name: path_provider
       url: "https://pub.dartlang.org"
     source: hosted
-<<<<<<< HEAD
     version: "1.6.28"
-=======
-    version: "2.0.2"
->>>>>>> 62e935013e270c981f4db58cea2938a0c2967c5e
   path_provider_linux:
     dependency: transitive
     description:
