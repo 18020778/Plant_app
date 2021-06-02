@@ -43,7 +43,7 @@ class _buyCardState extends State<buyCard> {
 
    name.forEach((element) {
      var totalMoneyPayForCurrentShop  =  0;
-     var feeShip  =0;
+     var feeShip  = 0;
      widget.listCard.forEach((product) {
        if(product.shop.userName == element){
          totalMoneyPayForCurrentShop  += product.amount *  int.parse(product.price);
@@ -147,7 +147,7 @@ class _buyCardState extends State<buyCard> {
                 }
                 else {
                   widget.listCard.forEach((element) {
-                    PurchaseService().buyProducts(widget.user.uid, item.uid, element.img, element.price,element.productID,  element.nameProduct, element.shop.uid, element.amount, totalMoney);
+                    PurchaseService().buyProducts(widget.user.uid, item.uid, element.img, element.price,element.productID,  element.nameProduct, element.shop.uid, element.amount, element.amount*int.parse(element.price) );
                     PurchaseService().deteleItemInCart(widget.user.uid, element.productID);
                   });
                   // laf toi man hinh home

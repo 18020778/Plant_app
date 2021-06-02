@@ -87,7 +87,7 @@ class SuggestionItem extends StatelessWidget {
                                   MainAxisAlignment.spaceBetween,
                                   children: [
                                     Text(
-                                      listProduct[i].price,
+                                      listProduct[i].price +'đ',
                                       style: TextStyle(color: Colors.green[900]),
                                     ),
                                     RichText(
@@ -97,7 +97,7 @@ class SuggestionItem extends StatelessWidget {
                                               TextSpan(
                                                 text: 'Đã bán ',
                                               ),
-                                              TextSpan(text: listProduct[i].quantityInStock),
+                                              TextSpan(text: listProduct[i].sold.toString()),
                                             ]))
                                   ],
                                 ),
@@ -108,6 +108,20 @@ class SuggestionItem extends StatelessWidget {
                                     MainAxisAlignment.spaceBetween,
                                     children: [
                                       //isFavorited là biến bool, xét xem ng đó đã tym sp đó chưa
+
+                                      Row(
+                                        children: <Widget>[
+                                          Image.asset(
+                                            "assets/gold_star.png",
+                                            width: 16,
+                                          ),
+                                          (listProduct[i].rating!=0) ? Text(" " + listProduct[i].rating.toString(), style: TextStyle(
+                                            fontSize: 12,
+                                          ),) : Text(" null" , style: TextStyle(
+                                            fontSize: 12,
+                                          ),),
+                                        ],
+                                      ) ,
                                       Row(
                                         children: <Widget>[
                                           Image.asset(

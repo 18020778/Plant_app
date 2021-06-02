@@ -97,7 +97,7 @@ class _ProductItemState extends State<ProductItem> {
                                   MainAxisAlignment.spaceBetween,
                                   children: [
                                     Text(
-                                      widget.product.price,
+                                      widget.product.price + 'đ',
                                       style: TextStyle(color: Colors.green[900]),
                                     ),
                                     RichText(
@@ -107,7 +107,7 @@ class _ProductItemState extends State<ProductItem> {
                                               TextSpan(
                                                 text: 'Đã bán ',
                                               ),
-                                              TextSpan(text: widget.product.quantityInStock),
+                                              TextSpan(text: widget.product.sold.toString()),
                                             ]))
                                   ],
                                 ),

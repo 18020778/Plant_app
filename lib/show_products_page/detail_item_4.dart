@@ -335,6 +335,7 @@ class _DetailItemState extends State<DetailItem> {
                             ),
                           ),
                           SizedBox(height: 8,),
+
                           Column(
                               children: [
                             Padding(
@@ -386,9 +387,33 @@ class _DetailItemState extends State<DetailItem> {
                                         showAlert(context);
                                       },
                                     ),
+
                                   ]),
                             ),
+
                           ]),
+                          SizedBox(height: 8,),
+                          Align(
+                            alignment: Alignment.centerLeft,
+                            child: Text(
+                              "Đánh giá",
+                              style: TextStyle(
+                                  fontSize: 16, color: Colors.white70),
+                            ),
+                          ),
+                          Align(
+                            alignment: Alignment.centerLeft,
+                            child: (widget.product.rating>0) ? Text(
+                              widget.product.rating.toString(),
+                              style:
+                              TextStyle(fontSize: 16, color: Colors.white),
+                            ): Text(
+                              "Chưa có đánh giá",
+                              style:
+                              TextStyle(fontSize: 16, color: Colors.white),
+                            ),
+                          ),
+
                         ]),
                   ),
           ]),

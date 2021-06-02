@@ -58,7 +58,7 @@ class PurchaseService{
               'productName' : productName,
               'shopID' : shopID,
               'amount' : amount,
-              'totalMoney' : totalMoney
+              'totalMoney' : totalMoney,
       });
       ProductService().updateSold(productID,amount );
         return "success";
@@ -69,15 +69,17 @@ class PurchaseService{
 
   // return all bought
 
-  getAllOrders(String uid)async{
+  getAllOrders(String uid){
     return _firestore.collection("users").document(uid).collection("orders").getDocuments();
   }
 
   // get OrderDetail
-
-  getOrderDetail(String uid, String orderID) async{
+  getOrderDetail(String uid, String orderID) {
     return _firestore.collection("users").document(uid).collection("orders")
         .where("uid", isEqualTo: orderID)
         .getDocuments();
+  }
+  updatingRating(String uid, double rating){
+
   }
 }

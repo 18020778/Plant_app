@@ -10,6 +10,7 @@ import 'package:first_app/login_reg_pages/loading.dart';
 import 'package:first_app/login_reg_pages/login_page.dart';
 import 'package:first_app/models/user.dart';
 import 'package:first_app/Sell/addProduct.dart';
+import 'package:first_app/my_orders/my_orders_screen.dart';
 import 'package:first_app/services/database.dart';
 import 'package:first_app/services/handbookService.dart';
 import 'package:first_app/services/productService.dart';
@@ -300,7 +301,11 @@ class _AccountPageState extends State<AccountPage> {
                             height: 2,
                             decoration: BoxDecoration(color: Colors.white),
                           ),
-                          FlatButton(onPressed: () {},
+                          FlatButton(onPressed: () {
+                            Navigator.push(context, MaterialPageRoute(builder: (
+                                context) =>
+                                MyOrdersScreen(user: widget.user,)));
+                          },
                               child: Row(
                                 children: [
                                   Icon(FontAwesomeIcons.history, size: 19),
