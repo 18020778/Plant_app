@@ -42,7 +42,7 @@ dependencies:
   #firebase_auth: ^0.20.1
   #firebase_core: ^0.4.0
   # add dependencies
-
+  flutter_rating_bar: ^3.2.0+1
   # firebase storage can help you upload video, image
   firebase_storage: ^3.1.5
 

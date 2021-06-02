@@ -30,7 +30,7 @@ class ProductService {
         'category': product.category,
         'sold': 0,
         'liked': 0,
-        'watched': 0
+        'watched': 0,
       });
       retVal = document.documentID;
     } catch (e) {
@@ -135,7 +135,29 @@ class ProductService {
       return e.toString();
     }
   }
-
+  // updateRating(String productId, double number) {
+  //   try {
+  //     _firestore.collection("products").document(productId).updateData({
+  //       'watched': number
+  //     });
+  //     return 'success';
+  //   } catch (e) {
+  //     return e.toString();
+  //   }
+  // }
+  Future<String> addFeedBack(String productID, String uid, double rating, String feedBack) async{
+    try{
+      _firestore.collection("products").document(productID).collection("rating").document(uid)
+          .setData({
+        'rating' : rating,
+        'feedBack' : feedBack
+      });
+      return 'success';
+    }
+    catch(e){
+      return e.toString();
+    }
+  }
   updateSold(String productId, int amount) {
     int number = 0;
     getProductByID(productId).then((QuerySnapshot docs) {
@@ -183,5 +205,10 @@ class ProductService {
         .orderBy("sold",descending: true)
         .limit(10)
         .getDocuments();
+  }
+
+  getALlRating(String productID){
+    return _firestore.collection("products").document(productID)
+        .collection("rating").getDocuments();
   }
 }

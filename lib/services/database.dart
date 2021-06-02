@@ -127,4 +127,7 @@ class Database{
       return e.toString();
     }
   }
+  getUser(String uid){
+    return _firestore.collection('users').where('uid',  isEqualTo: uid).getDocuments();
+  }
 }

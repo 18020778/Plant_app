@@ -27,8 +27,12 @@ class Product {
   int liked;
   int watched;
   int sold;
+  double rating;
   setlistImage(List<String> listImage){
     this.listImage = listImage;
+  }
+  setRating(double rating){
+    this.rating = rating;
   }
   Product(
       {this.productID,
@@ -51,7 +55,7 @@ class Product {
       this.accountID,
       this.liked,
       this.sold,
-      this.watched});
+      this.watched,});
   factory Product.fromJson(Map<String, dynamic> json) => Product(
     productID: json['productID'],
     productName:  json['productName'],
@@ -73,7 +77,7 @@ class Product {
     category: json['category'],
     sold: json['sold'],
     watched: json['watched'],
-    liked: json['liked']
+    liked: json['liked'],
   );
 
 }

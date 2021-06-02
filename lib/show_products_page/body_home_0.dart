@@ -63,6 +63,16 @@ class _bodyHomeState extends State<bodyHome> {
       if(docs.documents.isNotEmpty){
         docs.documents.forEach((element) {
           Product product = Product.fromJson(element.data);
+          double rating = 0;
+          ProductService().getALlRating(product.productID).then(( QuerySnapshot value){
+            if(value.documents.isNotEmpty){
+              value.documents.forEach((element) {
+                rating +=element.data['rating'];
+              });
+              rating = rating/(value.documents.length);
+              product.setRating(rating);
+            }else product.setRating(rating);
+          });
           ProductService().getImageProduct(element.data['productID']).then(( QuerySnapshot value){
             if(value.documents.isNotEmpty){
               List<String> listImage = new List();
@@ -82,6 +92,7 @@ class _bodyHomeState extends State<bodyHome> {
               });
             }
           });
+
         });
       }else{
         setState(() {
