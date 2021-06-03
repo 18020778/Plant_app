@@ -1,5 +1,6 @@
 import 'dart:ffi';
 
+import 'package:first_app/buy_products/wemap/place/place_card.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 
@@ -62,6 +63,7 @@ class FullMapState extends State<FullMap> {
                   Container(
                     width: 350,
                     child: WeMapSearchBar(
+                      showYourLocation: true,
                       location: myLatLng,
                       onSelected: (_place) {
                         setState(() {
@@ -69,18 +71,15 @@ class FullMapState extends State<FullMap> {
                         });
                         mapController.moveCamera(
                           CameraUpdate.newCameraPosition(
-                            CameraPosition(
-                              target: place.location,
-                              zoom: 14.0,
-                            ),
+                            CameraPosition(target: place?.location, zoom: 14.0),
                           ),
                         );
-                        mapController.showPlaceCard(place);
+                        mapController.showPlaceCard?.call(place);
                       },
                       onClearInput: () {
                         setState(() {
                           place = null;
-                          mapController.showPlaceCard(place);
+                          mapController.showPlaceCard?.call(place);
                         });
                       },
                     ),

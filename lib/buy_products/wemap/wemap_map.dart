@@ -197,7 +197,8 @@ class _WeMapState extends State<WeMap> {
       'initialCameraPosition': widget.initialCameraPosition?.toMap(),
       'options': _WeMapOptions.fromWidget(widget).toMap(),
       'logoViewMarginsY': 10 + widget.logoViewMargins.y.toDouble(),
-      'logoViewMarginsX': 4 + widget.logoViewMargins.x.toDouble()
+      'logoViewMarginsX': 4 + widget.logoViewMargins.x.toDouble(),
+
     };
     return _WeMapGlPlatform.buildView(
         creationParams, onPlatformViewCreated, widget.gestureRecognizers);
