@@ -50,7 +50,7 @@ class FullMapState extends State<FullMap> {
                   target: LatLng(21.036029, 105.782950),
                   zoom: 16.0,
                 ),
-                destinationIcon: "assets/symbols/destination.png",
+                 destinationIcon: "assets/symbols/destination.png",
               ),
               Row(
                 children: [
@@ -61,7 +61,7 @@ class FullMapState extends State<FullMap> {
                     },
                   ),
                   Container(
-                    width: 350,
+                    width: 300,
                     child: WeMapSearchBar(
                       showYourLocation: true,
                       location: myLatLng,
@@ -94,7 +94,7 @@ class FullMapState extends State<FullMap> {
                     minWidth: 400,
                     height: 50,
                     onPressed: (){
-                     Navigator.pop(context, place.placeName.toString());
+                    Navigator.pop(context, place.description.toString());
                     },
                     color: Color(4281755726),
                     child: Text("ĐỒNG Ý", style: TextStyle(color: Colors.white, fontSize: 22),),

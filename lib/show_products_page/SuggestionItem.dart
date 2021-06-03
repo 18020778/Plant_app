@@ -22,12 +22,13 @@ class SuggestionItem extends StatelessWidget {
         padding: EdgeInsets.fromLTRB(10, 0, 10, 20),
         child: InkWell(
           onTap: () {
-            ProductService().updateWatched(listProduct[i].productID, listProduct[i].watched);
+
             Navigator.push(
                 context,
                 MaterialPageRoute(
                     builder: (context) =>
                         DetailItem(product: listProduct[i], user: user,)));
+            ProductService().updateWatched(listProduct[i].productID, listProduct[i].watched);
           },
           child: Stack(
             fit: StackFit.expand,

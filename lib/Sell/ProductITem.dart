@@ -116,20 +116,19 @@ class _ProductItemState extends State<ProductItem> {
                                     mainAxisAlignment:
                                     MainAxisAlignment.spaceBetween,
                                     children: [
-                                      IconButton(
-                                          alignment: Alignment.centerLeft,
-                                          icon: (setImage),
-                                          onPressed: () {
-                                            setState(() {
-                                              this.isFavorited = !this.isFavorited;
-                                            });
-                                            if(this.isFavorited){
-                                              likeProduct().addFavoriteProduct(widget.user.getUid(), widget.product.productID);
-                                            }else{
-                                              likeProduct().deleteFavoriteProduct(widget.user.getUid(), widget.product.productID);
-                                            }
-
-                                          }),
+                                      Row(
+                                        children: <Widget>[
+                                          Image.asset(
+                                            "assets/gold_star.png",
+                                            width: 16,
+                                          ),
+                                          (widget.product.rating!=0) ? Text(" " + widget.product.rating.toString(), style: TextStyle(
+                                            fontSize: 12,
+                                          ),) : Text(" null" , style: TextStyle(
+                                            fontSize: 12,
+                                          ),),
+                                        ],
+                                      ) ,
                                       //isFavorited là biến bool, xét xem ng đó đã tym sp đó chưa
                                       Row(
                                         children: <Widget>[

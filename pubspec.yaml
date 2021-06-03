@@ -70,6 +70,10 @@ flutter:
   # the material Icons class.
   uses-material-design: true
   assets:
+    - assets/an_qua.jpg
+    - assets/hoa_hong.jpg
+    - assets/than_thao.jpg
+    - assets/xuong_rong_1.jpg
     - assets/gold_star.png
     - assets/NoResult.png
     - assets/logo.png

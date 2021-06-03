@@ -18,7 +18,7 @@ class DetailItem extends StatefulWidget {
   DetailItem({this.product, this.user});
 }
 class _DetailItemState extends State<DetailItem> {
-  bool isFavorited;
+  bool isFavorited= false;
   bool viewResult = false;
   @override
   void initState() {
