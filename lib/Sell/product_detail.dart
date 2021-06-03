@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:first_app/models/posted_products.dart';
 import 'package:carousel_pro/carousel_pro.dart';
+import 'package:like_button/like_button.dart';
 
 class ProductDetail extends StatefulWidget{
   User user;
@@ -86,32 +87,7 @@ class  _ProductDetailState extends State<ProductDetail>{
                       Text(widget.postedProducts.product.sold.toString(), style: TextStyle(fontSize: 18),),
                     ],
                   ),
-                  // LikeButton(
-                  //  // onTap: onLikeButtonTapped,
-                  //   size: 40.0,
-                  //   likeCount: 0,
-                  //   circleSize: 50.0,
-                  //   circleColor: CircleColor(start: Colors.red, end: Colors.blue),
-                  //   bubblesColor: BubblesColor(
-                  //     dotPrimaryColor: Colors.yellow,
-                  //     dotSecondaryColor: Colors.red,
-                  //   ),
-                  //   likeBuilder: (bool isLiked) {
-                  //     return Icon(
-                  //       Icons.favorite,
-                  //       color: isLiked ? Colors.red : Colors.grey,
-                  //       size: 40.0,
-                  //     );
-                  //   },
-                  //   countBuilder: (int count, bool isLiked, String text) {
-                  //     Widget result;
-                  //     result = Text(
-                  //       text,
-                  //       style: TextStyle(fontSize: 20.0),
-                  //     );
-                  //     return result;
-                  //   },
-                  // ),
+
                   const SizedBox(height: 16.0),
                   Text(
                     'Cách chăm sóc:',
