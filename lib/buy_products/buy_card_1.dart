@@ -153,7 +153,7 @@ class _buyCardState extends State<buyCard> {
                     PurchaseService().deteleItemInCart(widget.user.uid, element.productID);
                   });
                   Fluttertoast.showToast(msg: "Đặt hàng thành công. ");
-                  Future.delayed(const Duration(seconds: 5), (){
+                  Future.delayed(const Duration(seconds: 2), (){
                     Navigator.pop(context);
                     Navigator.pop(context);
                     Navigator.pop(context);

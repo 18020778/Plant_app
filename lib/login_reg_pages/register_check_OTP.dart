@@ -184,7 +184,7 @@ class _regOTPState extends State<regOTP> {
           if(value == null) {
             _createAccount(widget.user);
             Fluttertoast.showToast(msg: "Đăng ký tài khoản thành công. ");
-            Future.delayed(const Duration(seconds: 3), (){
+            Future.delayed(const Duration(seconds: 2), (){
               Navigator.push(
                   context, MaterialPageRoute(builder: (context) => loginPage()));
             });
