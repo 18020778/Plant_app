@@ -130,7 +130,7 @@ class MethodChannelWeMapGl extends WeMapGlPlatform {
       Map<String, dynamic> creationParams,
       Function onPlatformViewCreated,
       Set<Factory<OneSequenceGestureRecognizer>> gestureRecognizers) {
-
+    var desIcon = "assets/symbols/destination.png";
     logo = base64.decode(wemap_logo);
     if (defaultTargetPlatform == TargetPlatform.android) {
       return Stack(
@@ -142,6 +142,7 @@ class MethodChannelWeMapGl extends WeMapGlPlatform {
               creationParams: creationParams,
               creationParamsCodec: const StandardMessageCodec(),
             ),
+
             Positioned(
               bottom: creationParams['logoViewMarginsY'],
               left: creationParams['logoViewMarginsX'],
