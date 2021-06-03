@@ -152,11 +152,15 @@ class _buyCardState extends State<buyCard> {
                     PurchaseService().buyProducts(widget.user.uid, item.uid, element.img, element.price,element.productID,  element.nameProduct, element.shop.uid, element.amount, element.amount*int.parse(element.price) );
                     PurchaseService().deteleItemInCart(widget.user.uid, element.productID);
                   });
+                  Fluttertoast.showToast(msg: "Đặt hàng thành công. ");
+                  Future.delayed(const Duration(seconds: 5), (){
+                    Navigator.pop(context);
+                    Navigator.pop(context);
+                    Navigator.pop(context);
+                    Navigator.push(context, MaterialPageRoute(builder: (context) => MyOrdersScreen(user: widget.user,)));
+                  });
                   // laf toi man hinh home
-                  Navigator.pop(context);
-                  Navigator.pop(context);
-                  Navigator.pop(context);
-                 Navigator.push(context, MaterialPageRoute(builder: (context) => MyOrdersScreen(user: widget.user,)));
+
                 }
 
               },
@@ -210,11 +214,8 @@ class _buyCardState extends State<buyCard> {
                                item.address.toString(),
                                 style: TextStyle(fontSize: 16),
                                 textAlign: TextAlign.start,
-
                               ),
-
                             ],
-
                           ) : Text("Thêm địa chỉ", style: TextStyle(fontSize: 20, fontWeight: FontWeight.w700),),
 
                         ],

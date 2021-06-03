@@ -1,5 +1,6 @@
 import 'dart:ffi';
 
+import 'package:first_app/buy_products/wemap/place/WeMapDirections.dart';
 import 'package:first_app/buy_products/wemap/place/place_card.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
@@ -50,7 +51,7 @@ class FullMapState extends State<FullMap> {
                   target: LatLng(21.036029, 105.782950),
                   zoom: 16.0,
                 ),
-                 destinationIcon: "assets/symbols/destination.png",
+                destinationIcon: "assets/symbols/destination.png",
               ),
               Row(
                 children: [
@@ -62,20 +63,28 @@ class FullMapState extends State<FullMap> {
                   ),
                   Container(
                     width: 300,
-                    child: WeMapSearchBar(
-                      showYourLocation: true,
-                      location: myLatLng,
-                      onSelected: (_place) {
-                        setState(() {
-                          place = _place;
-                        });
-                        mapController.moveCamera(
-                          CameraUpdate.newCameraPosition(
-                            CameraPosition(target: place?.location, zoom: 14.0),
-                          ),
-                        );
-                        mapController.showPlaceCard?.call(place);
-                      },
+                    child:
+    WeMapSearchBar(
+    location: myLatLng,
+    onSelected: (_place) async {
+    setState(() {
+    place = _place;
+    });
+    if (myLatLng != null) {
+    await mapController.animateCamera(
+    CameraUpdate.newLatLngZoom(
+    place.location,
+    18.0,
+    ),
+    );
+    mapController.clearSymbols();
+    mapController.clearCircles();
+    await WeMapDirections()
+        .addCircle(place.location, mapController, '#ff1a05');
+    }
+
+    mapController.showPlaceCard(place);
+    },
                       onClearInput: () {
                         setState(() {
                           place = null;
@@ -94,7 +103,7 @@ class FullMapState extends State<FullMap> {
                     minWidth: 400,
                     height: 50,
                     onPressed: (){
-                    Navigator.pop(context, place.description.toString());
+                     Navigator.pop(context, place.description.toString());
                     },
                     color: Color(4281755726),
                     child: Text("ĐỒNG Ý", style: TextStyle(color: Colors.white, fontSize: 22),),
@@ -103,5 +112,3 @@ class FullMapState extends State<FullMap> {
             ]));
   }
 }
-
-

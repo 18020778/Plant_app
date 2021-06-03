@@ -9,6 +9,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:first_app/models/user.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 class regOTP extends StatefulWidget {
   //String phoneNumber;
@@ -182,9 +183,11 @@ class _regOTPState extends State<regOTP> {
         Database().getUserInfo(user.user.uid.toString()).then((value){
           if(value == null) {
             _createAccount(widget.user);
-
-            Navigator.push(
-                context, MaterialPageRoute(builder: (context) => loginPage()));
+            Fluttertoast.showToast(msg: "Đăng ký tài khoản thành công. ");
+            Future.delayed(const Duration(seconds: 3), (){
+              Navigator.push(
+                  context, MaterialPageRoute(builder: (context) => loginPage()));
+            });
           }
           else {
             setState(() {
