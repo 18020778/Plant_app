@@ -26,6 +26,7 @@ class _regOTPState extends State<regOTP> {
   bool _clearString = true;
   bool isExistedAccount = false;
   var _controler = TextEditingController();
+  double _currentSliderValue = 3;
   @override
   void initState() {
     // TODO: implement initState
@@ -37,25 +38,39 @@ class _regOTPState extends State<regOTP> {
     return Scaffold(
         appBar: AppBar(
           toolbarHeight: 70,
-          title: Text('Nhập mã xác minh',
-            style: TextStyle(fontSize: 22),),
-          backgroundColor: Colors.green[900],
+          iconTheme: IconThemeData(
+            color: Colors.black
+          ),
+          title: Text('Register',
+            style: TextStyle(fontSize: 22, color: Colors.black),),
+          backgroundColor:  Color(4294945450),
         ),
         body: Container(
           alignment: Alignment.center,
           child: Column(
               children: <Widget> [
+                Slider(
+                  value: _currentSliderValue,
+                  activeColor: Color(4294344335),
+                  min: 0,
+                  max: 3,
+                  divisions: 3,
+                  onChanged: (double value) {
+
+                  },
+                ),
                 SizedBox(height: 70,),
                 Text('Mã xác minh',
                   style: TextStyle(
                     fontSize: 25,
                     fontWeight: FontWeight.w700,
+                    color:  Color(4294344335)
                   ),
                   textAlign: TextAlign.center,),
                 Text('Mã OTP được gửi về tin nhắn điện thoại của bạn',
                   style: TextStyle(
                     fontSize: 17,
-                    color: Colors.black54,
+                    color:  Color(4294344335),
                   ),
                   textAlign: TextAlign.center,),
                 SizedBox(height: 40,),
@@ -64,15 +79,16 @@ class _regOTPState extends State<regOTP> {
                   margin: EdgeInsets.fromLTRB(40, 0, 40, 40),
                   decoration: BoxDecoration(
                       border: Border(
-                        bottom: BorderSide(width: 1.0, color: Colors.blue),
+                        bottom: BorderSide(width: 1.0, color: Color(4294344335)),
                       )
                   ),
                   child: TextField(
-                    style: TextStyle(fontSize: 35, fontWeight: FontWeight.w500, letterSpacing: 32),
+                    style: TextStyle(fontSize: 35, fontWeight: FontWeight.w500, letterSpacing: 32, color:  Color(4294344335)),
                     decoration: InputDecoration(
                         hintStyle: TextStyle(fontSize: 20, color: Colors.grey),
                         border: InputBorder.none
                     ),
+                    keyboardType: TextInputType.number,
                     autofocus: true,
                     maxLength: 6,
                     controller: _controler,
@@ -113,7 +129,7 @@ class _regOTPState extends State<regOTP> {
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.all(Radius.circular(20)),
                           ),
-                          color: Colors.green[700],
+                          color:  Color(4294344335),
                           onPressed: (){
                             Navigator.push(
                                 context,

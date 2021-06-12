@@ -3,7 +3,7 @@ import 'package:first_app/models/user.dart';
 import 'package:first_app/services/productService.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-
+import 'package:intl/intl.dart';
 import 'detail_item_4.dart';
 
 class SuggestionItem extends StatelessWidget {
@@ -39,7 +39,7 @@ class SuggestionItem extends StatelessWidget {
                       borderRadius: BorderRadius.all(Radius.circular(10.0)),
                       boxShadow: [
                         BoxShadow(
-                            color: Color(4291751385),
+                            color: Color(4294565598),
                             offset: Offset(0, 140),
                             spreadRadius: 0,
                             blurRadius: 100.0),
@@ -72,7 +72,7 @@ class SuggestionItem extends StatelessWidget {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: <Widget>[
                                 Text(
-                                  listProduct[i].plantID,
+                                  listProduct[i].productName,
                                   overflow: TextOverflow.ellipsis,
                                   maxLines: 1,
                                   style: TextStyle(
@@ -80,16 +80,16 @@ class SuggestionItem extends StatelessWidget {
                                     fontWeight: FontWeight.w700,
                                   ),
                                 ),
-                                // SizedBox(
-                                //   height: 5,
-                                // ),
+                                SizedBox(
+                                  height: 5,
+                                ),
                                 Row(
                                   mainAxisAlignment:
                                   MainAxisAlignment.spaceBetween,
                                   children: [
                                     Text(
                                       listProduct[i].price +'đ',
-                                      style: TextStyle(color: Colors.green[900]),
+                                      style: TextStyle(color: Color(4294344335)),
                                     ),
                                     RichText(
                                         text: TextSpan(
@@ -102,7 +102,6 @@ class SuggestionItem extends StatelessWidget {
                                             ]))
                                   ],
                                 ),
-                                SizedBox(height: 8,),
                                 Row(
                                     crossAxisAlignment: CrossAxisAlignment.end,
                                     mainAxisAlignment:
@@ -133,8 +132,18 @@ class SuggestionItem extends StatelessWidget {
                                             fontSize: 12,
                                           ),),
                                         ],
-                                      )
-                                    ])
+                                      ),
+
+                                    ]),
+                                SizedBox(height: 5,),
+                                Text(
+                                  'Ngày đăng: ' + DateFormat('dd/MM/yyyy').format(DateTime.fromMillisecondsSinceEpoch(listProduct[i].created.seconds*1000)),
+                                  overflow: TextOverflow.ellipsis,
+                                  maxLines: 1,
+                                  style: TextStyle(
+                                    fontSize: 12,
+                                  ),
+                                ),
                               ]))
                     ],
                   ))

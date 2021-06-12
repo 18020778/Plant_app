@@ -1,5 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:first_app/Sell/ProductITem.dart';
 import 'package:first_app/login_reg_pages/loading.dart';
+import 'package:first_app/models/feedBack.dart';
 import 'package:first_app/models/plant.dart';
 import 'package:first_app/models/product.dart';
 import 'package:first_app/models/user.dart';
@@ -16,10 +18,10 @@ import 'TreeItem.dart';
 
 class TypeOfTrees extends StatefulWidget {
   User user;
-  String categoryId;
+  String specialDay;
   @override
   _TypeOfTreesState createState() => _TypeOfTreesState();
-  TypeOfTrees(this.categoryId, this.user);
+  TypeOfTrees(this.specialDay, this.user);
 }
 
 class _TypeOfTreesState extends State<TypeOfTrees> {
@@ -34,18 +36,29 @@ class _TypeOfTreesState extends State<TypeOfTrees> {
   Widget build(BuildContext context) {
     var screenHeight = MediaQuery.of(context).size.height;
     var screenWidth = MediaQuery.of(context).size.width;
-    return (this.viewResult == 2) ? Scaffold(
+    return (this.viewResult == 1) ? Scaffold(
       appBar: AppBar(
           toolbarHeight: 75,
+          title: Text(
+            widget.specialDay,
+            style: TextStyle(
+              color: Colors.black,
+              fontSize: 25,
+              fontWeight: FontWeight.w700
+            ),
+          ),
           //title: SearchBox(text: 'NameTypeOfTree'),
           leadingWidth: 20,
+          iconTheme: IconThemeData(
+            color: Colors.black
+          ),
           centerTitle: true,
-          backgroundColor: Color(0xFF407C5A),
+          backgroundColor: Color(4294945450),
           actions: [
             IconButton(
               icon: Icon(
                 FontAwesomeIcons.bell,
-                color: Colors.white,
+                color: Colors.black,
                 size: 27.0,
               ),
               onPressed: () {},
@@ -56,29 +69,31 @@ class _TypeOfTreesState extends State<TypeOfTrees> {
           child: Column(
         children: <Widget>[
           Container(
-            alignment: Alignment.topLeft,
-            margin: EdgeInsets.only(left: 10, top: 10),
-            child: Text(
-              "Nhóm cây",
-              style: TextStyle(
-                  color: Color(4281755650),
-                  fontWeight: FontWeight.w700,
-                  fontSize: 25),
-            ),
-          ),
-          ListGroupOfTrees(this.listPlantGroupByCategory, widget.user),
-          Container(
-            alignment: Alignment.topLeft,
-            margin: EdgeInsets.only(left: 10, top: 10),
-            child: Text(
-              "Top sản phẩm bán chạy",
-              style: TextStyle(
-                  color: Color(4281755650),
-                  fontWeight: FontWeight.w700,
-                  fontSize: 25),
-            ),
-          ),
-         SuggestionItem(listProduct, widget.user),
+              height: 600,
+              child: Column(
+                children: <Widget>[
+                  SizedBox(height: 10,),
+                  Expanded(
+                    child: GridView.builder(
+                        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                            crossAxisCount: 2,
+                            childAspectRatio: 0.7),
+
+                        itemCount: this.listProduct.length,
+                        itemBuilder: (context, index){
+
+                          return TreeItem(
+                            product: this.listProduct[index],
+                            user: widget.user,
+                          );
+
+                        }
+                    ),
+
+                  ),
+
+                ],
+              )),
         ],
       )),
       //bottomNavigationBar: BottomNavBar(),
@@ -87,21 +102,22 @@ class _TypeOfTreesState extends State<TypeOfTrees> {
 
   @override
   void initState() {
-    PlantService().getPlantsGroupByCategory(widget.categoryId).then((QuerySnapshot docs){
-      if(docs.documents.isNotEmpty){
-          docs.documents.forEach((element) {
-              listPlantGroupByCategory.add(Plants.fromJson(element.data));
-          });
-      }
-      setState(() {
-        this.viewResult += 1;
-      });
-    });
 
-    // top 10 san pham ban chay cua cai nhom cay nay nhes
+    // PlantService().getPlantsGroupByCategory(widget.categoryId).then((QuerySnapshot docs){
+    //   if(docs.documents.isNotEmpty){
+    //       docs.documents.forEach((element) {
+    //           listPlantGroupByCategory.add(Plants.fromJson(element.data));
+    //       });
+    //   }
+    //   setState(() {
+    //     this.viewResult += 1;
+    //   });
+    // });
+
+
     int count ;
     List<Product> newList = new List();
-    ProductService().top10ProductOrderByCategory(widget.categoryId).then((QuerySnapshot docs){
+    ProductService().getAllProductInSpecialDay(widget.specialDay).then((QuerySnapshot docs){
       count = docs.documents.length;
       if(count == 0){
         setState(() {
@@ -112,14 +128,20 @@ class _TypeOfTreesState extends State<TypeOfTrees> {
         docs.documents.forEach((element) {
           Product product = Product.fromJson(element.data);
           double rating = 0;
+          List<feedBack> listFeedBack = new List();
           ProductService().getALlRating(product.productID).then(( QuerySnapshot value){
             if(value.documents.isNotEmpty){
               value.documents.forEach((element) {
                 rating +=element.data['rating'];
+                listFeedBack.add(feedBack.fromJson(element.data));
               });
               rating = rating/(value.documents.length);
+              product.setListFeedBack(listFeedBack);
               product.setRating(rating);
-            }else product.setRating(rating);
+            }else {
+              product.setRating(rating);
+              product.setListFeedBack([]);
+            }
           });
           ProductService().getImageProduct(element.data['productID']).then(( QuerySnapshot value){
             if(value.documents.isNotEmpty){
@@ -130,7 +152,7 @@ class _TypeOfTreesState extends State<TypeOfTrees> {
               product.setlistImage(listImage);
             }
             else{
-              product.setlistImage(['https://cdn.shopify.com/s/files/1/0212/1030/0480/products/BraidedMoneyTree-Full_560x560_crop_center.jpg?v=1605012647']);
+              product.setlistImage(['https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRGPL6RMbqGSqWK6sRGp537hVDb2q2fklxFrQ&usqp=CAU']);
             }
             newList.add(product);
             if(newList.length == count){

@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:first_app/login_reg_pages/loading.dart';
+import 'package:first_app/models/feedBack.dart';
 import 'package:first_app/services/productService.dart';
 import 'package:first_app/show_products_page/SuggestionItem.dart';
 import 'package:first_app/show_products_page/search_box_012.dart';
@@ -34,6 +35,22 @@ class _SearchState extends State<SearchItem>{
       if (docs.documents.isNotEmpty) {
         docs.documents.forEach((element) {
           Product product = Product.fromJson(element.data);
+          double rating = 0;
+          List<feedBack> listFeedBack = new List();
+          ProductService().getALlRating(product.productID).then(( QuerySnapshot value){
+            if(value.documents.isNotEmpty){
+              value.documents.forEach((element) {
+                rating +=element.data['rating'];
+                listFeedBack.add(feedBack.fromJson(element.data));
+              });
+              rating = rating/(value.documents.length);
+              product.setListFeedBack(listFeedBack);
+              product.setRating(rating);
+            }else {
+              product.setRating(rating);
+              product.setListFeedBack([]);
+            }
+          });
           ProductService().getImageProduct(element.data['productID']).then(( QuerySnapshot value){
             if(value.documents.isNotEmpty){
               List<String> listImage = new List();
@@ -43,7 +60,7 @@ class _SearchState extends State<SearchItem>{
               product.setlistImage(listImage);
             }
             else{
-              product.setlistImage(['https://cdn.shopify.com/s/files/1/0212/1030/0480/products/BraidedMoneyTree-Full_560x560_crop_center.jpg?v=1605012647']);
+              product.setlistImage(['https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRGPL6RMbqGSqWK6sRGp537hVDb2q2fklxFrQ&usqp=CAU']);
             }
             products.add(product);
             if(products.length == countCat){
@@ -59,6 +76,22 @@ class _SearchState extends State<SearchItem>{
           if(docs.documents.isNotEmpty){
             docs.documents.forEach((element) {
               Product product = Product.fromJson(element.data);
+              double rating = 0;
+              List<feedBack> listFeedBack = new List();
+              ProductService().getALlRating(product.productID).then(( QuerySnapshot value){
+                if(value.documents.isNotEmpty){
+                  value.documents.forEach((element) {
+                    rating +=element.data['rating'];
+                    listFeedBack.add(feedBack.fromJson(element.data));
+                  });
+                  rating = rating/(value.documents.length);
+                  product.setListFeedBack(listFeedBack);
+                  product.setRating(rating);
+                }else {
+                  product.setRating(rating);
+                  product.setListFeedBack([]);
+                }
+              });
               ProductService().getImageProduct(element.data['productID']).then(( QuerySnapshot value){
                 if(value.documents.isNotEmpty){
                   List<String> listImage = new List();
@@ -68,7 +101,7 @@ class _SearchState extends State<SearchItem>{
                   product.setlistImage(listImage);
                 }
                 else{
-                  product.setlistImage(['https://cdn.shopify.com/s/files/1/0212/1030/0480/products/BraidedMoneyTree-Full_560x560_crop_center.jpg?v=1605012647']);
+                  product.setlistImage(['https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRGPL6RMbqGSqWK6sRGp537hVDb2q2fklxFrQ&usqp=CAU']);
                 }
                 products.add(product);
                 if(products.length == countPlant){
@@ -98,8 +131,8 @@ class _SearchState extends State<SearchItem>{
       child: Theme(
         data: ThemeData(
             appBarTheme: AppBarTheme(
-                backgroundColor: Color(0xFF407C5A),
-                actionsIconTheme: IconThemeData(color: Colors.white)
+                backgroundColor: Color(4294945450),
+                actionsIconTheme: IconThemeData(color: Colors.black)
             )
         ),
         child:

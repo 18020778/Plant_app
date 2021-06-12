@@ -6,7 +6,7 @@ import 'package:first_app/models/categories.dart';
 class CategoryService{
    getCategories()  {
     return   Firestore.instance
-        .collection("categories")
+        .collection("category")
         .getDocuments();
   }
 }

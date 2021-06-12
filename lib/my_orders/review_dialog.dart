@@ -67,7 +67,7 @@ class ReviewDialog extends StatelessWidget{
               borderRadius: BorderRadius.circular(20),
             ),
             onPressed: (){
-              ProductService().addFeedBack(orderDetail.productId, user.uid, rating, feedback);
+              ProductService().addFeedBack(orderDetail.productId, user.uid, rating, feedback, user.userName, user.urlImage);
               Navigator.of(context).pop();
             },
             child: Text(

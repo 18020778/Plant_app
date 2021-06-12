@@ -6,7 +6,6 @@ import 'package:first_app/models/user.dart';
 import 'package:first_app/services/database.dart';
 import 'package:first_app/services/purchase_service.dart';
 import 'package:flutter/material.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class Cart {
@@ -91,10 +90,13 @@ class _showCartState extends State<showCart> {
       return Scaffold(
         appBar: AppBar(
             toolbarHeight: 60,
+            iconTheme: IconThemeData(
+              color: Colors.black, //change your color here
+            ),
             title: Text(
               "Giỏ hàng",
               style: TextStyle(
-                  color: Colors.white,
+                  color: Colors.black,
                   fontWeight: FontWeight.w700,
                   fontSize: 25),
             ),
@@ -106,14 +108,14 @@ class _showCartState extends State<showCart> {
               gradient: LinearGradient(
                 begin: Alignment.topCenter,
                 end: Alignment.bottomCenter,
-                colors: [Color(4281755726), Color(0xFF488B66)],
+                colors: [Color(4294945450), Color(4294945450)],
               ),
             )),
               actions: [
                 IconButton(
                   icon: Icon(
                     FontAwesomeIcons.bell,
-                    color: Colors.white,
+                    color: Colors.black,
                     size: 27.0,
                   ),
                   onPressed: () {},
@@ -134,7 +136,7 @@ class _showCartState extends State<showCart> {
                                margin: EdgeInsets.only(bottom: 30),
                                child: Column(children: [
                                  ColoredBox(
-                                   color: Color(0xFFE6FFEE),
+                                   color: Color(4294565598),
                                    child: Row(
                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                      children: [
@@ -186,12 +188,12 @@ class _showCartState extends State<showCart> {
                                          }
                                        });
                                      },
-                                     activeColor: Color(0xFF488B66),
+                                     activeColor: Color(4294344335),
                                      checkColor: Colors.white,
                                    ),
                                    Image.network(
                                      listCart[i].img,
-                                     height: 100 ,
+                                     height: 90 ,
                                      fit: BoxFit.cover,
                                    ),
                                    Container(
@@ -207,7 +209,7 @@ class _showCartState extends State<showCart> {
                                          ),
                                          Text(
                                            "đ" + listCart[i].price.toString(),
-                                           style: TextStyle(color: Color(0xFF488B66), fontSize: 16),
+                                           style: TextStyle(color: Color(4294344335), fontSize: 16),
                                          ),
                                          SizedBox(
                                            height: 10,
@@ -310,7 +312,7 @@ class _showCartState extends State<showCart> {
               ),
               RaisedButton(
                 padding: EdgeInsets.symmetric(vertical: 17, horizontal: 17),
-                color: Color(0xFF488B66),
+                color: Color(4294344335),
                 child: Text("Mua hàng", style: TextStyle(color: Colors.white, fontSize: 18, fontWeight: FontWeight.w600),),
                 onPressed: _isDisable ? null : () {
 

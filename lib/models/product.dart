@@ -3,70 +3,65 @@ import 'dart:io';
 
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:first_app/models/feedBack.dart';
 
 class Product {
   String productID;
   String productName;
-  String takeCareOfTree;
-  String longevity;
-  String origin;
-  String temperature;
-  String theAmountOfWater;
+  String description;
   String price;
-  String height;
-  String plantID;
   String weight;
+  String material;
   bool fastDelivery;
   String quantityInStock;
   bool preOrder;
   String address;
   String accountID;
   Timestamp created;
+  String event;
   String category;
   List<String> listImage;
   int liked;
   int watched;
   int sold;
   double rating;
+  List<feedBack> listFeedBack;
+
+  setListFeedBack(List<feedBack> listFeedBack){
+    this.listFeedBack = listFeedBack;
+  }
   setlistImage(List<String> listImage){
     this.listImage = listImage;
   }
   setRating(double rating){
     this.rating = rating;
   }
+
   Product(
       {this.productID,
       this.productName,
-      this.takeCareOfTree,
-      this.longevity,
-      this.origin,
-      this.temperature,
-      this.theAmountOfWater,
+      this.description,
       this.price,
-      this.height,
-      this.plantID,
+      this.category,
       this.weight,
       this.fastDelivery,
       this.quantityInStock,
       this.preOrder,
       this.created,
       this.address,
-        this.category,
       this.accountID,
       this.liked,
       this.sold,
-      this.watched,});
+      this.watched,
+      this.event,
+      this.material});
   factory Product.fromJson(Map<String, dynamic> json) => Product(
     productID: json['productID'],
     productName:  json['productName'],
-    takeCareOfTree : json['takeCareOfTree'],
-    longevity: json['longevity'],
-    origin: json['origin'],
-    temperature:  json['temperature'],
-    theAmountOfWater:  json['theAmountOfWater'],
+    description: json['description'],
     price : json['price'],
-    height: json['height'],
-    plantID: json['plantID'],
+    category : json['category'],
+    event: json['event'],
     weight:  json['weight'],
     fastDelivery : json['fastDelivery'],
     quantityInStock :  json['quantityInStock'],
@@ -74,10 +69,10 @@ class Product {
     created: json['created'],
     address: json['address'],
     accountID: json['accountID'],
-    category: json['category'],
     sold: json['sold'],
     watched: json['watched'],
     liked: json['liked'],
+    material: json['material']
   );
 
 }

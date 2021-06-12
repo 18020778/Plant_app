@@ -1,12 +1,13 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:first_app/login_reg_pages/loading.dart';
+import 'package:first_app/models/SpecialDay.dart';
 import 'package:first_app/models/categories.dart';
-import 'package:first_app/models/plant.dart';
+import 'package:first_app/models/feedBack.dart';
 import 'package:first_app/models/product.dart';
 import 'package:first_app/models/user.dart';
 import 'package:first_app/services/category_service.dart';
-import 'package:first_app/services/plant_service.dart';
 import 'package:first_app/services/productService.dart';
+import 'package:first_app/services/specialDayService.dart';
 import 'package:first_app/show_products_page/SuggestionItem.dart';
 import 'package:first_app/show_products_page/group_of_trees_0.dart';
 import 'package:first_app/show_products_page/search_box_012.dart';
@@ -22,8 +23,8 @@ class bodyHome extends StatefulWidget {
 }
 
 class _bodyHomeState extends State<bodyHome> {
-  List<Categories> listCategories = new List();
-  List<Plants> listPlants = new List();
+  List<specialDay> listSpecialDay = new List();
+  List<Categories> listCategory = new List();
   List<Product> listProduct = new List();
   List<Product> listProductInterested = new List();
   var viewResult = 0;
@@ -31,31 +32,35 @@ class _bodyHomeState extends State<bodyHome> {
   @override
   void initState() {
     super.initState();
-    CategoryService().getCategories().then((QuerySnapshot docs) {
+    specilaDayService().getSpecialDay().then((QuerySnapshot docs) {
       if (docs.documents.isNotEmpty) {
         docs.documents.forEach((element) {
-          listCategories.add(Categories.fromJson(element.data));
+          listSpecialDay.add(specialDay.fromJson(element.data));
         });
         setState(() {
           this.viewResult += 1;
         });
       } else {
-        print("Empty");
+        setState(() {
+          this.viewResult += 1;
+        });
       }
     });
-    PlantService().getPlants().then((QuerySnapshot docs){
+    CategoryService().getCategories().then((QuerySnapshot docs){
       if(docs.documents.isNotEmpty){
         docs.documents.forEach((element) {
-          listPlants.add(Plants.fromJson(element.data));
+          listCategory.add(Categories.fromJson(element.data));
         });
         setState(() {
           this.viewResult +=1;
         });
       }else{
-        print("Empty");
+        setState(() {
+          this.viewResult += 1;
+        });
       }
     });
-    // top 10 những sản phẩm mới đăng
+  //   // top 10 những sản phẩm mới đăng
     int count ;
     List<Product> newList = new List();
     ProductService().top10NewProduct().then((QuerySnapshot docs){
@@ -64,14 +69,20 @@ class _bodyHomeState extends State<bodyHome> {
         docs.documents.forEach((element) {
           Product product = Product.fromJson(element.data);
           double rating = 0;
+          List<feedBack> listFeedBack = new List();
           ProductService().getALlRating(product.productID).then(( QuerySnapshot value){
             if(value.documents.isNotEmpty){
               value.documents.forEach((element) {
                 rating +=element.data['rating'];
+                listFeedBack.add(feedBack.fromJson(element.data));
               });
               rating = rating/(value.documents.length);
+              product.setListFeedBack(listFeedBack);
               product.setRating(rating);
-            }else product.setRating(rating);
+            }else {
+              product.setRating(rating);
+              product.setListFeedBack([]);
+            }
           });
           ProductService().getImageProduct(element.data['productID']).then(( QuerySnapshot value){
             if(value.documents.isNotEmpty){
@@ -82,7 +93,7 @@ class _bodyHomeState extends State<bodyHome> {
               product.setlistImage(listImage);
             }
             else{
-              product.setlistImage(['https://cdn.shopify.com/s/files/1/0212/1030/0480/products/BraidedMoneyTree-Full_560x560_crop_center.jpg?v=1605012647']);
+              product.setlistImage(['https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRGPL6RMbqGSqWK6sRGp537hVDb2q2fklxFrQ&usqp=CAU']);
             }
             newList.add(product);
             if(newList.length == count){
@@ -100,9 +111,9 @@ class _bodyHomeState extends State<bodyHome> {
         });
       }
     });
-  // top nhung san pham duoc xem nhieu nhats
-
-
+  // // top nhung san pham duoc xem nhieu nhats
+  //
+  //
     int countProduct ;
     List<Product> newProduct = new List();
     ProductService().top10InterestedProducts().then((QuerySnapshot docs){
@@ -110,6 +121,22 @@ class _bodyHomeState extends State<bodyHome> {
       if(docs.documents.isNotEmpty){
         docs.documents.forEach((element) {
           Product product = Product.fromJson(element.data);
+          double rating = 0;
+          List<feedBack> listFeedBack = new List();
+          ProductService().getALlRating(product.productID).then(( QuerySnapshot value){
+            if(value.documents.isNotEmpty){
+              value.documents.forEach((element) {
+                rating +=element.data['rating'];
+                listFeedBack.add(feedBack.fromJson(element.data));
+              });
+              rating = rating/(value.documents.length);
+              product.setListFeedBack(listFeedBack);
+              product.setRating(rating);
+            }else {
+              product.setRating(rating);
+              product.setListFeedBack([]);
+            }
+          });
           ProductService().getImageProduct(element.data['productID']).then(( QuerySnapshot value){
             if(value.documents.isNotEmpty){
               List<String> listImage = new List();
@@ -119,7 +146,7 @@ class _bodyHomeState extends State<bodyHome> {
               product.setlistImage(listImage);
             }
             else{
-              product.setlistImage(['https://cdn.shopify.com/s/files/1/0212/1030/0480/products/BraidedMoneyTree-Full_560x560_crop_center.jpg?v=1605012647']);
+              product.setlistImage(['https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRGPL6RMbqGSqWK6sRGp537hVDb2q2fklxFrQ&usqp=CAU']);
             }
             newProduct.add(product);
             if(newProduct.length == countProduct){
@@ -181,14 +208,29 @@ class _bodyHomeState extends State<bodyHome> {
                           margin:
                           EdgeInsets.only(left: 10, top: 10, bottom: 10),
                           child: Text(
+                            "Ngày đặc biệt",
+                            style: TextStyle(
+                                color: Color(4294344335),
+                                fontWeight: FontWeight.w700,
+                                fontSize: 25),
+                          ),
+                        ),
+                        ListTypeOfTrees(this.listSpecialDay, widget.user),
+                        SizedBox(
+                          height: 10,
+                        ),
+                        Container(
+                          alignment: Alignment.topLeft,
+                          margin: EdgeInsets.only(left: 10, top: 10),
+                          child: Text(
                             "Thể loại",
                             style: TextStyle(
-                                color: Color(4281755650),
+                                color: Color(4294344335),
                                 fontWeight: FontWeight.w700,
                                 fontSize: 25),
                           ),
                         ),
-                        ListTypeOfTrees(this.listCategories, widget.user),
+                        ListGroupOfTrees(this.listCategory, widget.user),
                         SizedBox(
                           height: 10,
                         ),
@@ -196,24 +238,9 @@ class _bodyHomeState extends State<bodyHome> {
                           alignment: Alignment.topLeft,
                           margin: EdgeInsets.only(left: 10, top: 10),
                           child: Text(
-                            "Nhóm cây",
+                            "Được quan tâm",
                             style: TextStyle(
-                                color: Color(0xFF407C5A),
-                                fontWeight: FontWeight.w700,
-                                fontSize: 25),
-                          ),
-                        ),
-                        ListGroupOfTrees(this.listPlants, widget.user),
-                        SizedBox(
-                          height: 10,
-                        ),
-                        Container(
-                          alignment: Alignment.topLeft,
-                          margin: EdgeInsets.only(left: 10, top: 10),
-                          child: Text(
-                            "Được quan tâm hàng đầu",
-                            style: TextStyle(
-                                color: Color(0xFF407C5A),
+                                color: Color(4294344335),
                                 fontWeight: FontWeight.w700,
                                 fontSize: 25),
                           ),
@@ -221,7 +248,7 @@ class _bodyHomeState extends State<bodyHome> {
                         SizedBox(
                           height: 10,
                         ),
-                        SuggestionItem(listProductInterested, widget.user),
+                        SuggestionItem(this.listProductInterested, widget.user),
                         SizedBox(
                           height: 10,
                         ),
@@ -231,7 +258,7 @@ class _bodyHomeState extends State<bodyHome> {
                           child: Text(
                             "Gợi ý cho bạn",
                             style: TextStyle(
-                                color: Color(0xFF407C5A),
+                                color: Color(4294344335),
                                 fontWeight: FontWeight.w700,
                                 fontSize: 25),
                           ),
@@ -249,7 +276,7 @@ class _bodyHomeState extends State<bodyHome> {
             height: 350,
             width: screenWidth * 0.9,
             margin: EdgeInsets.only(left: 22),
-            child: SearchBox(widget.user,"Little Garden"),
+            child: SearchBox(widget.user,"Searh"),
           ),
         ),
     ])
@@ -276,7 +303,7 @@ class _homeAppBarState extends State<homeAppBar> {
           gradient: LinearGradient(
             begin: Alignment.topRight,
             end: Alignment.bottomLeft,
-            colors: [Color(4281755726), Color(4284859275)],
+            colors: [Color(4294945450), Color(4294565598)],
           ),
           borderRadius: BorderRadius.only(
             bottomLeft: Radius.circular(45),
@@ -324,7 +351,7 @@ class _homeAppBarState extends State<homeAppBar> {
 
 
 class ListTypeOfTrees extends StatelessWidget {
-  List<Categories> listCategories = new List();
+  List<specialDay> listCategories = new List();
   User user;
   ListTypeOfTrees(this.listCategories, this.user);
   @override
@@ -341,7 +368,7 @@ class ListTypeOfTrees extends StatelessWidget {
                 context,
                 MaterialPageRoute(
                     builder: (context) => TypeOfTrees(
-                          listCategories[i].getCategoryId(), user,
+                          listCategories[i].getSpecialDay(), user,
                         )));
           },
           child: Container(
@@ -354,7 +381,7 @@ class ListTypeOfTrees extends StatelessWidget {
                     color: Colors.white,
                     boxShadow: [
                       BoxShadow(
-                          color: Color(4291751385),
+                          color: Color(4294565598),
                           offset: Offset(0, 140),
                           spreadRadius: 0,
                           blurRadius: 100.0),
@@ -386,7 +413,7 @@ class ListTypeOfTrees extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
                       Text(
-                        listCategories[i].getCategoryName(),
+                        listCategories[i].getSpecialDay(),
                         style: TextStyle(fontSize: 25, color: Colors.white),
                       ),
                     ],

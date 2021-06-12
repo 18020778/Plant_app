@@ -8,12 +8,11 @@ import 'package:first_app/models/user.dart';
 import 'package:first_app/services/database.dart';
 import 'package:first_app/services/uploadFile.dart';
 import 'package:first_app/show_products_page/body_home_0.dart';
-import 'package:first_app/show_products_page/type_of_trees_1.dart';
-import 'package:first_app/wallet/wallet_page.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'liked_page.dart';
 import 'package:first_app/models/shippingInfor.dart';
+import 'package:first_app/Sell/addProduct.dart';
 class SummaryPage extends StatefulWidget {
   User user;
   SummaryPage({this.user});
@@ -48,16 +47,10 @@ class _SummaryPageState extends State<SummaryPage> {
   @override
   Widget build(BuildContext context) {
 
-    // User.
-
-    // getCurrentUid().then((value) => getUid(value.toString()));
-    // Database().getUserInfo(this.uid).then((value) => getUser(value));
-    //print("uid hahaha : " +  this.uid);
-
     List<Widget> _bodyTabs() => [
       bodyHome(user: widget.user),
       SummaryNews(user: widget.user,),
-      LikedPage(user: widget.user,),
+      AddProduct(user: widget.user),
       AccountPage(user: widget.user)
     ];
 
@@ -66,10 +59,8 @@ class _SummaryPageState extends State<SummaryPage> {
 
 
     return this.viewResult ? Scaffold(
-
       body: bodyTabs[_currentIndex],
       bottomNavigationBar: BottomNavBar(),
-
     ): Loading();
   }
 
@@ -80,90 +71,68 @@ class _SummaryPageState extends State<SummaryPage> {
           BottomNavigationBarItem(
             icon: Icon(
               FontAwesomeIcons.home,
-              color: Color(4281755726),
+              color: Color(4294421958),
               size: 27.0,
             ),
             activeIcon: Icon(
             FontAwesomeIcons.home,
-            color: Color(0xFF488B66),
+            color: Color(4294872718),
             size: 27.0,
             ),
             title: Text(
               'Trang chủ',
               style: TextStyle(
-                  color: Color(0xFF488B66)
+                  color: Color(4294872718)
               ),
             ),
           ),
-         /* BottomNavigationBarItem(
-            icon: Icon(
-              FontAwesomeIcons.wallet,
-              color: Color(4281755726),
-              size: 27.0,
-            ),
-            activeIcon: Icon(
-              FontAwesomeIcons.wallet,
-              color: Color(0xFF488B66),
-              size: 27.0,
-            ),
-            title: Text(
-              'Ví điện tử',
-              style: TextStyle(
-                  color: Color(0xFF488B66)
-              ),
-            ),
-          ),*/
           BottomNavigationBarItem(
             icon: Icon(
               FontAwesomeIcons.solidNewspaper,
-              color: Color(4281755726),
+              color: Color(4294421958),
               size: 27.0,
             ),
             activeIcon: Icon(
               FontAwesomeIcons.solidNewspaper,
-              color: Color(0xFF488B66),
+              color: Color(4294872718),
               size: 27.0,
             ),
             title: Text(
               'Cẩm nang',
               style: TextStyle(
-                  color: Color(0xFF488B66)
+                  color: Color(4294872718)
               ),
             ),
           ),
           BottomNavigationBarItem(
-            icon: Icon(
-              FontAwesomeIcons.solidHeart,
-              color: Color(4281755726),
-              size: 27.0,
-            ),
-            activeIcon: Icon(
-              FontAwesomeIcons.solidHeart,
-              color: Color(0xFF488B66),
-              size: 27.0,
-            ),
+            icon: Image.asset("assets/sell_icon.png", width: 30,
+                fit: BoxFit.cover,
+                color:  Color(4294421958)),
+            activeIcon: Image.asset("assets/sell_icon.png", width: 30,
+                fit: BoxFit.cover,
+                color: Color.fromRGBO(254, 142, 142,1)),
             title: Text(
-              'Đã thích',
+              'Bán hàng',
               style: TextStyle(
-                  color: Color(0xFF488B66)
+                  color: Color.fromRGBO(254, 142, 142,1),
               ),
             ),
           ),
           BottomNavigationBarItem(
             icon: Icon(
               FontAwesomeIcons.solidUser,
-              color: Color(4281755726),
+              color: Color(4294421958),
               size: 27.0,
             ),
             activeIcon: Icon(
               FontAwesomeIcons.solidUser,
-              color: Color(0xFF488B66),
+              color: Color(4294872718),
               size: 27.0,
             ),
             title: Text(
               'Tài khoản',
               style: TextStyle(
-                  color: Color(0xFF488B66)
+                  color: Color(4294872718)
               ),
             ),
           ),

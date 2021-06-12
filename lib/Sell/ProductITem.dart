@@ -6,7 +6,7 @@ import 'package:first_app/services/likeProduct.dart';
 import 'package:first_app/show_products_page/detail_item_4.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-
+import 'package:intl/intl.dart';
 class ProductItem extends StatefulWidget {
   Product product;
   User user;
@@ -48,7 +48,7 @@ class _ProductItemState extends State<ProductItem> {
                       borderRadius: BorderRadius.all(Radius.circular(10.0)),
                       boxShadow: [
                         BoxShadow(
-                            color: Color(4291751385),
+                            color: Color(4294565598),
                             offset: Offset(0, 140),
                             spreadRadius: 0,
                             blurRadius: 100.0),
@@ -81,7 +81,7 @@ class _ProductItemState extends State<ProductItem> {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: <Widget>[
                                 Text(
-                                  widget.product.plantID,
+                                  widget.product.productName,
                                   overflow: TextOverflow.ellipsis,
                                   maxLines: 1,
                                   style: TextStyle(
@@ -89,6 +89,7 @@ class _ProductItemState extends State<ProductItem> {
                                     fontWeight: FontWeight.w700,
                                   ),
                                 ),
+                                SizedBox(height: 5,),
                                 // SizedBox(
                                 //   height: 5,
                                 // ),
@@ -98,7 +99,7 @@ class _ProductItemState extends State<ProductItem> {
                                   children: [
                                     Text(
                                       widget.product.price + 'đ',
-                                      style: TextStyle(color: Colors.green[900]),
+                                      style: TextStyle(color: Color(4294344335)),
                                     ),
                                     RichText(
                                         text: TextSpan(
@@ -141,7 +142,16 @@ class _ProductItemState extends State<ProductItem> {
                                           ),),
                                         ],
                                       )
-                                    ])
+                                    ]),
+                                SizedBox(height: 5,),
+                                Text(
+                                  'Ngày đăng: ' + DateFormat('dd/MM/yyyy').format(DateTime.fromMillisecondsSinceEpoch(widget.product.created.seconds*1000)),
+                                  overflow: TextOverflow.ellipsis,
+                                  maxLines: 1,
+                                  style: TextStyle(
+                                    fontSize: 12,
+                                  ),
+                                ),
                               ]))
                     ],
                   ))

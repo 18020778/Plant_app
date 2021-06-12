@@ -1,5 +1,5 @@
 name: first_app
-description: A new Flutter project.
+description: A new Flutter application.
 
 # The following line prevents the package from being accidentally published to
 # pub.dev using `pub publish`. This is preferred for private packages.
@@ -23,7 +23,6 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-
   basic_utils:
   flutter_cupertino_date_picker: ^1.0.26+2
   image_picker:
@@ -39,6 +38,7 @@ dependencies:
   provider: ^5.0.0
   fluttertoast:
   like_button: ^2.0.2
+  readmore: ^2.1.0
   #  transparent_image: ^1.0.0
   #firebase_auth: ^0.20.1
   #firebase_core: ^0.4.0
@@ -52,59 +52,54 @@ dependencies:
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.0
 
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
-
   wemapgl:
     path: ../WeMap-Flutter-SDK-master
-  #cloud_firestore: ^0.14.0+2
+
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
 
 # The following section is specific to Flutter.
 flutter:
-
-  # The following line ensures that the Material Icons font is
-  # included with your application, so that you can use the icons in
-  # the material Icons class.
   uses-material-design: true
   assets:
-    - assets/an_qua.jpg
-    - assets/hoa_hong.jpg
-    - assets/than_thao.jpg
-    - assets/xuong_rong_1.jpg
+    - assets/bg_account.jpg
+    - assets/DoTrangSuc.jpg
+    - assets/DoNoiThat.jpg
+    - assets/QuaChucMung.jpg
+    - assets/gomsu.jpg
+    - assets/DieuKhac.jpg
+    - assets/nen.jpg
+    - assets/danlen.jpg
+    - assets/dotheu.jpg
+    - assets/dochoi.jpg
+    - assets/trangtri.jpg
+    - assets/dungcuhoctap.jpg
+    - assets/chaucay.jpg
+    - assets/khac.jpg
+    - assets/NgayCuaCha.jpg
+    - assets/Halloween.jpg
+    - assets/NgayNhaGiao.jpg
+    - assets/LeGiangSinh.jpg
+    - assets/ThieuNhi.png
+    - assets/NgayCuaMe.jpg
+    - assets/8_3.jpg
+    - assets/Valentine.jpg
+    - assets/TetTrungThu.jpg
+    - assets/TetNguyenDan.png
+    - assets/TetDuongLich.jpg
     - assets/gold_star.png
     - assets/NoResult.png
     - assets/logo.png
     - assets/alert.png
     - assets/Search_Icon.svg.png
-    - assets/cay_day_leo.jpg
-    - assets/cay_loai_to.jpg
-    - assets/cay_ngoai_troi.jpg
-    - assets/cay_phong_thuy.PNG
-    - assets/cay_thuy_sinh.jpg
-    - assets/cay_trong_nha.jpg
-    - assets/cay_van_phong.PNG
-    - assets/sen_da.jpg
-    - assets/xuong_rong.jpg
-    - assets/account.png
-    - assets/account_on.png
     - assets/heart.png
-    - assets/heart_on.png
-    - assets/home-icon.png
-    - assets/home_on.png
     - assets/weather.png
-    - assets/weather_on.png
     - assets/heart_like.png
     - assets/location.png
-    - assets/lan.jpg
-    - assets/hong.jpg
-    - assets/cuc.jpg
-    - assets/bonsai.jpg
-    - assets/sun.png
-    - assets/temperature.png
-    - assets/droplet.png
     - assets/addToCart.png
     - assets/message.png
     - assets/checkIcon.png
@@ -112,11 +107,6 @@ flutter:
     - assets/border.png
     - assets/shop.png
     - assets/location_small.png
-    - assets/bg_account.jpg
-    - assets/star.png
-    - assets/addWallet.png
-    - assets/add_card.png
-    - assets/viewCard.png
     - assets/sell_icon.png
     - assets/like.png
     - assets/location_small.jpg

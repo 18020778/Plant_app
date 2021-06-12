@@ -16,7 +16,7 @@ class Database{
           'gender' : user.gender,
           'dob' : user.dob,
           'email': user.email,
-          'urlImage' : "https://i.dlpng.com/static/png/6866112_preview.png",
+          'urlImage' : "https://i.pinimg.com/originals/7b/e9/04/7be90466101e9674351e84b7306ec0da.jpg",
           'accountCreated': Timestamp.now(),
         }
       );
@@ -89,6 +89,9 @@ class Database{
   getAllAddress(String uid) {
     return Firestore.instance.collection("users").document(uid).collection("delivers").getDocuments();
   }
+  getUser(String uid) {
+    return Firestore.instance.collection("users").document(uid).get();
+  }
   // update
   Future<String> updateDAddress(String userUid,String deliverID, String address, String phoneNumber, String name) async{
     String ret= 'success';
@@ -126,8 +129,5 @@ class Database{
     }catch(e){
       return e.toString();
     }
-  }
-  getUser(String uid){
-    return _firestore.collection('users').where('uid',  isEqualTo: uid).getDocuments();
   }
 }

@@ -12,14 +12,9 @@ class ProductService {
       document.setData({
         'productID': document.documentID,
         'productName': product.productName,
-        'takeCareOfTree': product.takeCareOfTree,
-        'longevity': product.longevity,
-        'origin': product.origin,
-        'temperature': product.temperature,
-        'theAmountOfWater': product.theAmountOfWater,
+        'description' : product.description,
         'price': product.price,
-        'height': product.height,
-        'plantID': product.plantID,
+        'event' :  product.event,
         'weight': product.weight,
         'fastDelivery': product.fastDelivery,
         'quantityInStock': product.quantityInStock,
@@ -31,6 +26,7 @@ class ProductService {
         'sold': 0,
         'liked': 0,
         'watched': 0,
+        'material' : product.material
       });
       retVal = document.documentID;
     } catch (e) {
@@ -83,9 +79,16 @@ class ProductService {
         .getDocuments();
   }
 
-  getAllProductGroupByPlant(String plantID) {
-    return _firestore.collection("products").where(
-        "plantID", isEqualTo: plantID).getDocuments();
+  // (String categoryName) {
+  //   return _firestore.collection("products").where(
+  //       "category", isEqualTo: categoryName).getDocuments();
+  // }
+  getAllProductByCategory(String categoryName){
+    return _firestore.collection("products").where('category', isEqualTo:  categoryName).getDocuments();
+  }
+
+  getAllProductInSpecialDay(String specialDay){
+    return _firestore.collection("products").where('event', isEqualTo:  specialDay).getDocuments();
   }
 
   Future<String> updateLike(String productId, bool isAdd) async {
@@ -145,10 +148,12 @@ class ProductService {
   //     return e.toString();
   //   }
   // }
-  Future<String> addFeedBack(String productID, String uid, double rating, String feedBack) async{
+  Future<String> addFeedBack(String productID, String uid, double rating, String feedBack, String userName, String imageUrl) async{
     try{
       _firestore.collection("products").document(productID).collection("rating").document(uid)
           .setData({
+        'imageUrl' : imageUrl,
+        'userName' : userName,
         'rating' : rating,
         'feedBack' : feedBack
       });
@@ -190,13 +195,13 @@ class ProductService {
   getAllProductMatchesCategory(String queryString)  {
 
     return _firestore.collection("products").where(
-        "category", isEqualTo: queryString)
+        "event", isEqualTo: queryString)
         .getDocuments();
   }
 
   getAllProductMatchesPlantName(String queryString)  {
     return _firestore.collection("products").where(
-        "plantID", isEqualTo: queryString).getDocuments();
+        "category", isEqualTo: queryString).getDocuments();
   }
 
   top10InterestedProducts(){

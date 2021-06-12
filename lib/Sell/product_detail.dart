@@ -17,13 +17,13 @@ class  _ProductDetailState extends State<ProductDetail>{
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          backgroundColor: Color(0xFF407C5A),
+          backgroundColor: Color(4294945450),
           iconTheme: IconThemeData(
-            color: Colors.white,
+            color: Colors.black,
           ),
           title: Text(
             'Sản phẩm của tôi',
-            style:TextStyle(fontSize: 24.0, fontWeight: FontWeight.bold),
+            style:TextStyle(fontSize: 24.0, fontWeight: FontWeight.bold, color: Colors.black),
           ),
           centerTitle: true,
         ),
@@ -90,12 +90,12 @@ class  _ProductDetailState extends State<ProductDetail>{
 
                   const SizedBox(height: 16.0),
                   Text(
-                    'Cách chăm sóc:',
+                    'Mô tả sản phẩm :',
                     style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                   ),
                   const SizedBox(height: 16.0),
                   Text(
-                    widget.postedProducts.product.takeCareOfTree,
+                    widget.postedProducts.product.description,
                     textAlign: TextAlign.justify,
                     style: TextStyle(fontSize: 18,),
                   ),
@@ -105,72 +105,72 @@ class  _ProductDetailState extends State<ProductDetail>{
                     style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                   ),
                   const SizedBox(height: 16.0),
-                  Row(
-                    children: [
-                      Icon(Icons.alarm, size: 20,),
-                      Text(' Tuổi thọ (tháng): ', style: TextStyle(fontSize: 18),),
-                      Text(
-                        widget.postedProducts.product.longevity,
-                        //widget.postedProducts.product.longevity,
-                        style: TextStyle(fontSize: 18),),
-                    ],
-                  ),
-                  SizedBox(height: 16,),
-                  Row(
-                    children: [
-                    Icon(Icons.account_balance, size:20,),
-                    Text(' Xuất xứ: ',style: TextStyle(fontSize: 18),),
-                    Text(
-                      widget.postedProducts.product.origin,
-                    // widget.postedProducts.product.address,
-                      style: TextStyle(fontSize: 18),),
-                    ],
-                  ),
-                  SizedBox(height: 16,),
-                  Row(
-                    children: [
-                      Icon(Icons.add_location, size: 20, color: Colors.blue,),
-                      Text(' Lượng nước: ', style: TextStyle(fontSize: 18),),
-                      Text(
-                        widget.postedProducts.product.theAmountOfWater,
-                        style: TextStyle(fontSize: 18),),
-                    ],
-                  ),
-                  SizedBox(height: 16,),
-                  Row(
-                    children: [
-                      Icon(Icons.add_circle_sharp, size: 20,),
-                      Text('  Nhiệt độ: ', style: TextStyle(fontSize: 18),),
-                      Text(
-                        widget.postedProducts.product.temperature,
-                        style: TextStyle(fontSize: 18),),
-                    ],
-                  ),
-                  SizedBox(height: 16,),
-                  Row(
-                    children: [
-
-                      Icon(Icons.add_circle_sharp, size:20,),
-                      Text(
-                        ' Chiều cao(m): ',
-                        style: TextStyle(fontSize: 18),),
-                      Text(
-                        widget.postedProducts.product.height,
-                        style: TextStyle(fontSize: 18),),
-                    ],
-                  ),
-                  const SizedBox(height: 16.0),
-                  Row(
-                    children:[
-                   Text(
-                    'Phân loại cây: ',
-                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-                   ),
-                   const SizedBox(width: 40.0),
-                   Text(
-                      widget.postedProducts.product.category,
-                    style: TextStyle(fontSize: 18,),
-                  ),]),
+                  // Row(
+                  //   children: [
+                  //     Icon(Icons.alarm, size: 20,),
+                  //     Text(' Tuổi thọ (tháng): ', style: TextStyle(fontSize: 18),),
+                  //     Text(
+                  //       widget.postedProducts.product.longevity,
+                  //       //widget.postedProducts.product.longevity,
+                  //       style: TextStyle(fontSize: 18),),
+                  //   ],
+                  // ),
+                  // SizedBox(height: 16,),
+                  // Row(
+                  //   children: [
+                  //   Icon(Icons.account_balance, size:20,),
+                  //   Text(' Xuất xứ: ',style: TextStyle(fontSize: 18),),
+                  //   Text(
+                  //     widget.postedProducts.product.origin,
+                  //   // widget.postedProducts.product.address,
+                  //     style: TextStyle(fontSize: 18),),
+                  //   ],
+                  // ),
+                  // SizedBox(height: 16,),
+                  // Row(
+                  //   children: [
+                  //     Icon(Icons.add_location, size: 20, color: Colors.blue,),
+                  //     Text(' Lượng nước: ', style: TextStyle(fontSize: 18),),
+                  //     Text(
+                  //       widget.postedProducts.product.theAmountOfWater,
+                  //       style: TextStyle(fontSize: 18),),
+                  //   ],
+                  // ),
+                  // SizedBox(height: 16,),
+                  // Row(
+                  //   children: [
+                  //     Icon(Icons.add_circle_sharp, size: 20,),
+                  //     Text('  Nhiệt độ: ', style: TextStyle(fontSize: 18),),
+                  //     Text(
+                  //       widget.postedProducts.product.temperature,
+                  //       style: TextStyle(fontSize: 18),),
+                  //   ],
+                  // ),
+                  //SizedBox(height: 16,),
+                  // Row(
+                  //   children: [
+                  //
+                  //     Icon(Icons.add_circle_sharp, size:20,),
+                  //     Text(
+                  //       ' Chiều cao(m): ',
+                  //       style: TextStyle(fontSize: 18),),
+                  //     Text(
+                  //       widget.postedProducts.product.height,
+                  //       style: TextStyle(fontSize: 18),),
+                  //   ],
+                  // ),
+                  // const SizedBox(height: 16.0),
+                  // Row(
+                  //   children:[
+                  //  Text(
+                  //   'Sự kiện đăng ký : ',
+                  //   style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                  //  ),
+                  //  const SizedBox(width: 40.0),
+                  //  Text(
+                  //     widget.postedProducts.product.category,
+                  //   style: TextStyle(fontSize: 18,),
+                  // ),]),
 
                 ],
               ),
