@@ -276,7 +276,7 @@ class _bodyHomeState extends State<bodyHome> {
             height: 350,
             width: screenWidth * 0.9,
             margin: EdgeInsets.only(left: 22),
-            child: SearchBox(widget.user,"Searh"),
+            child: SearchBox(widget.user,"Search"),
           ),
         ),
     ])

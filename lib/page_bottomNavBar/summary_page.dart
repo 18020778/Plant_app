@@ -50,7 +50,7 @@ class _SummaryPageState extends State<SummaryPage> {
     List<Widget> _bodyTabs() => [
       bodyHome(user: widget.user),
       SummaryNews(user: widget.user,),
-      AddProduct(user: widget.user),
+      LikedPage(user: widget.user),
       AccountPage(user: widget.user)
     ];
 
@@ -105,14 +105,14 @@ class _SummaryPageState extends State<SummaryPage> {
             ),
           ),
           BottomNavigationBarItem(
-            icon: Image.asset("assets/sell_icon.png", width: 30,
+            icon: Image.asset("assets/heart_like.png", width: 30,
                 fit: BoxFit.cover,
                 color:  Color(4294421958)),
-            activeIcon: Image.asset("assets/sell_icon.png", width: 30,
+            activeIcon: Image.asset("assets/heart_like.png", width: 30,
                 fit: BoxFit.cover,
                 color: Color.fromRGBO(254, 142, 142,1)),
             title: Text(
-              'Bán hàng',
+              'Yêu thích',
               style: TextStyle(
                   color: Color.fromRGBO(254, 142, 142,1),
               ),

@@ -193,7 +193,7 @@ class _showCartState extends State<showCart> {
                                    ),
                                    Image.network(
                                      listCart[i].img,
-                                     height: 90 ,
+                                     width: 120 ,
                                      fit: BoxFit.cover,
                                    ),
                                    Container(

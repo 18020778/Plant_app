@@ -103,7 +103,7 @@ class _MyOrdersScreenState extends State<MyOrdersScreen> {
               )),
           Row(children: [
             SizedBox(
-              width: 200
+              width: 150
             ),
             Container(
               width: 190,

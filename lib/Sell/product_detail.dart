@@ -67,7 +67,7 @@ class  _ProductDetailState extends State<ProductDetail>{
                       Icon(Icons.favorite, size: 20, color: Colors.red,),
                       Text('  Thích  ', style: TextStyle(fontSize: 18),),
                       Text(widget.postedProducts.product.liked.toString(), style: TextStyle(fontSize: 18),),
-                      SizedBox(width: 80,),
+                      SizedBox(width: 70,),
                       Icon(Icons.preview_outlined, size:20,),
                       Text(' Lượt xem  ',style: TextStyle(fontSize: 18),),
                       Text(widget.postedProducts.product.watched.toString(), style: TextStyle(fontSize: 18),),
@@ -100,11 +100,11 @@ class  _ProductDetailState extends State<ProductDetail>{
                     style: TextStyle(fontSize: 18,),
                   ),
                   const SizedBox(height: 16.0),
-                  Text(
-                    'Đặc tả cây:',
-                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-                  ),
-                  const SizedBox(height: 16.0),
+                  // Text(
+                  //   'Đặc tả sản phẩm:',
+                  //   style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                  // ),
+                  // const SizedBox(height: 16.0),
                   // Row(
                   //   children: [
                   //     Icon(Icons.alarm, size: 20,),

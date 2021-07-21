@@ -582,8 +582,7 @@ class _AddProductState extends State<AddProduct>{
                           index ++;
                         });
                       }
-                      Navigator.push(context, MaterialPageRoute(
-                          builder: (context) => AccountPage(user: widget.user,)));
+                      Navigator.pop(context);
                       Navigator.push(context, MaterialPageRoute(
                           builder: (context) => MyProduct(user: widget.user,)));
 

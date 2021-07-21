@@ -221,18 +221,17 @@ class _AccountPageState extends State<AccountPage> {
                                   child:  ElevatedButton(
                                     onPressed: () {
                                       Navigator.push(context, MaterialPageRoute(builder: (
-                                          context) => LikedPage(user: widget.user,),));
+                                          context) => AddProduct(user: widget.user,),));
                                     },
                                     child: Column(
                                       children: [
                                         SizedBox(height: 5,),
-                                        Icon(
-                                          FontAwesomeIcons.solidHeart,
-                                          color: Color(4294872718),
-                                          size: 60.0,
-                                        ),
+                                        Image.asset("assets/sell_icon.png", color: Color.fromRGBO(254, 142, 142,1), width: 60, fit: BoxFit.cover,),
                                         SizedBox(height: 12,),
-                                        Text("Lượt thích", style: TextStyle(
+                                        Text("Thêm sản", style: TextStyle(
+                                            fontSize: 20,
+                                            color: Color.fromRGBO(254, 142, 142,1)),),
+                                        Text("phẩm", style: TextStyle(
                                             fontSize: 20,
                                             color: Color.fromRGBO(254, 142, 142,1)),),
 
@@ -260,7 +259,10 @@ class _AccountPageState extends State<AccountPage> {
                                       children: [
                                         Icon(Icons.assignment, color: Color.fromRGBO(254, 142, 142,1),size: 60,),
                                         SizedBox(height: 10,),
-                                        Text("Bài đã đăng ", style: TextStyle(
+                                        Text("Sản phẩm", style: TextStyle(
+                                            fontSize: 20,
+                                            color: Color.fromRGBO(254, 142, 142,1)),),
+                                        Text("đã đăng", style: TextStyle(
                                             fontSize: 20,
                                             color: Color.fromRGBO(254, 142, 142,1)),),
                                       ],
