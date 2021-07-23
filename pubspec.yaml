@@ -46,6 +46,8 @@ dependencies:
   flutter_rating_bar: ^3.2.0+1
   # firebase storage can help you upload video, image
   firebase_storage: ^3.1.5
+  momo_vn:
+  random_string: ^2.3.1
 
 
   # The following adds the Cupertino Icons font to your application.

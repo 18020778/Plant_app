@@ -9,8 +9,8 @@ import 'package:first_app/show_products_page/body_home_0.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-
 import 'choice_address_2.dart';
+import 'momo_wallet.dart';
 
 class buyCard extends StatefulWidget {
   User user;
@@ -102,6 +102,13 @@ class _buyCardState extends State<buyCard> {
               decoration: BoxDecoration(color: Colors.black12),
             ),
             paymentMethods(),
+            RaisedButton(
+              onPressed: (){
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => MomoWallet(widget.user, totalMoney)));
+              },
+              child: Text("Thanh toán Momo")
+            ),
             Container(
               height: 50,
               decoration: BoxDecoration(color: Colors.black12),
@@ -370,17 +377,8 @@ class _buyCardState extends State<buyCard> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-              // FlatButton(
-              //   child: Text("Đơn vị vận chuyển Express)", style: TextStyle(fontSize: 18, color: Color(0xFF488B66),),),
-              // onPressed: (){},),
                 SizedBox(height: 8,),
-                // Container(
-                //   height: 1,
-                //   width: 380,
-                //   color: Colors.black54,
-                // ),
-                // SizedBox(height: 5,
-                // ),
+
                 Row(
                   children: [
                     Container(
