@@ -104,8 +104,14 @@ class _buyCardState extends State<buyCard> {
             paymentMethods(),
             RaisedButton(
               onPressed: (){
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => MomoWallet(widget.user, totalMoney)));
+                if(item==null){
+                  Fluttertoast.showToast(msg: "Vui lòng chọn địa chỉ nhận hàng");
+                }
+                else{
+                  Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => MomoWallet(widget.user, totalMoney,widget.listCard, this.item)));
+                }
+                
               },
               child: Text("Thanh toán Momo")
             ),
@@ -156,7 +162,7 @@ class _buyCardState extends State<buyCard> {
                 }
                 else {
                   widget.listCard.forEach((element) {
-                    PurchaseService().buyProducts(widget.user.uid, item.uid, element.img, element.price,element.productID,  element.nameProduct, element.shop.uid, element.amount, element.amount*int.parse(element.price) );
+                    PurchaseService().buyProducts(widget.user.uid, item.uid, element.img, element.price,element.productID,  element.nameProduct, element.shop.uid, element.amount, element.amount*int.parse(element.price) ,false);
                     PurchaseService().deteleItemInCart(widget.user.uid, element.productID);
                   });
                   Fluttertoast.showToast(msg: "Đặt hàng thành công. ");

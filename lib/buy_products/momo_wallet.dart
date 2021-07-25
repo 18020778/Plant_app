@@ -1,19 +1,25 @@
 import 'package:first_app/buy_products/payment_method.dart';
 import 'package:first_app/buy_products/payment_summary.dart';
+import 'package:first_app/buy_products/show_cart_0.dart';
+import 'package:first_app/models/shippingInfor.dart';
 import 'package:first_app/models/user.dart';
+import 'package:first_app/services/purchase_service.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:momo_vn/momo_vn.dart';
 import 'package:flutter/foundation.dart';
 import 'package:random_string/random_string.dart';
+import 'package:first_app/my_orders/my_orders_screen.dart';
 
 class MomoWallet extends StatefulWidget {
   User user;
   int totalMoney;
+  List<Cart> listCard;
+  shippingInfor item;
   @override
   _MomoWalletState createState() => _MomoWalletState();
-  MomoWallet(this.user, this.totalMoney);
+  MomoWallet(this.user, this.totalMoney,this.listCard, this.item );
 }
 
 class _MomoWalletState extends State<MomoWallet> {
@@ -62,7 +68,8 @@ class _MomoWalletState extends State<MomoWallet> {
                         MomoPaymentInfo options = MomoPaymentInfo(
                             merchantName: "Handmade Comany",
                             appScheme: "momoulgh20210723",
-                            merchantCode: 'MOMOULGH2021',
+                            partnerCode: 'MOMOULGH20210723',
+                            merchantCode: 'MOMOULGH20210723',
                             amount: widget.totalMoney,
                             orderId: randomAlpha(20).toString(),
                             orderLabel: 'Gói combo',
@@ -71,7 +78,7 @@ class _MomoWalletState extends State<MomoWallet> {
                             description: 'Thanh toán đơn hàng mua tại Handmade App',
                             username: widget.user.userName,
                             partner: 'merchant',
-                            extra: '',
+                            extra: "",
                             isTestMode: true
                         );
                         try {
@@ -100,13 +107,11 @@ class _MomoWalletState extends State<MomoWallet> {
     if (_momoPaymentResult.isSuccess == true) {
       _paymentStatus += "\nTình trạng: Thành công.";
       _paymentStatus += "\nSố điện thoại: " + _momoPaymentResult.phoneNumber.toString();
-      _paymentStatus += "\nExtra: " + _momoPaymentResult.extra;
-      _paymentStatus += "\nToken: " + _momoPaymentResult.token.toString();
     }
     else {
       _paymentStatus += "\nTình trạng: Thất bại.";
       _paymentStatus += "\nExtra: " + _momoPaymentResult.extra.toString();
-      _paymentStatus += "\nMã lỗi: " + _momoPaymentResult.status.toString();
+    
     }
   }
   void _handlePaymentSuccess(PaymentResponse response) {
@@ -114,7 +119,23 @@ class _MomoWalletState extends State<MomoWallet> {
       _momoPaymentResult = response;
       _setState();
     });
-    Fluttertoast.showToast(msg: "THÀNH CÔNG: " + response.phoneNumber.toString(), toastLength: Toast.LENGTH_SHORT);
+    Fluttertoast.showToast(msg: "THANH TOÁN THÀNH CÔNG", timeInSecForIos: 4);
+
+    orderSucess();
+  }
+void orderSucess() async {
+  widget.listCard.forEach((element) {
+                    PurchaseService().buyProducts(widget.user.uid, widget.item.uid, element.img, element.price,element.productID,  element.nameProduct, element.shop.uid, element.amount, element.amount*int.parse(element.price), true );
+                    PurchaseService().deteleItemInCart(widget.user.uid, element.productID);
+                  });
+    Navigator.pop(context);
+    Navigator.pop(context);
+    Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(
+        builder: (context) => MyOrdersScreen(user: widget.user,),
+      ),
+    );
   }
 
   void _handlePaymentError(PaymentResponse response) {
@@ -122,7 +143,7 @@ class _MomoWalletState extends State<MomoWallet> {
       _momoPaymentResult = response;
       _setState();
     });
-    Fluttertoast.showToast(msg: "THẤT BẠI: " + response.message.toString(), toastLength: Toast.LENGTH_SHORT);
+    Fluttertoast.showToast(msg: "THANH TOÁN THẤT BẠI", timeInSecForIos: 4);
   }
 }
 

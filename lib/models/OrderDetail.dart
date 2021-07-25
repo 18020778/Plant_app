@@ -11,6 +11,7 @@ class OrderDetail{
   String shopID;
   int productMoney;
   String orderDetailID;
+  bool paid;
 
   OrderDetail(
       {this.amount,
@@ -22,7 +23,8 @@ class OrderDetail{
         this.productName,
         this.shopID,
         this.productMoney,
-        this.orderDetailID});
+        this.orderDetailID,
+      this.paid});
 
   factory OrderDetail.fromJson(Map<String, dynamic> json) => OrderDetail(
       amount: json['amount'],
@@ -34,6 +36,7 @@ class OrderDetail{
       productName :  json['productName'],
       shopID : json['shopID'],
       productMoney : json['totalMoney'],
-      orderDetailID: json['uid']
+      orderDetailID: json['uid'],
+      paid: json['paid']
   );
 }

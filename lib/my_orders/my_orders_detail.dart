@@ -207,6 +207,26 @@ class _MyOrderDetailState extends State<MyOrderDetail>{
                    crossAxisAlignment: CrossAxisAlignment.start,
                    children: [
                      Text(
+                       'Tình trạng : ',
+                       style: TextStyle(fontSize: 18, height: 2),
+                     ),
+                     Spacer(),
+                     (widget.orderDetail.paid == true) ?
+                     Text(
+                       "Đã thanh toán",
+                       style: TextStyle(fontSize: 18, height: 2),
+                     ):
+           Text(
+             "Chưa thanh toán",
+             style: TextStyle(fontSize: 18, height: 2),
+           )
+
+                   ],
+                 ),
+                 Row(
+                   crossAxisAlignment: CrossAxisAlignment.start,
+                   children: [
+                     Text(
                        'Thời gian đặt hàng: ',
                        style: TextStyle(fontSize: 18, height: 2),
                      ),

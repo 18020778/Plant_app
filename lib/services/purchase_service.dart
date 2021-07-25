@@ -43,7 +43,7 @@ class PurchaseService{
       return e.toString();
     }
   }
-  Future<String> buyProducts(String uid,String deliverID , String productImageUrl, String price, String productID, String productName, String shopID, int amount , int totalMoney) async{
+  Future<String> buyProducts(String uid,String deliverID , String productImageUrl, String price, String productID, String productName, String shopID, int amount , int totalMoney, bool paid) async{
     try{
         CollectionReference ref = _firestore.collection('users').document(uid).collection("orders");
         DocumentReference document = ref.document();
@@ -59,6 +59,7 @@ class PurchaseService{
               'shopID' : shopID,
               'amount' : amount,
               'totalMoney' : totalMoney,
+              'paid' : paid
       });
       ProductService().updateSold(productID,amount );
         return "success";
