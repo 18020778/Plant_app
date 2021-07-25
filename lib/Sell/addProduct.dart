@@ -175,12 +175,11 @@ class _AddProductState extends State<AddProduct>{
                         crossAxisCount: 4),
                       itemCount: _image.length + 1,
                       itemBuilder: ((context, index){
-                        return (index == 0) ? Center(
-                          child: IconButton(
-                              icon: Icon(Icons.add),
+                        return (index == 0) ?  IconButton(
+                              icon: Icon(Icons.add_a_photo, color: Colors.black45,),
                               onPressed: () =>
-                                  _showChoiceDialog(context)),
-                        ) : Container(
+                                  _showChoiceDialog(context))
+                            : Container(
                           margin: EdgeInsets.all(3),
                           decoration: BoxDecoration(
                             image: DecorationImage(
