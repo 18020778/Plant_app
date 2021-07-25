@@ -16,8 +16,9 @@ class PaymentSummary extends StatelessWidget {
       children: [
         Padding(
           padding: EdgeInsets.only(
+            top: 10,
               bottom: 10, left: 20),
-          child: Text('SUMMARY'),
+          child: Text('THANH TOÁN', style: TextStyle(fontSize: 16),),
         ),
         Column(
           children: [
@@ -32,17 +33,11 @@ class PaymentSummary extends StatelessWidget {
                 children: [
                   Text.rich(
                     TextSpan(
-                      text: 'Total ',
-                      style: TextStyle(fontWeight: FontWeight.bold),
-                      children: [
-                        TextSpan(
-                          text: 'including VAT',
-                          style: TextStyle(color: Colors.black.withAlpha(90)),
-                        ),
-                      ],
+                      text: 'Tổng tiền',
+                      style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15),
                     ),
                   ),
-                  Text('${NumberFormat(',###').format(amount)} ₫'),
+                  Text('${NumberFormat(',###').format(amount)} ₫', style: TextStyle(fontSize: 16)),
                 ],
               ),
             ),
@@ -57,10 +52,10 @@ class PaymentSummary extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
-                    'Discount',
-                    style: TextStyle(fontWeight: FontWeight.bold),
+                    'Giảm giá',
+                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15),
                   ),
-                  Text('0 ₫'),
+                  Text('0 ₫', style: TextStyle(fontSize: 16)),
                 ],
               ),
             ),
@@ -75,10 +70,10 @@ class PaymentSummary extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
-                    'After Discount',
-                    style: TextStyle(fontWeight: FontWeight.bold),
+                    'Số tiền phải trả',
+                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15),
                   ),
-                  Text('${NumberFormat(',###').format(amount)} ₫'),
+                  Text('${NumberFormat(',###').format(amount)} ₫', style: TextStyle(fontSize: 16) ),
                 ],
               ),
             ),
