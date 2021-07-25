@@ -51,7 +51,23 @@ class _MomoWalletState extends State<MomoWallet> {
     return MaterialApp(
       home: Scaffold(
         appBar: AppBar(
-          title: Text('THANH TOÁN QUA ỨNG DỤNG MOMO'),
+          leading: IconButton(
+            icon: Icon(Icons.arrow_back, color: Colors.white),
+            onPressed: () => Navigator.of(context).pop(),
+          ),
+          title: Text(
+            "Thanh toán bằng ví Momo",
+            style: TextStyle(fontSize: 20),
+          ),
+          centerTitle: true,
+          flexibleSpace: Container(
+              decoration: BoxDecoration(
+                gradient: LinearGradient(
+                  begin: Alignment.topCenter,
+                  end: Alignment.bottomCenter,
+                  colors: [Color(4294945450), Color(4294945450)],
+                ),
+              )),
         ),
         body: Center(
           child: Column(
@@ -61,9 +77,10 @@ class _MomoWalletState extends State<MomoWallet> {
                   PaymentSummary(totalMoney: widget.totalMoney),
                   SizedBox(height: 30),
                   PaymentMethod(),
-                  //Spacer(),
+                  SizedBox(height: 30,),
                   RaisedButton(
-                      child: Text('Place Order'),
+                    color: Color(4294565598),
+                      child: Text('THANH TOÁN', style: TextStyle(fontSize: 15),),
                       onPressed: () async {
                         MomoPaymentInfo options = MomoPaymentInfo(
                             merchantName: "Handmade Comany",
@@ -90,7 +107,7 @@ class _MomoWalletState extends State<MomoWallet> {
                     ),
                 ],
               ),
-              Text(_paymentStatus.isEmpty ? "CHƯA THANH TOÁN" : _paymentStatus)
+              //Text(_paymentStatus.isEmpty ? "CHƯA THANH TOÁN" : _paymentStatus)
             ],
           ),
         ),

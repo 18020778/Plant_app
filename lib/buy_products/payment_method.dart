@@ -13,7 +13,7 @@ class PaymentMethod extends StatelessWidget {
             left: 20,
             bottom: 10,
           ),
-          child: Text('PAYMENT METHOD'),
+          child: Text('PHƯƠNG THỨC THANH TOÁN', style: TextStyle(fontSize: 16)),
         ),
         Column(
           children: [
@@ -49,7 +49,7 @@ class PaymentMethod extends StatelessWidget {
                           },
                         ),
                         SizedBox(width: 10),
-                        Text('MoMo E-Wallet'),
+                        Text('ví MoMo', style: TextStyle(fontSize: 16)),
                       ],
                     ),
                   ],
